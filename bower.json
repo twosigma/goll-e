@@ -1,0 +1,29 @@
+{
+  "name": "goll-e",
+  "version": "0.0.1",
+  "homepage": "https://github.com/twosigma/goll-e",
+  "authors": [
+    "MorganCabral <morgan.cabral@gmail.com>",
+    "jboolean",
+    "robertwarrengilmore",
+    "johnwobrien",
+    "salva-abate"
+  ],
+  "main": "dist/golle.min.js",
+  "description": "Graph Object Language and Layout Editor. A tool for visualizing directed graphs.",
+  "keywords": [
+    "Directed Graph",
+    "Graph",
+    "Graph Visualization",
+    "Automatic Layout"
+  ],
+  "license": "Apache 2.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
