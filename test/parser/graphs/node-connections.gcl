@@ -1,0 +1,30 @@
+//
+// node-minimal.gcl
+// Sample that demonstrates how to create connections between
+// node inputs and outputs.
+//
+
+california
+{
+    +portOfLA
+    -lax
+}
+
+newYork
+{
+    +jfk
+    -portOfNYC
+}
+
+// Connection between the default inputs/outputs.
+cali_nyc_connection california -> newYork
+
+// Connection between explicitly named inputs/outputs.
+airport_connection california-lax -> newYork+jfk
+
+// Connection with metadata and style information.
+port_connection newYork-portOfNyc -> california+portOfLA
+{
+    .oceanStyle
+    water: "yes"
+}

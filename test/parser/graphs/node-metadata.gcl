@@ -1,0 +1,15 @@
+//
+// node-metadata.gcl
+// Sample that demonstrates how to add metadata to a node.
+//
+
+california
+{
+    "population": "38,332,521"
+}
+
+newYork
+{
+    "population": "19,651,127",
+    "population density per square mile": "411.2"
+}

@@ -1,0 +1,19 @@
+//
+// node-inputs-outputs.gcl
+// Sample that demonstrates how to create inputs and outputs on a node.
+//
+
+california
+{
+    + port_of_los_angeles
+    - interstate_highway
+}
+
+newYork
+{
+    + jfk_airport
+    {
+        "size": "really big"
+        .someStyle
+    }
+}
