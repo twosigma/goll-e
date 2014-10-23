@@ -14,7 +14,7 @@
     "Graph Visualization",
     "Automatic Layout"
   ],
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
