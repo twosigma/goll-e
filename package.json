@@ -20,8 +20,12 @@
     "start": "node ./bin/www"
   },
   "devDependencies": {
+    "body-parser": "~1.8.1",
     "browserify": "^6.1.0",
+    "cookie-parser": "~1.3.3",
+    "debug": "~2.0.0",
     "del": "^0.1.3",
+    "express": "~4.9.0",
     "gulp": "^3.8.8",
     "gulp-istanbul": "^0.3.1",
     "gulp-jshint": "^1.8.5",
@@ -30,19 +34,16 @@
     "gulp-sourcemaps": "^1.2.4",
     "gulp-uglify": "^1.0.1",
     "istanbul": "^0.3.2",
+    "jade": "~1.6.0",
     "jshint": "^2.5.6",
+    "less": "^1.7.5",
+    "less-middleware": "1.0.x",
     "mocha": "^1.21.5",
-    "should": "^4.0.4",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0",
-    "express": "~4.9.0",
-    "body-parser": "~1.8.1",
-    "cookie-parser": "~1.3.3",
     "morgan": "~1.3.0",
     "serve-favicon": "~2.1.3",
-    "debug": "~2.0.0",
-    "jade": "~1.6.0",
-    "less-middleware": "1.0.x"
+    "should": "^4.0.4",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
   },
   "dependencies": {
     "lodash": "^2.4.1"
