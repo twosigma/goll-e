@@ -53,7 +53,7 @@ var mochaDefault = mocha({
     }
 });
 
-gulp.task('static-analysis', function () {
+gulp.task('lint', ['clean'], function () {
     'use strict';
 
     return gulp.src(sourceFiles)
@@ -91,7 +91,7 @@ gulp.task('coverage', function () {
 /**
  * Task for bundling and minifying the javascript.
  */
-gulp.task('browserify', function () {
+gulp.task('browserify', ['clean', 'lint'], function () {
     'use strict';
     
     var mainFile = 'main.js';
@@ -121,7 +121,7 @@ gulp.task('browserify', function () {
 /**
  * Task definition for symlinking the built final build product into public/js.
  */
-gulp.task('symlink_dist', function () {
+gulp.task('symlink_dist', ['browserify'], function () {
     'use strict';
 
     var linkPath = path.join( 'public', 'js', 'goll-e' );
