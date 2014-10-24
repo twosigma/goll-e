@@ -2,6 +2,7 @@
  * Task runner definitions file.
  */
 
+var fs = require('fs');
 var path = require('path');
 var del = require('del');
 var browserify = require('browserify');
@@ -15,6 +16,7 @@ var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
+var symlink = require('gulp-symlink');
 
 var gollePackage = require('./package.json');
 
@@ -82,7 +84,7 @@ gulp.task('coverage', function () {
         .on('finish', function () {
             gulp.src(testFiles)
                 .pipe(mochaDefault)
-                .pipe(istanbul.writeReports(coverageDir))
+                .pipe(istanbul.writeReports(coverageDir));
     });
 });
 
@@ -114,6 +116,22 @@ gulp.task('browserify', function () {
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(distDir));
+});
+
+/**
+ * Task definition for symlinking the built final build product into public/js.
+ */
+gulp.task('symlink_dist', function () {
+    'use strict';
+
+    var linkPath = path.join( 'public', 'js', 'goll-e' );
+
+    fs.exists( linkPath, function (exists) {
+        if( !exists ) {
+            gulp.src(distDir)
+                .pipe(symlink(linkPath));
+        }
+    });
 });
 
 /**
