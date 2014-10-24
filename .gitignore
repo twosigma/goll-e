@@ -33,7 +33,6 @@ public/vendor
 # Users Environment Variables
 .lock-wscript
 
-
 ### OSX ###
 .DS_Store
 .AppleDouble
@@ -56,7 +55,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
 
 ### Windows ###
 # Windows image file caches
@@ -94,4 +92,5 @@ Session.vim
 # KDE directory preferences
 .directory
 
-
+# Various project-specific ignores.
+public/js/goll-e
