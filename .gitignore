@@ -94,3 +94,4 @@ Session.vim
 
 # Various project-specific ignores.
 public/js/goll-e
+public/stylesheets/*.css
