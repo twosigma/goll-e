@@ -37,11 +37,13 @@ var getBundleName = function ( descriptors ) {
     return extra === '' ? name  : name + extra;
 };
 
-var sourceFiles = [path.join('lib', '**', '*.js')]; 
-var testFiles = [path.join('test', 'test-*.js')];
-var distDir = 'dist';
-var coverageDir = 'coverage';
-var distributables = [path.join(distDir, '**', '*')];
+var paths = {
+    sourceFiles: [path.join('lib', '**', '*.js')],
+    testFiles: [path.join('test', '**', 'test-*.js')],
+    distributables: [path.join('dist', '**', '*')],
+    distDir: 'dist',
+    coverageDir: 'coverage'
+};
 
 /**
  * Default mocha test runner setup.
@@ -56,7 +58,7 @@ var mochaDefault = mocha({
 gulp.task('lint', ['clean'], function () {
     'use strict';
 
-    return gulp.src(sourceFiles)
+    return gulp.src(paths.sourceFiles)
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
@@ -68,9 +70,16 @@ gulp.task('lint', ['clean'], function () {
 gulp.task('tests', function () {
     'use strict';
     
-    return gulp.src(testFiles, { 
+    return gulp.src(paths.testFiles, { 
         read: false
     }).pipe(mochaDefault);
+});
+
+/**
+ * Task definition for generating 
+ */
+gulp.task('jison', [], function () {
+    'use strict';
 });
 
 /**
@@ -79,12 +88,12 @@ gulp.task('tests', function () {
 gulp.task('coverage', function () {
     'use strict';
     
-    return gulp.src(sourceFiles) 
+    return gulp.src(paths.sourceFiles) 
         .pipe(istanbul())
         .on('finish', function () {
-            gulp.src(testFiles)
+            gulp.src(paths.testFiles)
                 .pipe(mochaDefault)
-                .pipe(istanbul.writeReports(coverageDir));
+                .pipe(istanbul.writeReports(paths.coverageDir));
     });
 });
 
@@ -107,7 +116,7 @@ gulp.task('browserify', ['clean', 'lint'], function () {
     return bundler
         .bundle()
         .pipe(source(outputFile))
-        .pipe(gulp.dest(distDir))
+        .pipe(gulp.dest(paths.distDir))
         .pipe(rename(outputMin))
         .pipe(buffer())
         .pipe(sourcemaps.init({
@@ -115,7 +124,7 @@ gulp.task('browserify', ['clean', 'lint'], function () {
         }))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(distDir));
+        .pipe(gulp.dest(paths.distDir));
 });
 
 /**
@@ -124,11 +133,11 @@ gulp.task('browserify', ['clean', 'lint'], function () {
 gulp.task('symlink_dist', ['browserify'], function () {
     'use strict';
 
-    var linkPath = path.join( 'public', 'js', 'goll-e' );
+    var linkPath = path.join('public', 'js', 'goll-e');
 
     fs.exists( linkPath, function (exists) {
         if( !exists ) {
-            gulp.src(distDir)
+            gulp.src(paths.distDir)
                 .pipe(symlink(linkPath));
         }
     });
@@ -140,7 +149,7 @@ gulp.task('symlink_dist', ['browserify'], function () {
 gulp.task('clean', function () {
     'use strict';
 
-    del(distributables);
-    del(path.join(coverageDir, '**', '*'));
+    del(paths.distributables);
+    del(path.join(paths.coverageDir, '**', '*'));
 });
 
