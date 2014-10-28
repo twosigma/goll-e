@@ -8,6 +8,7 @@ var del = require('del');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var shell = require('shelljs');
 
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -65,21 +66,42 @@ gulp.task('lint', ['clean'], function () {
 });
 
 /**
+ * Task definition for generating parsers using jison. 
+ */
+gulp.task('jison', [], function () {
+    'use strict';
+
+    // There are three parsers to generate.
+    // For now, we only care about the content language parser.
+    var parserNames = ['gcl'];
+
+    // The generated parsers go into lib/parsers.
+    var destination = path.join('lib', 'parsers');
+
+    // Start generating parsers.
+    parserNames.forEach(function (value, index, array) {
+        // Build out complete paths for the grammar and lexer files.
+        var grammarFile = path.join('jison', value + '.jison');
+        var lexerFile = grammarFile + 'lex';
+    
+        // Build up the shell command to run to generate the parser.
+        var cmd = 'jison ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
+
+        // Run the command.
+        shell.exec(cmd);
+        shell.mv('-f', value + '.js', path.join('lib', 'parsers')); 
+    });
+});
+
+/**
  * Task definition for running unit tests.
  */
-gulp.task('tests', function () {
+gulp.task('tests', ['jison'], function () {
     'use strict';
     
     return gulp.src(paths.testFiles, { 
         read: false
     }).pipe(mochaDefault);
-});
-
-/**
- * Task definition for generating 
- */
-gulp.task('jison', [], function () {
-    'use strict';
 });
 
 /**
@@ -100,7 +122,7 @@ gulp.task('coverage', function () {
 /**
  * Task for bundling and minifying the javascript.
  */
-gulp.task('browserify', ['clean', 'lint'], function () {
+gulp.task('browserify', ['clean', 'lint', 'jison'], function () {
     'use strict';
     
     var mainFile = 'main.js';
