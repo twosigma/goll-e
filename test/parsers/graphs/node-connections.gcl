@@ -17,8 +17,8 @@ newYork
 }
 
 // Connection between the default inputs/outputs.
-cali_nyc_connection california -> newYork
+connection cali_nyc california => newYork
 
 // Connection between explicitly named inputs/outputs.
-airport_connection california-lax -> newYork+jfk
+connection airports california->lax => newYork->jfk
 

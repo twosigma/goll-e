@@ -16,7 +16,7 @@ newYork
     -portOfNYC
 }
 
-port_connection newYork-portOfNyc -> california+portOfLA
+connection ports newYork->portOfNyc => california->portOfLA
 {
     .oceanStyle
     "water": "yes"
