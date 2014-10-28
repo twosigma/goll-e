@@ -85,7 +85,7 @@ gulp.task('jison', [], function () {
 /**
  * Task definition for performing static analysis against the lib directory.
  */
-gulp.task('lint', [], function () {
+gulp.task('lint', ['build'], function () {
     'use strict';
 
     return gulp.src(paths.sourceFiles)
@@ -97,7 +97,7 @@ gulp.task('lint', [], function () {
 /**
  * Task definition for running unit tests.
  */
-gulp.task('mocha', [], function () {
+gulp.task('mocha', ['lint', 'jison'], function () {
     'use strict';
     
     return gulp.src(paths.testFiles, { 
@@ -108,7 +108,7 @@ gulp.task('mocha', [], function () {
 /**
  * Task definition for running unit tests with coverage.
  */
-gulp.task('coverage', [], function () {
+gulp.task('coverage', ['lint', 'build'], function () {
     'use strict';
     
     return gulp.src(paths.sourceFiles)
@@ -123,7 +123,7 @@ gulp.task('coverage', [], function () {
 /**
  * Task for bundling and minifying the javascript.
  */
-gulp.task('browserify', [], function () {
+gulp.task('browserify', ['jison'], function () {
     'use strict';
     
     var mainFile = 'main.js';
@@ -153,7 +153,7 @@ gulp.task('browserify', [], function () {
 /**
  * Task definition for symlinking the built final build product into public/js.
  */
-gulp.task('symlink_dist', [], function () {
+gulp.task('symlink_dist', ['browserify'], function () {
     'use strict';
 
     var linkPath = path.join('public', 'js', 'goll-e');
@@ -177,9 +177,8 @@ gulp.task('clean', function () {
     del(path.join('jison', '*.js'));
 });
 
-gulp.task('build', ['clean', 'jison', 'browserify']);
-
 gulp.task('test', ['lint', 'coverage']);
-gulp.task('ci', ['build']);
+gulp.task('build', ['jison', 'browserify']);
+gulp.task('ci', ['build', 'test']);
 
 
