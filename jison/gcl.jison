@@ -1,117 +1,131 @@
 
-
-%right DOT INPUT OUTPUT
 %nonassoc COLON ARROW
+%right REF_ARROW
+%right DOT PLUS MINUS
 
 %%
 
 /* Graphs consist of node definitions and reflexive connection definitions. */
 graph
-    : node_declaration connection_declaration ENDOFFILE
-    | ENDOFFILE
+    : node_declarations connection_declarations ENDOFFILE
     ;
 
 /* We can define many nodes in a single graph by recursively appending
    the nodes together. */
-node_declaration
-    : node node_declaration
+node_declarations
+    : node node_declarations
+    |
     ;
 
 /* Nodes consist of an identifier and list of node expressions
    and connection declarations within a pair of braces. */
 node
-    : identifier LBRACE node_expression_declaration connection_declaration RBRACE
+    : identifier
+    | identifier LBRACE node_expression_declarations RBRACE
     ;
 
 /* Nodes can have zero or more node expressions. */
-node_expression_delcaration
-    : node_expression node_internal
+node_expression_declarations
+    : node_expression node_expression_declarations
     |
     ;
 
 /* We can have the following things within a node. */
 node_expression
-    : input_declaration
-    | output_declaration
-    | style_declaration
-    | attribute_declaration
-    | node_declaration
+    : node
+    | input
+    | output
+    | style
+    | attribute
+    | connection
     ;
 
-/* A node can have zero or more inputs. */
-input_declaration
-    : input input_declaration
-    |
-    ;
-
-/* Inputs are declared with the plus sign operator and are named. */
+/**
+ * Production rule which handles input declarations.
+ */
 input
-    : INPUT identifier
+    : PLUS identifier
+    | PLUS identifier LBRACE expression_declaration RBRACE
     ;
 
-/* A node can have zero or more outputs. */
-output_declation
-    : output output_declaration
-    |
-    ;
-
-/* Outputs are declared with the minus-sign operator and are named. */
+/**
+ * Production rule which handles output declarations.
+ */
 output
-    : OUTPUT identifier
+    : MINUS identifier
+    | MINUS identifier LBRACE expression_declaration RBRACE
     ;
 
-/* A node can have zero or more styles. */
-style_declaration
-    : style style_declaration
-    |
-    ;
-
-/* Styles are declared with the dot operator and are named. */
+/**
+ * Production rule which handles style declarations.
+ */
 style
-    : STYLE identifier
+    : DOT identifier
     ;
 
-/* Grammar rule declaring the structure of all of the connection definitions. */
-connection_declaraction
-    : connection connection_declaraton
+/**
+ * Production rule which handles attribute declarations.
+ */
+attribute
+    : string_literal COLON string_literal 
     ;
 
-/* Grammar rule declaring the structure of a single connection definition */
-/* TODO: Actually do this one. */
-connection
-    : identifier
-    ;
-
-/* Both nodes and connections can have zero or more metadata attributes. */
-attribute_declaration
-    : attribute attribute_declaration
+/**
+ * Production rule which allows for right-recursive declarations of a list
+ * of connections.
+ */
+connection_declarations
+    : connection connection_declarations
     |
     ;
 
-/* Metadata maps one identifier to another using the colon operator. */
-attribute
-    : literal COLON literal
+/**
+ * Production rule which handles connection declarations.
+ */
+connection
+    : CONNECTION identifier directional_dereference ARROW directional_dereference
+    | CONNECTION identifier directional_dereference ARROW directional_dereference LBRACE expression_declaration RBRACE
     ;
 
-/* Any token which has at least a single letter, followed by
-   any number of characters or numbers. */
+/**
+ * Production rule for the expression which mades an input or output from
+ * a node available for connection.
+ */ 
+directional_dereference
+    : identifier
+    | identifier REF_ARROW identifier
+    ;
+
+/**
+ * Production rule which allows for right-recursive declarations of a generic 
+ * expression in the language.
+ */
+expression_declaration
+    : expression expression_declaration
+    |
+    ;
+
+/**
+ * Production rule for a basic expression. These appear in attributes and
+ * connections but not nodes.
+ */
+expression
+    : style
+    | attribute
+    ;
+
+/**
+ * Production rule which aliases to any identifier.
+ */
 identifier
     : IDENTIFIER
     ;
 
-literal
-    : LITERAL
+/**
+ * Production rule which aliases to any string literal.
+ */
+string_literal
+    : STR_LITERAL
     ;
 
-/*
-/* Any series of text, numbers or symbols that don't have a quote character. */
-string
-    : STRING
-    ;
 
-/* Any string in quotes. */
-literal
-    : SQUOTE string SQUOTE
-    | DQUOTE string DQUOTE
-    ;
-*/
