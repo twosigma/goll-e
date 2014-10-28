@@ -1,12 +1,12 @@
 /**
- * Unit tests that attempt to verify that we can at the very least parse some
- * valid gcl files.
+ * Unit tests that attempt to verify that we can at parse some minimal, valid
+ * GOLL-E Content Language files.
  */
 
 var fs = require('fs'),
     path = require('path'),
     should = require('should'),
-    parser = require('../../lib/parsers/gcl.js');
+    parser = require('../../jison/gcl.js');
 
 var testParse = function (gclPath, done) {
     'use strict';
