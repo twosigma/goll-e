@@ -56,15 +56,6 @@ var mochaDefault = mocha({
     }
 });
 
-gulp.task('lint', ['clean'], function () {
-    'use strict';
-
-    return gulp.src(paths.sourceFiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail'));
-});
-
 /**
  * Task definition for generating parsers using jison. 
  */
@@ -75,22 +66,32 @@ gulp.task('jison', [], function () {
     // For now, we only care about the content language parser.
     var parserNames = ['gcl'];
 
-    // The generated parsers go into lib/parsers.
-    var destination = path.join('lib', 'parsers');
-
     // Start generating parsers.
     parserNames.forEach(function (value, index, array) {
         // Build out complete paths for the grammar and lexer files.
         var grammarFile = path.join('jison', value + '.jison');
         var lexerFile = grammarFile + 'lex';
+        var destination = 'jison';
     
         // Build up the shell command to run to generate the parser.
         var cmd = 'jison ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
 
         // Run the command.
         shell.exec(cmd);
-        shell.mv('-f', value + '.js', path.join('lib', 'parsers')); 
+        shell.mv('-f', value + '.js', destination); 
     });
+});
+
+/**
+ * Task definition for performing static analysis against the lib directory.
+ */
+gulp.task('lint', ['clean', 'jison'], function () {
+    'use strict';
+
+    return gulp.src(paths.sourceFiles)
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
+        .pipe(jshint.reporter('fail'));
 });
 
 /**
@@ -107,10 +108,10 @@ gulp.task('tests', ['jison'], function () {
 /**
  * Task definition for running unit tests with coverage.
  */
-gulp.task('coverage', function () {
+gulp.task('coverage', ['clean', 'jison'], function () {
     'use strict';
     
-    return gulp.src(paths.sourceFiles) 
+    return gulp.src(paths.sourceFiles)
         .pipe(istanbul())
         .on('finish', function () {
             gulp.src(paths.testFiles)
@@ -173,5 +174,6 @@ gulp.task('clean', function () {
 
     del(paths.distributables);
     del(path.join(paths.coverageDir, '**', '*'));
+    del(path.join('jison', '*.js'));
 });
 
