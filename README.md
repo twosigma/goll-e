@@ -29,5 +29,6 @@ git clone https://github.com/twosigma/goll-e.git
 cd goll-e
 npm install
 bower install
+gulp ci
 ````
 
