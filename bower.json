@@ -36,6 +36,9 @@
     "views"
   ],
   "dependencies": {
-    "fluidable": "*"
+    "fluidable": "*",
+    "lodash": "~2.4.1",
+    "jquery": "~2.1.1",
+    "normalize.css": "~3.0.2"
   }
 }
