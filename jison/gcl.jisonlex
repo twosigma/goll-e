@@ -4,13 +4,16 @@ str_literal     \"[^\"\r\n]*\"|\'[^\'\r\n]*\'
 %%
 "//".*          /* Ignore Comment */
 \s+             /* Ignore Whitespace */
-"node"          return 'NODE';
-"input"         return 'INPUT';
-"output"        return 'OUTPUT';
-"attribute"     return 'ATTR';
+"template"      return 'RESERVED';
+"import"        return 'RESERVED';
+"extends"       return 'RESERVED';
+"node"          return 'RESERVED';
+"input"         return 'RESERVED';
+"output"        return 'RESERVED';
+"attribute"     return 'RESERVED';
+"style"         return 'RESERVED';
+"graph"         return 'RESERVED';
 "connection"    return 'CONNECTION';
-"style"         return 'STYLE';
-"graph"         return 'GRAPH';
 {identifier}    return 'IDENTIFIER';
 {str_literal}   return 'STR_LITERAL';
 "=>"            return 'ARROW';
