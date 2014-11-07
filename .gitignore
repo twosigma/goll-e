@@ -103,3 +103,4 @@ jison/*.js
 
 # Ignore Sublime Text project files.
 project.sublime-workspace
+dist/

@@ -1,3 +1,78 @@
-@import "../vendor/fluidable/fluidable.less";
+//@import "../vendor/fluidable/fluidable.less";
 @import "colors.less";
 @import "typography.less";
+
+
+.node .node-box {
+  fill: white;
+  stroke: #0d0d0d;
+}
+.node .label {
+  font-family: 'Arial', sans-serif;
+  font-size: 9pt;
+  color: black;
+  alignment-baseline: central;
+}
+.node .io circle {
+  fill: white;
+  stroke: black;
+}
+.node .io text {
+  alignment-baseline: central;
+  font-size: 8pt;
+}
+
+.edge {
+  stroke: black;
+  fill: none;
+}
+.arrowhead {
+  stroke: black;
+  fill: none;
+}
+
+#pan_drag_handle {
+  fill: lightgrey;
+  cursor: -webkit-grab;
+}
+
+#pan_drag_handle.dragging {
+  cursor: -webkit-grabbing;
+}
+
+.graph-widget {
+  background-color: #fafafa;
+}
+.graph-widget,
+.graph-widget .graph-widget-content {
+  width: 100%;
+  height: 100%;
+  cursor: all-scroll;
+  cursor: grab;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+.graph-widget:active,
+.graph-widget .graph-widget-content:active {
+  cursor: all-scroll;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+}
+
+.raw-data-input-field {
+  height: 100%;
+  width: 100%;
+  font-family: monospace;
+  font-size: 10px;
+}
+
+html,
+body,
+#graph-container,
+#graph-container > svg {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

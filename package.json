@@ -43,6 +43,8 @@
     "less-middleware": "1.0.x",
     "mocha": "^1.21.5",
     "morgan": "~1.3.0",
+    "react": "^0.12.0",
+    "reactify": "^0.15.2",
     "serve-favicon": "~2.1.3",
     "shelljs": "^0.3.0",
     "should": "^4.0.4",
