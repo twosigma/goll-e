@@ -72,9 +72,10 @@ gulp.task('jison', [], function () {
         var grammarFile = path.join('jison', value + '.jison');
         var lexerFile = grammarFile + 'lex';
         var destination = 'jison';
+        var jisonCmdPath = path.join('node_modules', 'jison', 'lib', 'cli.js');
     
         // Build up the shell command to run to generate the parser.
-        var cmd = 'jison ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
+        var cmd = jisonCmdPath + ' ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
 
         // Run the command.
         shell.exec(cmd);
