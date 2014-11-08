@@ -122,39 +122,49 @@ gulp.task('coverage', ['lint', 'build'], function () {
 });
 
 /**
- * Task for bundling and minifying the javascript.
+ * Task definition for bundling up the project files into a single JS file.
  */
 gulp.task('browserify', ['jison'], function () {
     'use strict';
-    
+
     var mainFile = 'main.js';
-    var sourceFile = path.join('.', 'lib', mainFile);
+    var sourceFile = path.join('lib', mainFile);
     var outputFile = getBundleName() + '.js';
-    var outputMin = getBundleName(['min']) + ".js";
 
     var bundler = browserify({
         entries: ['.' + path.sep + sourceFile],
-        debug: true
     });
-   
+
     return bundler
         .bundle()
         .pipe(source(outputFile))
-        .pipe(gulp.dest(paths.distDir))
-        .pipe(rename(outputMin))
+        .pipe(gulp.dest(paths.distDir));
+});
+
+/**
+ * Task definition for minifying distributables.
+ */
+gulp.task('uglify', ['browserify'], function () {
+    'use strict';
+  
+    var outputFile = getBundleName() + '.js';
+    var unminified = [path.join(paths.distDir, outputFile)];
+    var minified = getBundleName(['min']) + '.js';
+
+    return gulp.src(unminified)
+        .pipe(rename(minified))
         .pipe(buffer())
-        .pipe(sourcemaps.init({
-            loadMaps: true
-        }))
+        .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.distDir));
 });
 
 /**
- * Task definition for symlinking the built final build product into public/js.
+ * Task definition for symlinking the final build product into public/js.
+ * This is done so that the express backend can use the final library.
  */
-gulp.task('symlink_dist', ['browserify'], function () {
+gulp.task('symlink', ['uglify'], function () {
     'use strict';
 
     var linkPath = path.join('public', 'js', 'goll-e');
@@ -178,8 +188,8 @@ gulp.task('clean', function () {
     del(path.join('jison', '*.js'));
 });
 
-gulp.task('test', ['lint', 'coverage']);
-gulp.task('build', ['jison', 'browserify']);
+gulp.task('test', ['build', 'lint', 'coverage']);
+gulp.task('build', ['jison', 'browserify', 'uglify', 'symlink']);
 gulp.task('ci', ['build', 'test']);
 
 
