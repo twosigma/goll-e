@@ -1,5 +1,5 @@
 var React = require('react');
-var Graph = require('./viewcomponents/graph');
+var Graph = require('./viewcomponents/graph.jsx');
 
 var TEST_DATA = require('./test-data.json');
 

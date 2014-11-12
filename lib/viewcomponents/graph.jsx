@@ -1,7 +1,7 @@
 var React = require('react/addons');
 var classSet = React.addons.classSet;
 var mouseDownDrag = require('../utilities/mouseDownDrag');
-var Node = require('./node');
+var Node = require('./node.jsx');
  
 /**
  * Graph is a component that shows a graph based on a given data model.

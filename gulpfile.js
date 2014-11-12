@@ -130,7 +130,7 @@ gulp.task('browserify', ['jison'], function () {
     var outputFile = getBundleName() + '.js';
     var outputMin = getBundleName(['min']) + ".js";
 
-    var bundler = browserify('./lib/main.js', {
+    var bundler = browserify('./lib/main.jsx', {
         debug: true
     });
 
