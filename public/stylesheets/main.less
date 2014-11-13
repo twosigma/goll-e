@@ -70,10 +70,25 @@
 
 html,
 body,
-#graph-container,
-#graph-container > svg {
+#app-container,
+#app > svg,
+#app {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+#AST_editor {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 75%;
+  width: 300px;
+  padding: 10px;
+}
+
+#AST_editor > textarea {
+  width: 100%;
+  height: 100%;
 }

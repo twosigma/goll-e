@@ -1,5 +1,5 @@
 var React = require('react');
-var Graph = require('./viewcomponents/graph.jsx');
+var App = require('./viewcomponents/app.jsx');
 
 var TEST_DATA = require('./test-data.json');
 
@@ -11,6 +11,11 @@ var dummyModel = {
         renderGraph();
     },
 
+    setAST: function(newAST){
+        TEST_DATA = JSON.parse(newAST);
+        renderGraph();
+    },
+
     // This method is for prototype purposes only.
     getAST: function() {
         return TEST_DATA;
@@ -18,7 +23,7 @@ var dummyModel = {
 };
 
 var renderGraph = function() {
-    React.render(<Graph model={dummyModel} />, document.getElementById('graph-container'));
+    React.render(<App model={dummyModel} />, document.getElementById('app-container'));
 };
 
 window.onload = renderGraph;
