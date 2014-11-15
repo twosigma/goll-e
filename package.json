@@ -31,6 +31,7 @@
     "gulp-istanbul": "^0.3.1",
     "gulp-jshint": "^1.8.5",
     "gulp-mocha": "^1.1.1",
+    "gulp-react": "^2.0.0",
     "gulp-rename": "^1.2.0",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-symlink": "^2.0.0",
