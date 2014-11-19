@@ -5,10 +5,12 @@
 var fs = require('fs');
 var path = require('path');
 var del = require('del');
-var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var shell = require('shelljs');
+
+var browserify = require('browserify');
+var reactify = require('reactify');
 
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -18,6 +20,7 @@ var mocha = require('gulp-mocha');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var symlink = require('gulp-symlink');
+var react = require('gulp-react');
 
 var gollePackage = require('./package.json');
 
@@ -39,7 +42,8 @@ var getBundleName = function ( descriptors ) {
 };
 
 var paths = {
-    sourceFiles: [path.join('lib', '**', '*.js')],
+    sourceFiles: [path.join('lib', '**', '*.js'),
+                  path.join('lib', '**', '*', '*.jsx')],
     testFiles: [path.join('test', '**', 'test-*.js')],
     distributables: [path.join('dist', '**', '*')],
     distDir: 'dist',
@@ -90,6 +94,7 @@ gulp.task('lint', ['build'], function () {
     'use strict';
 
     return gulp.src(paths.sourceFiles)
+        .pipe(react())
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
@@ -113,6 +118,7 @@ gulp.task('coverage', ['lint', 'build'], function () {
     'use strict';
     
     return gulp.src(paths.sourceFiles)
+        .pipe(react())
         .pipe(istanbul())
         .on('finish', function () {
             gulp.src(paths.testFiles)
@@ -127,14 +133,16 @@ gulp.task('coverage', ['lint', 'build'], function () {
 gulp.task('browserify', ['jison'], function () {
     'use strict';
 
-    var mainFile = 'main.js';
+    var mainFile = 'main.jsx';
     var sourceFile = path.join('lib', mainFile);
     var outputFile = getBundleName() + '.js';
 
+    
     var bundler = browserify({
         entries: ['.' + path.sep + sourceFile],
     });
-
+    bundler.transform(reactify);
+    
     return bundler
         .bundle()
         .pipe(source(outputFile))
