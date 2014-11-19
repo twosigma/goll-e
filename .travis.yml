@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-    - 0.10
-    - 0.11
-
+- 0.1
+- 0.11
 before_install:
-    - npm install -g gulp
-
+- npm install -g gulp
 script:
-    - gulp ci
+- gulp ci
+notifications:
+  hipchat:
+    rooms:
+      secure: NBfM96Di4VDqBwqp6vr6ZDQyIgnlFTaGjcR6fy3f+u9EXAik8nUaVgD/OsmJ/zNx53E8BUCRdn8xUnfYw6VqtlRKef6YixM5sG413IAFbnKaFz9lHPh8+KBycpbaEbEnQx0lz/nJ8NQCGQb0h+emcZ9FkhnBvHFA32RGBL+No4w=
