@@ -153,7 +153,7 @@ Code should be self-documenting, but clarifying comments are often helpful.
 
 # LESS Coding Style Guide
 
-## File scope
+## File Scope
 All files should be wrapped in a scope relevant to the component they style. For example, if this is the less file for `MyGreatWidget`:
 ```
 // TOP OF FILE
@@ -162,6 +162,10 @@ All files should be wrapped in a scope relevant to the component they style. For
 }
 // END OF FILE
 ```
+
+
+## Variable Scope
+Scope variables as narrowly as possible. *Never* put variables in the global scope. Following the file scope rule above will prevent this.
 
 ## Spacing
 Add a line break after every block.
@@ -186,9 +190,6 @@ Nesting can be achieved like so:
 }
 ```
 
-## Scope
-Scope variables are narrowly as possible. *Never* put variables in the global scope. Following the nesting rule above will prevent this.
-
 ## Mixins as utility functions
 
 When defining a mixin function that is not intended to style anything directly without explicitly being called, use empty parenthesis.
@@ -204,6 +205,6 @@ Guards, loops, merging, and extending are very new to LESS. They should be used 
 
 
 # Conclusion
-Strive for *consistency*. Write self-documenting, maintainable code. Give it some air with spacing. Don't use syntax that has iffy meanings; be explicit. Don't use syntax that breaks some browsers when there is a simple alternative. Follow standards. Don't be dumb. 
+Strive for *consistency*. Write self-documenting, maintainable code. Give it some air with spacing. Don't use syntax that has iffy meanings—-be explicit. Don't use syntax that breaks some browsers when there is a simple alternative. Follow standards. Don't be dumb. 
 The end.
 
