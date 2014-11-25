@@ -10,15 +10,15 @@ var App = React.createClass({
         return (
             <div id='app'>
                 <Graph model={this.props.model} />
-                <div id='AST_editor'>
-                    <textarea onChange={this._onASTChange} value={JSON.stringify(this.props.model.getAST(), null, '  ')} />
+                <div id='model_editor'>
+                    <textarea onChange={this._onModelChange} value={JSON.stringify(this.props.model.getContents(), null, '  ')} />
                 </div>
             </div>
         );
     },
 
-    _onASTChange: function(event) {
-        this.props.model.setAST(event.target.value);
+    _onModelChange: function(event) {
+        this.props.model.setContents(event.target.value);
     }
 
 });

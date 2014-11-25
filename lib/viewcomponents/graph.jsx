@@ -17,7 +17,7 @@ var Graph = React.createClass({
     },
 
     render: function() {
-        var data = this.props.model.getAST();
+        var data = this.props.model.getContents();
 
          // For each element of data.nodes, create a node component.
         var nodeComponents = data.nodes.map(function(nodeData) {

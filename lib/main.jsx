@@ -11,13 +11,13 @@ var dummyModel = {
         renderGraph();
     },
 
-    setAST: function(newAST){
-        TEST_DATA = JSON.parse(newAST);
+    setContents: function(newContents){
+        TEST_DATA = JSON.parse(newContents);
         renderGraph();
     },
 
     // This method is for prototype purposes only.
-    getAST: function() {
+    getContents: function() {
         return TEST_DATA;
     }
 };
