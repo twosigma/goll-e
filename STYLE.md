@@ -205,6 +205,6 @@ Guards, loops, merging, and extending are very new to LESS. They should be used 
 
 
 # Conclusion
-Strive for *consistency*. Write self-documenting, maintainable code. Give it some air with spacing. Don't use syntax that has iffy meanings—-be explicit. Don't use syntax that breaks some browsers when there is a simple alternative. Follow standards. Don't be dumb. 
+Strive for *consistency*. Write self-documenting, maintainable code. Give it some air with spacing. Don't use syntax that has iffy meanings—be explicit. Follow standards. Don't be dumb. 
 The end.
 
