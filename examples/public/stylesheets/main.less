@@ -1,3 +1,94 @@
 @import "../vendor/fluidable/fluidable.less";
 @import "colors.less";
 @import "typography.less";
+
+.grab-cursor() {
+  cursor: all-scroll;
+  cursor: grab;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;     
+}
+
+.grabbing-cursor() {
+  cursor: all-scroll;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;     
+}
+
+.node {
+
+  .node-box {
+    fill: white;
+    stroke: #0d0d0d;
+    cursor: move;
+  }
+
+  .label {
+    font-family: 'Arial', sans-serif;
+    font-size: 9pt;
+    color: black;
+    alignment-baseline: central;
+  }
+
+  .io {
+
+    circle {
+      fill: white;
+      stroke: black;
+    }
+
+    text {
+      alignment-baseline: central;
+      font-size: 8pt;
+    }
+
+  }
+
+}
+
+.edge {
+  stroke: black;
+  fill: none;
+}
+
+.arrowhead {
+  stroke: black;
+  fill: none;
+}
+
+#pan_drag_handle {
+  fill: lightgrey;
+  .grab-cursor();
+}
+
+#pan_drag_handle.dragging {
+  .grabbing-cursor();
+}
+
+html,
+body,
+#app-container,
+#app > svg,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#model_editor {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 75%;
+  width: 300px;
+  padding: 10px;
+}
+
+#model_editor > textarea {
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  font-size: 10px;
+}
