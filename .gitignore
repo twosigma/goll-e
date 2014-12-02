@@ -101,5 +101,5 @@ examples/public/stylesheets/*.css
 jison/*.js
 
 # Ignore Sublime Text project files.
-project.sublime-workspace
+*.sublime-workspace
 dist/
