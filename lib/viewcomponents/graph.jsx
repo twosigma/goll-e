@@ -27,6 +27,8 @@ var Graph = React.createClass({
                     key={nodeData.id}
                     x={nodeData.x}
                     y={nodeData.y}
+                    inputs={nodeData.inputs}
+                    outputs={nodeData.outputs}
                     label={nodeData.label}
                     model={this.props.model} />
             );
