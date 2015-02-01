@@ -36,7 +36,7 @@ var Node = React.createClass({
         return (
           <IO isInput={isInput} x={position.x} y={position.y} label={io.label} labelPosition={position.labelPosition}/>
         );
-      }.bind(this))
+      }.bind(this));
     },
 
     _onNodeBodyPseudoDrag: function(event) {
