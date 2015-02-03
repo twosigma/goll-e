@@ -6,19 +6,16 @@ var should = require('should'),
     Port = require('../../lib/model/port.js'),
 	Node = require('../../lib/model/node.js'),
 	Connection = require('../../lib/model/connection.js'),
-	port1 = new Port(1,"out"),
-	port2 = new Port(2,"in"),
+	port1 = new Port(1,"out","N",50),
+	port2 = new Port(2,"in","S",60),
 	node1 = new Node(1,[port1],[],"some style","some meta data"),
 	node2 = new Node(2,[],[port2],"some style","some meta data"),
 	connection = new Connection(1,port1,port2,"some meta data");
 
 describe('port', function () {
-    it('should change the position type from cardinal to coordinate', function (done) {
-        port1.cardinalToCoordinate("N",50);
-		port1.getPos()[0].should.equal(50);
-		port1.getPos()[1].should.equal(100);
-        done();
-    }); 
+	it('should',function (done) {
+		done();
+	});
 });
 
 describe('connection', function () {
