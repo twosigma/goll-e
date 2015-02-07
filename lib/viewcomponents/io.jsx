@@ -46,9 +46,9 @@ var IO = React.createClass({
       } else if (labelPosition === 'left') {
         return {x: -totalMargin, y: 0, textAnchor: 'end'};
       } else if (labelPosition === 'above') {
-        return {x: 0, y: totalMargin, textAnchor: 'start'};
-      } else if (labelPosition === 'below') {
         return {x: 0, y: -totalMargin, textAnchor: 'start'};
+      } else if (labelPosition === 'below') {
+        return {x: 0, y: totalMargin, textAnchor: 'start'};
       } else {
         return {x: 0, y: 0, textAnchor: 'start'};
       }

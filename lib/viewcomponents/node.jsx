@@ -10,6 +10,17 @@ var padding = 5;
 var ioRadius = 4;
 var ioSpacing = 15;
 
+// DATA MODEL scales values 0-100. Undo that.
+var DATA_MODEL_MULTIPLIER = 100.0;
+
+// TODO: specific to rectangular nodes. Refactor out.
+var DIRECTION_TO_LABEL_POSITION = {
+  'N': 'below',
+  'S': 'above',
+  'E': 'left',
+  'W': 'right'
+};
+
 var Node = React.createClass({
 
     render: function() {
@@ -51,26 +62,36 @@ var Node = React.createClass({
         this.props.model.moveNode(this.props.id, newX, newY);
     },
 
+    //TODO: assumes rectangular nodes
     _getIOPosition: function(io) {
-      // DATA MODEL scales values 0-100 for some reason. Undo that.
-      // It also comes it upside down. Make it upside up.
-      var DATA_MODEL_MULTIPLIER = 100;
-      var labelPosition;
-      if (io.x === 0) {
-        labelPosition = 'right';
-      } else if (io.x/DATA_MODEL_MULTIPLIER === 1) {
-        labelPosition = 'left';
-      } else {
-        if (io.y/DATA_MODEL_MULTIPLIER > 0.5) {
-          labelPosition = 'below';
-        } else {
-          labelPosition = 'above';
-        }
+      var amount = io.percentage/DATA_MODEL_MULTIPLIER;
+
+      var x;
+      var y;
+
+      var labelPosition = DIRECTION_TO_LABEL_POSITION[io.direction];
+
+      switch(io.direction) {
+        case 'N':
+        x = amount;
+        y = 0;
+        break;
+        case 'S':
+        x = amount;
+        y = 1;
+        break;
+        case 'E':
+        x = 1;
+        y = amount;
+        break;
+        case 'W':
+        x = 0;
+        y = amount;        
       }
 
       return {
-        x: io.x/DATA_MODEL_MULTIPLIER * nodeWidth,
-        y: nodeHeight - (io.y/DATA_MODEL_MULTIPLIER * nodeHeight),
+        x: x * nodeWidth,
+        y: y * nodeHeight,
         labelPosition: labelPosition
       };
     },
@@ -88,6 +109,56 @@ var Node = React.createClass({
       //Nodes are represented upside down
       model.y -= event.movementY;
 
+      var newAmount = model.percentage/DATA_MODEL_MULTIPLIER;
+      var newDirection = model.direction;
+      var hDragPct = event.movementX/nodeWidth;
+      var vDragPct = event.movementY/nodeHeight;
+
+
+      switch(model.direction) {
+        case 'N':
+        newAmount += hDragPct;
+        if (newAmount > 1) {
+          newDirection = 'E';
+          newAmount = 0;
+        } else if (newAmount < 0) {
+          newDirection = 'W';
+          newAmount = 0;
+        }
+        break;
+        case 'S':
+        newAmount += hDragPct;
+        if (newAmount > 1) {
+          newDirection = 'E';
+          newAmount = 1;
+        } else if (newAmount < 0) {
+          newDirection = 'W';
+          newAmount = 1;
+        }
+        break;
+        case 'E':
+        newAmount += vDragPct;
+        if (newAmount > 1) {
+          newDirection = 'S';
+          newAmount = 1;
+        } else if (newAmount < 0) {
+          newDirection = 'N';
+          newAmount = 1;
+        }
+        break;
+        case 'W':
+        newAmount += vDragPct;
+        if (newAmount > 1) {
+          newDirection = 'S';
+          newAmount = 0;
+        } else if (newAmount < 0) {
+          newDirection = 'N';
+          newAmount = 0;
+        }      
+      }
+
+      model.direction = newDirection;
+      model.percentage = newAmount * DATA_MODEL_MULTIPLIER;
 
       containerNode.props.model.render();
     }
