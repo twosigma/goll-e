@@ -31,10 +31,13 @@ var Node = React.createClass({
     },
 
     _getRenderedIOs: function(ios, isInput) {
-      return ios.map(function(io) {
+      return ios.map(function(io, id) {
         var position = this._getIOPosition(io);
         return (
-          <IO isInput={isInput} x={position.x} y={position.y} label={io.label} labelPosition={position.labelPosition}/>
+          <IO id={id} isInput={isInput} model={io} 
+          x={position.x} y={position.y} label={io.label} labelPosition={position.labelPosition}
+          onMouseDown={mouseDownDrag.bind(this, 'io', null, null, this._createOnIOMoveFn(io, this._onIOMove))}
+          />
         );
       }.bind(this));
     },
@@ -70,6 +73,23 @@ var Node = React.createClass({
         y: nodeHeight - (io.y/DATA_MODEL_MULTIPLIER * nodeHeight),
         labelPosition: labelPosition
       };
+    },
+
+    _createOnIOMoveFn: function(io, handler) {
+      return function(event) {
+        handler(event, io);
+      };
+    },
+
+    _onIOMove: function(event, model) {
+      var containerNode = this;
+      model.x += event.movementX;
+
+      //Nodes are represented upside down
+      model.y -= event.movementY;
+
+
+      containerNode.props.model.render();
     }
 });
 

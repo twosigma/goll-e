@@ -24,7 +24,8 @@ var IO = React.createClass({
             transform={'translate(' + this.props.x + ', ' + this.props.y + ')'} >
             <circle
               r={this.props.size || ioRadius}
-              cx={0} cy={0} />
+              cx={0} cy={0} 
+              onMouseDown={this.props.onMouseDown}/>
             <text class="label"
                 x={labelPosition.x}
                 y={labelPosition.y}

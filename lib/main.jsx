@@ -19,6 +19,10 @@ var dummyModel = {
     // This method is for prototype purposes only.
     getContents: function() {
         return TEST_DATA;
+    },
+
+    render: function() {
+      renderGraph();
     }
 };
 
