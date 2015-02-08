@@ -45,12 +45,18 @@ var Node = React.createClass({
     _getRenderedIOs: function(ios, isInput) {
       return ios.map(function(io, id) {
         var position = this._getIOPosition(io);
+
+        var onIOMove = function(event) {
+          this._onIOMove(event, io);
+        }.bind(this);
+
         return (
           <IO id={id} isInput={isInput} model={io} 
           x={position.x} y={position.y} label={io.label} labelPosition={position.labelPosition}
-          onMouseDown={mouseDownDrag.bind(this, 'io', null, null, this._createOnIOMoveFn(io, this._onIOMove))}
+          onMouseDown={mouseDownDrag.bind(this, 'io', null, null, onIOMove)}
           />
         );
+
       }.bind(this));
     },
 
@@ -80,24 +86,14 @@ var Node = React.createClass({
       };
     },
 
-    _createOnIOMoveFn: function(io, handler) {
-      return function(event) {
-        handler(event, io);
-      };
-    },
-
     _onIOMove: function(event, model) {
       var containerNode = this;
-      model.x += event.movementX;
-
-      //Nodes are represented upside down
-      model.y -= event.movementY;
 
       var newAmount = model.percentage/DATA_MODEL_MULTIPLIER;
       var newDirection = model.direction;
+
       var hDragPct = event.movementX/nodeWidth;
       var vDragPct = event.movementY/nodeHeight;
-
 
       switch(model.direction) {
         case 'N':
@@ -109,6 +105,7 @@ var Node = React.createClass({
           newDirection = 'W';
           newAmount = 0;
         }
+
         break;
         case 'S':
         newAmount += hDragPct;
@@ -120,6 +117,7 @@ var Node = React.createClass({
           newAmount = 1;
         }
         break;
+
         case 'E':
         newAmount += vDragPct;
         if (newAmount > 1) {
@@ -130,6 +128,7 @@ var Node = React.createClass({
           newAmount = 1;
         }
         break;
+
         case 'W':
         newAmount += vDragPct;
         if (newAmount > 1) {
@@ -138,7 +137,10 @@ var Node = React.createClass({
         } else if (newAmount < 0) {
           newDirection = 'N';
           newAmount = 0;
-        }      
+        }
+
+        default:
+        throw 'Invalid cardinal direction';   
       }
 
       model.direction = newDirection;
