@@ -2,6 +2,8 @@ var React = require('react');
 var IO = require('./io.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var PositionUtils = require('../utilities/positionUtils.js');
+var CardinalDirection = require('../enum/cardinalDirection.js');
+var IOLabelPosition = require('../enum/ioLabelPosition');
 
 var nodeWidth = 150;
 var nodeHeight = nodeWidth/1.6;
@@ -15,12 +17,13 @@ var ioSpacing = 15;
 var DATA_MODEL_MULTIPLIER = 100.0;
 
 // TODO: specific to rectangular nodes. Refactor out.
-var DIRECTION_TO_LABEL_POSITION = {
-  'N': 'below',
-  'S': 'above',
-  'E': 'left',
-  'W': 'right'
-};
+var DIRECTION_TO_LABEL_POSITION = {};
+
+DIRECTION_TO_LABEL_POSITION[CardinalDirection.NORTH] = IOLabelPosition.BELOW;
+DIRECTION_TO_LABEL_POSITION[CardinalDirection.SOUTH] = IOLabelPosition.ABOVE;
+DIRECTION_TO_LABEL_POSITION[CardinalDirection.EAST] = IOLabelPosition.LEFT;
+DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = IOLabelPosition.RIGHT;
+
 
 var Node = React.createClass({
 
@@ -96,51 +99,53 @@ var Node = React.createClass({
       var vDragPct = event.movementY/nodeHeight;
 
       switch(model.direction) {
-        case 'N':
+        case CardinalDirection.NORTH:
         newAmount += hDragPct;
         if (newAmount > 1) {
-          newDirection = 'E';
+          newDirection = CardinalDirection.EAST;
           newAmount = 0;
         } else if (newAmount < 0) {
-          newDirection = 'W';
+          newDirection = CardinalDirection.WEST;
           newAmount = 0;
         }
 
         break;
-        case 'S':
+        case CardinalDirection.SOUTH:
         newAmount += hDragPct;
         if (newAmount > 1) {
-          newDirection = 'E';
+          newDirection = CardinalDirection.EAST;
           newAmount = 1;
         } else if (newAmount < 0) {
-          newDirection = 'W';
+          newDirection = CardinalDirection.WEST;
           newAmount = 1;
         }
         break;
 
-        case 'E':
+        case CardinalDirection.EAST:
         newAmount += vDragPct;
         if (newAmount > 1) {
-          newDirection = 'S';
+          newDirection = CardinalDirection.SOUTH;
           newAmount = 1;
         } else if (newAmount < 0) {
-          newDirection = 'N';
+          newDirection = CardinalDirection.NORTH;
           newAmount = 1;
         }
         break;
 
-        case 'W':
+        case CardinalDirection.WEST:
         newAmount += vDragPct;
         if (newAmount > 1) {
-          newDirection = 'S';
+          newDirection = CardinalDirection.SOUTH;
           newAmount = 0;
         } else if (newAmount < 0) {
-          newDirection = 'N';
+          newDirection = CardinalDirection.NORTH;
           newAmount = 0;
         }
+
+        break;
 
         default:
-        throw 'Invalid cardinal direction';   
+        throw 'Unsupported cardinal direction';   
       }
 
       model.direction = newDirection;

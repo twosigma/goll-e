@@ -1,5 +1,6 @@
 var React = require('react');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
+var LabelPosition = require('../enum/ioLabelPosition');
 
 var ioRadius = 4;
 /*
@@ -43,16 +44,16 @@ var IO = React.createClass({
       var totalMargin = 4 + extraMargin;
 
       switch (labelPosition) {
-        case 'right':
+        case LabelPosition.RIGHT:
         return {x: totalMargin, y: 0, textAnchor: 'start'};
 
-        case 'left':
+        case LabelPosition.LEFT:
         return {x: -totalMargin, y: 0, textAnchor: 'end'};
 
-        case 'above':
+        case LabelPosition.ABOVE:
         return {x: 0, y: -totalMargin, textAnchor: 'start'};
 
-        case 'below':
+        case LabelPosition.BELOW:
         return {x: 0, y: totalMargin, textAnchor: 'start'};
 
         default:
