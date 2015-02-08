@@ -1,6 +1,7 @@
 var React = require('react');
 var IO = require('./io.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
+var PositionUtils = require('../utilities/positionUtils.js');
 
 var nodeWidth = 150;
 var nodeHeight = nodeWidth/1.6;
@@ -64,34 +65,17 @@ var Node = React.createClass({
 
     //TODO: assumes rectangular nodes
     _getIOPosition: function(io) {
-      var amount = io.percentage/DATA_MODEL_MULTIPLIER;
-
-      var x;
-      var y;
 
       var labelPosition = DIRECTION_TO_LABEL_POSITION[io.direction];
 
-      switch(io.direction) {
-        case 'N':
-        x = amount;
-        y = 0;
-        break;
-        case 'S':
-        x = amount;
-        y = 1;
-        break;
-        case 'E':
-        x = 1;
-        y = amount;
-        break;
-        case 'W':
-        x = 0;
-        y = amount;        
-      }
+      var cartesianPos = PositionUtils.Conversion.cardinalToCartesian({
+        direction: io.direction,
+        percentage: io.percentage
+      });
 
       return {
-        x: x * nodeWidth,
-        y: y * nodeHeight,
+        x: cartesianPos.x * nodeWidth,
+        y: cartesianPos.y * nodeHeight,
         labelPosition: labelPosition
       };
     },

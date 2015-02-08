@@ -9,6 +9,7 @@ props:
 - x {Number}
 - y {Number}
 - size (radius) {Number}
+- labelPosition
  */
 var IO = React.createClass({
     /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
@@ -41,15 +42,20 @@ var IO = React.createClass({
 
       var totalMargin = 4 + extraMargin;
 
-      if (labelPosition === 'right') {
+      switch (labelPosition) {
+        case 'right':
         return {x: totalMargin, y: 0, textAnchor: 'start'};
-      } else if (labelPosition === 'left') {
+
+        case 'left':
         return {x: -totalMargin, y: 0, textAnchor: 'end'};
-      } else if (labelPosition === 'above') {
+
+        case 'above':
         return {x: 0, y: -totalMargin, textAnchor: 'start'};
-      } else if (labelPosition === 'below') {
+
+        case 'below':
         return {x: 0, y: totalMargin, textAnchor: 'start'};
-      } else {
+
+        default:
         return {x: 0, y: 0, textAnchor: 'start'};
       }
     }
