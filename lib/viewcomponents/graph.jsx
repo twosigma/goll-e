@@ -44,7 +44,8 @@ var Graph = React.createClass({
 
         // Put all of the node components in an SVG and a container for zooming and panning.
         return (
-            <svg>
+            <svg className="graph">
+
                 {/* This rectangle forms a background and is a draggable handle for panning the view. */}
                 <rect
                     className={dragHandleClassName}
