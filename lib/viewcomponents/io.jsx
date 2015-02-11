@@ -3,16 +3,23 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var LabelPosition = require('../enum/ioLabelPosition');
 
 var ioRadius = 4;
-/*
-props:
-- isInput {Boolean}
-- label {String}
-- x {Number}
-- y {Number}
-- size (radius) {Number}
-- labelPosition
- */
+
 var IO = React.createClass({
+    propTypes: {
+        isInput: React.PropTypes.bool.isRequired,
+
+        label: React.PropTypes.string,
+
+        x: React.PropTypes.number.isRequired,
+
+        y: React.PropTypes.number.isRequired,
+
+        size: React.PropTypes.number,
+
+        labelPosition: React.PropTypes.oneOf(Object.keys(LabelPosition).map(function(k) {
+          return LabelPosition[k];
+        }))
+    },
     /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
     render: function() {
         var isInput = this.props.isInput;
