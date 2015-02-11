@@ -23,13 +23,18 @@ var IO = React.createClass({
     /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
     render: function() {
         var isInput = this.props.isInput;
-        var ioClass = isInput ? 'input' : 'output';
 
         var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || ioRadius);
 
+        var classes = React.addons.classSet({
+          'io': true,
+          'input': isInput,
+          'output': !isInput
+        });
+
         return (
            <g
-            className={'io ' + ioClass}
+            className={classes}
             transform={'translate(' + this.props.x + ', ' + this.props.y + ')'} >
             <circle
               r={this.props.size || ioRadius}
