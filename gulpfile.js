@@ -119,9 +119,7 @@ gulp.task('coverage', ['lint', 'build'], function () {
     
     return gulp.src(paths.sourceFiles)
         .pipe(react())
-        .pipe(istanbul({
-            includeUntested: true
-        }))
+        .pipe(istanbul())
         .on('finish', function () {
             gulp.src(paths.testFiles)
                 .pipe(mochaDefault)
