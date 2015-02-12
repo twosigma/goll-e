@@ -1,0 +1,84 @@
+extends ./layout
+
+block content
+  div(class='container')
+    div(class='col-group')
+      div(class='col-12')
+        h1 Parser Demo
+      div(class='col-6')
+        form(id='demoForm')
+          textarea(id='gclTextField' class='monospace' wrap='off' cols='50' rows='20')
+          br
+          input(type='submit' value='Validate' style='margin-top: 10px;')
+      div(id='symbolTable' class='col-6 bordered' style='height: 382px;')
+      div(class='col-12')
+        h2 Output
+      div(id='output' class='bordered col-12')
+
+  style.
+    #output {
+      margin: 0 20px 0 20px;
+      padding: 20px 20px;
+      height: 300px;
+      overflow: scroll;
+    }
+
+    #gclTextField {
+      resize: vertical;
+      font-size: 12pt;
+    }
+
+    .bordered {
+      border: 1px solid grey;
+    }
+
+    .monospace {
+      font-size: 14pt;
+      font-family: monospace;
+    }
+    
+    .successMessage {
+      color: green;
+      margin: 0 auto; 
+    }
+
+    .failMessage {
+      color: red;
+      margin: 0 auto;
+    }
+
+  script(type='text/javascript').
+    var $output = $('#output');
+    $('#demoForm').submit(function (event) {
+      event.preventDefault();
+
+      // Get the current time.
+      var now = new Date();
+      var date = ( now.getMonth() + 1 ) + "-" + now.getDate() + "-" + now.getFullYear();
+      var time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+      var nowStr = date + " " + time; 
+
+      // Get the contents of the GCL text entry box.
+      var gclContent = $('#gclTextField').val()
+
+      // If nothing was entered, just bailed out.
+      if( gclContent === '' ) {
+        return;
+      }
+
+      // Output things.
+      try {
+        // Do this first so that the horizontal line is the bottom-most thing.
+        $output.prepend( "<hr />" );
+        
+        // Check to see if we successfully parsed the GCL.
+        if( gclParser.parse( gclContent ) ) {
+          $output.prepend( "<code class='monospace'><pre>" + gclContent + "</pre></code>" );
+          $output.prepend( "<p class='successMessage'>Valid (" + nowStr + ")</p>" );
+        }
+      }
+      catch(err) {
+        $output.prepend( "<code class='monospace'><pre>" + err + "</pre></code>" );
+        $output.prepend( "<p class='failMessage'>Invalid (" + nowStr +  ")</p>" );
+      }
+    });
