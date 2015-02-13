@@ -5,10 +5,12 @@
 var fs = require('fs');
 var path = require('path');
 var del = require('del');
-var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var shell = require('shelljs');
+
+var browserify = require('browserify');
+var reactify = require('reactify');
 
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -18,6 +20,7 @@ var mocha = require('gulp-mocha');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var symlink = require('gulp-symlink');
+var react = require('gulp-react');
 
 var gollePackage = require('./package.json');
 
@@ -39,7 +42,8 @@ var getBundleName = function ( descriptors ) {
 };
 
 var paths = {
-    sourceFiles: [path.join('lib', '**', '*.js')],
+    sourceFiles: [path.join('lib', '**', '*.js'),
+                  path.join('lib', '**', '*', '*.jsx')],
     testFiles: [path.join('test', '**', 'test-*.js')],
     distributables: [path.join('dist', '**', '*')],
     distDir: 'dist',
@@ -72,9 +76,10 @@ gulp.task('jison', [], function () {
         var grammarFile = path.join('jison', value + '.jison');
         var lexerFile = grammarFile + 'lex';
         var destination = 'jison';
+        var jisonCmdPath = path.join('node_modules', 'jison', 'lib', 'cli.js');
     
         // Build up the shell command to run to generate the parser.
-        var cmd = 'jison ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
+        var cmd = jisonCmdPath + ' ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
 
         // Run the command.
         shell.exec(cmd);
@@ -89,6 +94,7 @@ gulp.task('lint', ['build'], function () {
     'use strict';
 
     return gulp.src(paths.sourceFiles)
+        .pipe(react())
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
@@ -112,9 +118,8 @@ gulp.task('coverage', ['lint', 'build'], function () {
     'use strict';
     
     return gulp.src(paths.sourceFiles)
-        .pipe(istanbul({
-            includeUntested: true
-        }))
+        .pipe(react())
+        .pipe(istanbul())
         .on('finish', function () {
             gulp.src(paths.testFiles)
                 .pipe(mochaDefault)
@@ -123,45 +128,57 @@ gulp.task('coverage', ['lint', 'build'], function () {
 });
 
 /**
- * Task for bundling and minifying the javascript.
+ * Task definition for bundling up the project files into a single JS file.
  */
 gulp.task('browserify', ['jison'], function () {
     'use strict';
-    
-    var mainFile = 'main.js';
-    var sourceFile = path.join('.', 'lib', mainFile);
-    var outputFile = getBundleName() + '.js';
-    var outputMin = getBundleName(['min']) + ".js";
 
+    var mainFile = 'main.jsx';
+    var sourceFile = path.join('lib', mainFile);
+    var outputFile = getBundleName() + '.js';
+
+    
     var bundler = browserify({
         entries: ['.' + path.sep + sourceFile],
-        debug: true
     });
-   
+    bundler.transform(reactify);
+    
     return bundler
         .bundle()
         .pipe(source(outputFile))
-        .pipe(gulp.dest(paths.distDir))
-        .pipe(rename(outputMin))
+        .pipe(gulp.dest(paths.distDir));
+});
+
+/**
+ * Task definition for minifying distributables.
+ */
+gulp.task('uglify', ['browserify'], function () {
+    'use strict';
+  
+    var outputFile = getBundleName() + '.js';
+    var unminified = [path.join(paths.distDir, outputFile)];
+    var minified = getBundleName(['min']) + '.js';
+
+    return gulp.src(unminified)
+        .pipe(rename(minified))
         .pipe(buffer())
-        .pipe(sourcemaps.init({
-            loadMaps: true
-        }))
+        .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.distDir));
 });
 
 /**
- * Task definition for symlinking the built final build product into public/js.
+ * Task definition for symlinking the final build product into public/js.
+ * This is done so that the express backend can use the final library.
  */
-gulp.task('symlink_dist', ['browserify'], function () {
+gulp.task('symlink', ['uglify'], function () {
     'use strict';
 
-    var linkPath = path.join('public', 'js', 'goll-e');
+    var linkPath = path.join('examples', 'public', 'js', 'goll-e');
 
-    fs.exists( linkPath, function (exists) {
-        if( !exists ) {
+    fs.exists(linkPath, function (exists) {
+        if(!exists) {
             gulp.src(paths.distDir)
                 .pipe(symlink(linkPath));
         }
@@ -179,8 +196,8 @@ gulp.task('clean', function () {
     del(path.join('jison', '*.js'));
 });
 
-gulp.task('test', ['lint', 'coverage']);
-gulp.task('build', ['jison', 'browserify']);
+gulp.task('test', ['build', 'lint', 'coverage']);
+gulp.task('build', ['jison', 'browserify', 'uglify', 'symlink']);
 gulp.task('ci', ['build', 'test']);
 
 
