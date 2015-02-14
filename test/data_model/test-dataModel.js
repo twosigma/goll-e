@@ -13,12 +13,6 @@ var should = require('should'),
 	node2 = new Node(2,[],[port2],"some style","some meta data"),
 	connection = new Connection(1,port1,port2,"some meta data");
 
-describe('port', function () {
-	it('should',function (done) {
-		done();
-	});
-});
-
 describe('connection', function () {
     it('should have from port which is an "out" type', function (done) {
         connection.getFrom().getType().should.equal("out");
