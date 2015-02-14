@@ -1,8 +1,9 @@
 var React = require('react');
-var mouseDownDrag = require('../utilities/mouseDownDrag');
 var LabelPosition = require('../enum/ioLabelPosition');
+var ObjectUtils = require('../utilities/objects');
 
 var ioRadius = 4;
+var BASE_MARGIN = 6;
 
 var IO = React.createClass({
   propTypes: {
@@ -16,9 +17,7 @@ var IO = React.createClass({
 
     size: React.PropTypes.number,
 
-    labelPosition: React.PropTypes.oneOf(Object.keys(LabelPosition).map(function(k) {
-      return LabelPosition[k];
-    }))
+    labelPosition: React.PropTypes.oneOf(ObjectUtils.values(LabelPosition))
   },
   /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
   render: function() {
@@ -51,9 +50,7 @@ var IO = React.createClass({
   },
 
   _getLabelPositioningData: function(labelPosition, extraMargin) {
-    var offset = {x: 0, y: 0};
-
-    var totalMargin = 4 + extraMargin;
+    var totalMargin = BASE_MARGIN + extraMargin;
 
     switch (labelPosition) {
       case LabelPosition.RIGHT:
