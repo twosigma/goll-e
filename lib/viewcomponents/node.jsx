@@ -5,6 +5,7 @@ var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
 var IOLabelPosition = require('../enum/ioLabelPosition');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
+var CartesianPortPosition = require('../model/cartesianPortPosition');
 
 var nodeWidth = 150;
 var nodeHeight = nodeWidth/1.6;
@@ -95,57 +96,9 @@ var Node = React.createClass({
     var hPct = pos.x/nodeWidth;
     var vPct = pos.y/nodeHeight;
 
-    // some useful constants
-    var directionToPct = {};
-    directionToPct[CardinalDirection.NORTH] = 0;
-    directionToPct[CardinalDirection.SOUTH] = 1;
-    directionToPct[CardinalDirection.EAST] = 1;
-    directionToPct[CardinalDirection.WEST] = 0;
+    var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
 
-    // figure out what the closest side of the node is
-    // we do this in a 2 round competiton
-    // E/W and N/S face off and then the winners compete to get the final direction
-
-    // Winner is determined by closeness to the side (calculeted with absolute difference)
-
-    // WEST vs EAST
-    var distFromWest = Math.abs(hPct - directionToPct[CardinalDirection.WEST]);
-    var distFromEast = Math.abs(hPct - directionToPct[CardinalDirection.EAST]);
-    var eastOrWestDirection = distFromWest < distFromEast ? CardinalDirection.WEST : CardinalDirection.EAST;
-
-    // NORTH vs SOUTH
-    var distFromNorth = Math.abs(vPct - directionToPct[CardinalDirection.NORTH]);
-    var distFromSouth = Math.abs(vPct - directionToPct[CardinalDirection.SOUTH]);
-    var northOrSouthDirection = distFromNorth < distFromSouth ? CardinalDirection.NORTH : CardinalDirection.SOUTH;
-
-    // [WEST|EAST] vs [NORTH|SOUTH]
-    var distFromEW = Math.abs(hPct - directionToPct[eastOrWestDirection]);
-    var distFromNS = Math.abs(vPct - directionToPct[northOrSouthDirection]);
-
-    var limit = function(val) {
-      if (val < 0) {
-        return 0;
-      }
-      if (val > 1) {
-        return 1;
-      }
-      return val;
-    };
-
-    var newPosition;
-
-    if (distFromEW < distFromNS) {
-      var direction = eastOrWestDirection;
-      var pct = limit(vPct);
-      newPosition = new CardinalPortPosition(direction, pct * DATA_MODEL_MULTIPLIER);
-
-    } else {
-      var direction = northOrSouthDirection;
-      var pct = limit(hPct);
-      newPosition = new CardinalPortPosition(direction, pct * DATA_MODEL_MULTIPLIER);
-    }
-
-    ioModel.setPosition(newPosition);
+    ioModel.setPosition(cardinalPosition);
 
     // temporary
     this.props.globalModel.render();
