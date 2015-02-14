@@ -38,11 +38,11 @@ describe('node', function () {
         done();
     });
 	it('should have an in port', function (done) {
-        node1.getIns()[0].should.equal(port1);
+        node1.getInputs()[0].should.equal(port1);
         done();
     });
 	it('should have an out port', function (done) {
-        node2.getOuts()[0].should.equal(port2);
+        node2.getOutputs()[0].should.equal(port2);
         done();
     });
 });
