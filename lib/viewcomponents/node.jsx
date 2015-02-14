@@ -26,20 +26,23 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = IOLabelPosition.RIGHT;
 
 
 var Node = React.createClass({
+
   render: function() {
+    var model = this.props.model;
+    var position = model.getPos();
     return (
       <g
         className='node'
-        transform={'translate(' + this.props.x + ', ' + this.props.y + ')'} >
+        transform={'translate(' + position.x + ', ' + position.y + ')'} >
           <rect
             height={nodeHeight} width={nodeWidth}
             className='node-box'
             onMouseDown={mouseDownDrag.bind(this, 'node_body', null, null, this._onNodeBodyPseudoDrag)} />
           <text className='label' text-anchor='start' x={padding} y={padding + 10}>
-            {this.props.label}
+            {model.getId()}
           </text>
-            {this._getRenderedIOs(this.props.inputs, true)}
-            {this._getRenderedIOs(this.props.outputs, false)}
+            {this._getRenderedIOs(model.getInputs(), true)}
+            {this._getRenderedIOs(model.getOutputs(), false)}
       </g>
     );
   },
@@ -53,39 +56,36 @@ var Node = React.createClass({
       }.bind(this);
 
       return (
-        <IO id={id} isInput={isInput} model={ioModel} 
+        <IO model={ioModel} 
           x={position.x} y={position.y} label={ioModel.label} labelPosition={position.labelPosition}
           onMouseDown={mouseDownDrag.bind(this, 'ioModel', null, null, onIOMove)}
-        </IO>
+        />
       );
 
     }.bind(this));
   },
 
   _onNodeBodyPseudoDrag: function(event) {
-      var oldX = this.props.x;
-      var oldY = this.props.y;
+      var oldPos = this.props.model.getPos();
       
-      var newX = oldX + event.movementX;
-      var newY = oldY + event.movementY;
+      var newX = oldPos.x + event.movementX;
+      var newY = oldPos.y + event.movementY;
 
       // Change the position of the node in the model.
-      this.props.model.moveNode(this.props.id, newX, newY);
+      this.props.globalModel.moveNode(this.props.model.getId(), newX, newY);
   },
 
   //TODO: assumes rectangular nodes
   _getIOPosition: function(ioModel) {
+    var ioPositionModel = ioModel.getPosition();
 
-    var labelPosition = DIRECTION_TO_LABEL_POSITION[ioModel.direction];
+    var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.getDirection()];
 
-    var cartesianPos = PositionUtils.Conversion.cardinalToCartesian({
-      direction: ioModel.direction,
-      percentage: ioModel.percentage
-    });
+    var cartesianPos = PositionUtils.Conversion.cardinalToCartesian(ioPositionModel);
 
     return {
-      x: cartesianPos.x * nodeWidth,
-      y: cartesianPos.y * nodeHeight,
+      x: cartesianPos.getX() * nodeWidth,
+      y: cartesianPos.getY() * nodeHeight,
       labelPosition: labelPosition
     };
   },
@@ -93,13 +93,15 @@ var Node = React.createClass({
   _onIOMove: function(event, model) {
     var containerNode = this;
 
-    var newAmount = model.percentage/DATA_MODEL_MULTIPLIER;
-    var newDirection = model.direction;
+    var position = model.getPosition();
+
+    var newAmount = position.getPercentage()/DATA_MODEL_MULTIPLIER;
+    var newDirection = position.getDirection();
 
     var hDragPct = event.movementX/nodeWidth;
     var vDragPct = event.movementY/nodeHeight;
 
-    switch(model.direction) {
+    switch(position.getDirection()) {
       case CardinalDirection.NORTH:
       newAmount += hDragPct;
       if (newAmount > 1) {
@@ -146,13 +148,13 @@ var Node = React.createClass({
       break;
 
       default:
-      throw 'Unsupported cardinal direction';   
+      throw 'Unsupported cardinal direction: ' + model.direction;   
     }
 
-    model.direction = newDirection;
-    model.percentage = newAmount * DATA_MODEL_MULTIPLIER;
+    position.setDirection(newDirection);
+    position.setPercentage(newAmount * DATA_MODEL_MULTIPLIER);
 
-    containerNode.props.model.render();
+    containerNode.props.globalModel.render();
   }
 });
 

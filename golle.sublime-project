@@ -6,7 +6,8 @@
         "node_modules",
         "examples/public/vendor",
         "dist",
-        "coverage"
+        "coverage",
+        "examples/public/js/goll-e"
       ],
       "file_exclude_patterns": [
         "*.sublime-workspace"

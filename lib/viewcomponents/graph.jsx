@@ -17,20 +17,14 @@ var Graph = React.createClass({
     },
 
     render: function() {
-        var data = this.props.model.getContents();
+        var graph = this.props.model.getGraph();
 
          // For each element of data.nodes, create a node component.
-        var nodeComponents = data.nodes.map(function(nodeData) {
+        var nodeComponents = graph.getNodes().map(function(node) {
             return (
                 <Node
-                    id={nodeData.id}
-                    key={nodeData.id}
-                    x={nodeData.x}
-                    y={nodeData.y}
-                    inputs={nodeData.inputs}
-                    outputs={nodeData.outputs}
-                    label={nodeData.label}
-                    model={this.props.model} />
+                    model={node} 
+                    globalModel={this.props.model}/>
             );
         }.bind(this));
 

@@ -1,15 +1,15 @@
 var React = require('react');
 var LabelPosition = require('../enum/ioLabelPosition');
 var ObjectUtils = require('../utilities/objects');
+var IOType = require('../enum/ioType');
+var Port = require('../model/port');
 
 var ioRadius = 4;
 var BASE_MARGIN = 6;
 
 var IO = React.createClass({
   propTypes: {
-    isInput: React.PropTypes.bool.isRequired,
-
-    label: React.PropTypes.string,
+    model: React.PropTypes.instanceOf(Port).isRequired,
 
     x: React.PropTypes.number.isRequired,
 
@@ -21,15 +21,17 @@ var IO = React.createClass({
   },
   /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
   render: function() {
-    var isInput = this.props.isInput;
+    var model = this.props.model;
 
     var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || ioRadius);
 
     var classes = React.addons.classSet({
       'io': true,
-      'input': isInput,
-      'output': !isInput
+      'input': model.getType() === IOType.INPUT,
+      'output': model.getType() === IOType.OUTPUT
     });
+
+    var label = model.getId();
 
     return (
      <g
@@ -43,7 +45,7 @@ var IO = React.createClass({
          x={labelPosition.x}
          y={labelPosition.y}
          textAnchor={labelPosition.textAnchor} >
-         {this.props.label}
+         {label}
        </text>
      </g>
      );

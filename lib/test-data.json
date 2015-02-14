@@ -9,22 +9,28 @@
         {
           "id": "0+input-a",
           "label": "Alpha",
-          "percentage": 25,
-          "direction": "W"
+          "position": {
+            "percentage": 25,
+            "direction": "W"
+          }
         },
         {
           "id": "0+input-b",
           "label": "Beta",
-          "percentage": 50,
-          "direction": "W"
+          "position":{
+            "percentage": 50,
+            "direction": "W" 
+          }
         }
       ],
       "outputs": [
         {
           "id": "0-output-d",
           "label": "Delta",
-          "percentage": 25,
-          "direction": "E"
+          "position": {
+            "percentage": 25,
+            "direction": "E"
+          }
         }
       ]
     },
@@ -37,28 +43,36 @@
         {
           "id": "1+input-a",
           "label": "Alpha",
-          "percentage": 25,
-          "direction": "N"
+          "position": {
+            "percentage": 25,
+            "direction": "N"
+          }
         },
         {
           "id": "1+input-b",
           "label": "Beta",
-          "percentage": 50,
-          "direction": "N"
+          "position": {
+            "percentage": 50,
+            "direction": "N"
+          }
         }
       ],
       "outputs": [
         {
           "id": "1-output-g",
           "label": "Gamma",
-          "percentage": 25,
-          "direction": "S"
+          "position": {
+            "percentage": 25,
+            "direction": "S"
+          }
         },
         {
           "id": "1-output-d",
           "label": "Delta",
-          "percentage": 75,
-          "direction": "S"
+          "position": {
+            "percentage": 75,
+            "direction": "S"
+          }
         }
       ]
     },
@@ -72,10 +86,12 @@
         {
           "id": "2-output-g",
           "label": "My output",
-          "percentage": 0,
-          "direction": "E"
+          "position": {
+            "percentage": 0,
+            "direction": "E"
+          }
         }
-       ]
+      ]
     }
   ],
   "edges": [
