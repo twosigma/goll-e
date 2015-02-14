@@ -95,6 +95,7 @@ var Node = React.createClass({
     var hPct = pos.x/nodeWidth;
     var vPct = pos.y/nodeHeight;
 
+    // some useful constants
     var directionToPct = {};
     directionToPct[CardinalDirection.NORTH] = 0;
     directionToPct[CardinalDirection.SOUTH] = 1;
@@ -103,96 +104,53 @@ var Node = React.createClass({
 
     // figure out what the closest side of the node is
     // we do this in a 2 round competiton
-    // E/W and N/S face of and then the winners compete to get the final direction
+    // E/W and N/S face off and then the winners compete to get the final direction
 
     // Winner is determined by closeness to the side (calculeted with absolute difference)
 
-    var eastOrWestDirection = Math.abs(hPct) < Math.abs(hPct - 1) ? CardinalDirection.WEST : CardinalDirection.EAST;
-    var northOrSouthDirection = Math.abs(vPct) < Math.abs(vPct - 1) ? CardinalDirection.NORTH : CardinalDirection.SOUTH;
+    // WEST vs EAST
+    var distFromWest = Math.abs(hPct - directionToPct[CardinalDirection.WEST]);
+    var distFromEast = Math.abs(hPct - directionToPct[CardinalDirection.EAST]);
+    var eastOrWestDirection = distFromWest < distFromEast ? CardinalDirection.WEST : CardinalDirection.EAST;
+
+    // NORTH vs SOUTH
+    var distFromNorth = Math.abs(vPct - directionToPct[CardinalDirection.NORTH]);
+    var distFromSouth = Math.abs(vPct - directionToPct[CardinalDirection.SOUTH]);
+    var northOrSouthDirection = distFromNorth < distFromSouth ? CardinalDirection.NORTH : CardinalDirection.SOUTH;
+
+    // [WEST|EAST] vs [NORTH|SOUTH]
+    var distFromEW = Math.abs(hPct - directionToPct[eastOrWestDirection]);
+    var distFromNS = Math.abs(vPct - directionToPct[northOrSouthDirection]);
+
+    var limit = function(val) {
+      if (val < 0) {
+        return 0;
+      }
+      if (val > 1) {
+        return 1;
+      }
+      return val;
+    };
 
     var newPosition;
 
-    if (Math.abs(hPct - directionToPct[eastOrWestDirection]) < Math.abs(vPct - directionToPct[northOrSouthDirection])) {
+    if (distFromEW < distFromNS) {
       var direction = eastOrWestDirection;
-      var pct = vPct;
+      var pct = limit(vPct);
       newPosition = new CardinalPortPosition(direction, pct * DATA_MODEL_MULTIPLIER);
+
     } else {
       var direction = northOrSouthDirection;
-      var pct = hPct;
+      var pct = limit(hPct);
       newPosition = new CardinalPortPosition(direction, pct * DATA_MODEL_MULTIPLIER);
     }
 
     ioModel.setPosition(newPosition);
 
+    // temporary
     this.props.globalModel.render();
-  },
-
-  _onIOMove: function(event, model) {
-    var containerNode = this;
-
-    var position = model.getPosition();
-
-    var newAmount = position.getPercentage()/DATA_MODEL_MULTIPLIER;
-    var newDirection = position.getDirection();
-
-    var hDragPct = event.movementX/nodeWidth;
-    var vDragPct = event.movementY/nodeHeight;
-
-    switch(position.getDirection()) {
-      case CardinalDirection.NORTH:
-      newAmount += hDragPct;
-      if (newAmount > 1) {
-        newDirection = CardinalDirection.EAST;
-        newAmount = 0;
-      } else if (newAmount < 0) {
-        newDirection = CardinalDirection.WEST;
-        newAmount = 0;
-      }
-
-      break;
-      case CardinalDirection.SOUTH:
-      newAmount += hDragPct;
-      if (newAmount > 1) {
-        newDirection = CardinalDirection.EAST;
-        newAmount = 1;
-      } else if (newAmount < 0) {
-        newDirection = CardinalDirection.WEST;
-        newAmount = 1;
-      }
-      break;
-
-      case CardinalDirection.EAST:
-      newAmount += vDragPct;
-      if (newAmount > 1) {
-        newDirection = CardinalDirection.SOUTH;
-        newAmount = 1;
-      } else if (newAmount < 0) {
-        newDirection = CardinalDirection.NORTH;
-        newAmount = 1;
-      }
-      break;
-
-      case CardinalDirection.WEST:
-      newAmount += vDragPct;
-      if (newAmount > 1) {
-        newDirection = CardinalDirection.SOUTH;
-        newAmount = 0;
-      } else if (newAmount < 0) {
-        newDirection = CardinalDirection.NORTH;
-        newAmount = 0;
-      }
-
-      break;
-
-      default:
-      throw 'Unsupported cardinal direction: ' + model.direction;   
-    }
-
-    position.setDirection(newDirection);
-    position.setPercentage(newAmount * DATA_MODEL_MULTIPLIER);
-
-    containerNode.props.globalModel.render();
   }
+
 });
 
 module.exports = Node;
