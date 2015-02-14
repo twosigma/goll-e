@@ -4,6 +4,7 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
 var IOLabelPosition = require('../enum/ioLabelPosition');
+var CardinalPortPosition = require('../model/cardinalPortPosition');
 
 var nodeWidth = 150;
 var nodeHeight = nodeWidth/1.6;
@@ -58,7 +59,7 @@ var Node = React.createClass({
       return (
         <IO model={ioModel} 
           x={position.x} y={position.y} label={ioModel.label} labelPosition={position.labelPosition}
-          onMouseDown={mouseDownDrag.bind(this, 'ioModel', null, null, onIOMove)}
+          onMoveRequested={this._onIOMoveRequested}
         />
       );
 
@@ -88,6 +89,42 @@ var Node = React.createClass({
       y: cartesianPos.getY() * nodeHeight,
       labelPosition: labelPosition
     };
+  },
+
+  _onIOMoveRequested: function(pos, ioModel) {
+    var hPct = pos.x/nodeWidth;
+    var vPct = pos.y/nodeHeight;
+
+    var directionToPct = {};
+    directionToPct[CardinalDirection.NORTH] = 0;
+    directionToPct[CardinalDirection.SOUTH] = 1;
+    directionToPct[CardinalDirection.EAST] = 1;
+    directionToPct[CardinalDirection.WEST] = 0;
+
+    // figure out what the closest side of the node is
+    // we do this in a 2 round competiton
+    // E/W and N/S face of and then the winners compete to get the final direction
+
+    // Winner is determined by closeness to the side (calculeted with absolute difference)
+
+    var eastOrWestDirection = Math.abs(hPct) < Math.abs(hPct - 1) ? CardinalDirection.WEST : CardinalDirection.EAST;
+    var northOrSouthDirection = Math.abs(vPct) < Math.abs(vPct - 1) ? CardinalDirection.NORTH : CardinalDirection.SOUTH;
+
+    var newPosition;
+
+    if (Math.abs(hPct - directionToPct[eastOrWestDirection]) < Math.abs(vPct - directionToPct[northOrSouthDirection])) {
+      var direction = eastOrWestDirection;
+      var pct = vPct;
+      newPosition = new CardinalPortPosition(direction, pct * DATA_MODEL_MULTIPLIER);
+    } else {
+      var direction = northOrSouthDirection;
+      var pct = hPct;
+      newPosition = new CardinalPortPosition(direction, pct * DATA_MODEL_MULTIPLIER);
+    }
+
+    ioModel.setPosition(newPosition);
+
+    this.props.globalModel.render();
   },
 
   _onIOMove: function(event, model) {
