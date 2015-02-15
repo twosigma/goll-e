@@ -23,5 +23,6 @@ describe('layout engine', function() {
     var testGraph = generateGraph();
     LayoutEngine(testGraph);
     testGraph.should.be.an.instanceOf(Graph);
+    done();
   });
 });
