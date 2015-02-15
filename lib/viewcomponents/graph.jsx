@@ -19,7 +19,7 @@ var Graph = React.createClass({
     render: function() {
         var graph = this.props.model.getGraph();
 
-         // For each element of data.nodes, create a node component.
+         // For each node in the graph, create a node component.
         var nodeComponents = graph.getNodes().map(function(node) {
             return (
                 <Node

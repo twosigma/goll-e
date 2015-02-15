@@ -15,24 +15,8 @@ var dummyModel = {
     },
 
     moveNode: function(nodeId, x, y) {
-        graph.getNodeById(nodeId).setPos(x, y);
+        graph.getNodeById(nodeId).setPosition(x, y);
         renderGraph();
-    },
-
-    /**
-     * @deprecated
-     */
-    setContents: function(newContents){
-        console.warn('deprecated');
-        this._setFromJson(newContents);
-        renderGraph();
-    },
-
-    // This method is for prototype purposes only.
-    /** @deprecated */
-    getContents: function() {
-        console.warn('deprecated');
-        return TEST_DATA;
     },
 
     getGraph: function() {
