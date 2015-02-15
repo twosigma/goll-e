@@ -4,10 +4,9 @@
       "id": 0,
       "x": 469,
       "y": 96,
-      "label": "Node 0",
       "inputs": [
         {
-          "id": "0+input-a",
+          "id": "a",
           "label": "Alpha",
           "position": {
             "percentage": 25,
@@ -15,7 +14,7 @@
           }
         },
         {
-          "id": "0+input-b",
+          "id": "b",
           "label": "Beta",
           "position":{
             "percentage": 50,
@@ -25,7 +24,7 @@
       ],
       "outputs": [
         {
-          "id": "0-output-d",
+          "id": "d",
           "label": "Delta",
           "position": {
             "percentage": 25,
@@ -38,19 +37,16 @@
       "id": 1,
       "x": 256,
       "y": 249,
-      "label": "Node 1",
       "inputs": [
         {
-          "id": "1+input-a",
-          "label": "Alpha",
+          "id": "a",
           "position": {
             "percentage": 25,
             "direction": "N"
           }
         },
         {
-          "id": "1+input-b",
-          "label": "Beta",
+          "id": "b",
           "position": {
             "percentage": 50,
             "direction": "N"
@@ -59,16 +55,14 @@
       ],
       "outputs": [
         {
-          "id": "1-output-g",
-          "label": "Gamma",
+          "id": "g",
           "position": {
             "percentage": 25,
             "direction": "S"
           }
         },
         {
-          "id": "1-output-d",
-          "label": "Delta",
+          "id": "d",
           "position": {
             "percentage": 75,
             "direction": "S"
@@ -80,12 +74,10 @@
       "id": 2,
       "x": 256,
       "y": 24,
-      "label": "Node 2",
       "inputs": [],
       "outputs": [
         {
-          "id": "2-output-g",
-          "label": "My output",
+          "id": "g",
           "position": {
             "percentage": 0,
             "direction": "E"
@@ -96,9 +88,8 @@
   ],
   "edges": [
     {
-      "source": "0+input-a",
-      "target": "1-output-g",
-      "label": "Internets",
+      "source": "a",
+      "target": "g",
       "id": "edge1"
     }
   ]
