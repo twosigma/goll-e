@@ -1,69 +1,26 @@
-@import "../vendor/fluidable/fluidable.less";
+@import "_base";
 @import "colors.less";
 @import "typography.less";
+@import "draw/graph";
+@import "draw/nodes";
+@import "draw/io";
+@import "draw/edges";
 
-.grab-cursor() {
-  cursor: all-scroll;
-  cursor: grab;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;     
-}
 
-.grabbing-cursor() {
-  cursor: all-scroll;
-  cursor: grabbing;
-  cursor: -webkit-grabbing;
-  cursor: -moz-grabbing;     
-}
-
-.node {
-
-  .node-box {
-    fill: white;
-    stroke: #0d0d0d;
-    cursor: move;
-  }
-
-  .label {
-    font-family: 'Arial', sans-serif;
-    font-size: 9pt;
-    color: black;
-    alignment-baseline: central;
-  }
-
-  .io {
-
-    circle {
-      fill: white;
-      stroke: black;
-    }
-
-    text {
-      alignment-baseline: central;
-      font-size: 8pt;
-    }
-
-  }
-
-}
-
-.edge {
-  stroke: black;
-  fill: none;
-}
-
-.arrowhead {
-  stroke: black;
-  fill: none;
-}
-
+// TEMP STUFF:
 #pan_drag_handle {
   fill: lightgrey;
-  .grab-cursor();
+  #global.grab-cursor();
+
+  &:active {
+    #global.grabbing-cursor();
+  }
 }
 
-#pan_drag_handle.dragging {
-  .grabbing-cursor();
+
+body {
+  font-family: @global-font-face;
+  font-size: @global-base-font-size;
 }
 
 html,
@@ -89,6 +46,5 @@ body,
 #model_editor > textarea {
   width: 100%;
   height: 100%;
-  font-family: monospace;
-  font-size: 10px;
+  font-family: @global-monospaced-font-face;
 }

@@ -10,9 +10,6 @@ var App = React.createClass({
         return (
             <div id='app'>
                 <Graph model={this.props.model} />
-                <div id='model_editor'>
-                    <textarea onChange={this._onModelChange} value={JSON.stringify(this.props.model.getContents(), null, '  ')} />
-                </div>
             </div>
         );
     },
