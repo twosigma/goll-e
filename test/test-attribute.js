@@ -1,19 +1,19 @@
 var should = require('should');
 var Attribute = require('./../lib/attribute/attribute');
 var ObjectUtils = require('./../lib/utilities/objects');
+var Oop = require('./../lib/utilities/oop');
+
 
 
 
 describe('attribute', function() {
 
-    var Model = function() {};
-    ObjectUtils.mix(Model.prototype, Attribute.prototype);
+    var Model = Oop.createClass();
 
     var myModel;
 
     beforeEach(function() {
         myModel = new Model();
-        myModel._initAttributes();
     });
 
     it('should configure and retrieve a simple attribute', function() {
