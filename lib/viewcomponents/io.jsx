@@ -42,12 +42,12 @@ var IO = React.createClass({
 
     var classes = React.addons.classSet({
       'io': true,
-      'input': model.getType() === IOType.INPUT,
-      'output': model.getType() === IOType.OUTPUT,
+      'input': model.get('type') === IOType.INPUT,
+      'output': model.get('type') === IOType.OUTPUT,
       'dragging': this.state.dragging
     });
 
-    var label = model.getId();
+    var label = model.get('id');
 
     var pos;
     if (this.state.dragging) {
@@ -64,7 +64,7 @@ var IO = React.createClass({
          r={this.props.size || ioRadius}
          cx={0} cy={0} 
          onMouseDown={mouseDownDrag.bind(this, 'iomove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
-       <text class="label"
+       <text className="label"
          x={labelPosition.x}
          y={labelPosition.y}
          textAnchor={labelPosition.textAnchor} >

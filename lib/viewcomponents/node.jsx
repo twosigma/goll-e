@@ -31,7 +31,7 @@ var Node = React.createClass({
 
   render: function() {
     var model = this.props.model;
-    var position = model.getPosition();
+    var position = model.get('position');
     return (
       <g
         className='node'
@@ -40,21 +40,23 @@ var Node = React.createClass({
             height={nodeHeight} width={nodeWidth}
             className='node-box'
             onMouseDown={mouseDownDrag.bind(this, 'node_body', null, null, this._onNodeBodyPseudoDrag)} />
-          <text className='label' text-anchor='start' x={padding} y={padding + 10}>
-            {model.getId()}
+          <text className='label' textAnchor='start' x={padding} y={padding + 10}>
+            {model.get('id')}
           </text>
-            {this._getRenderedIOs(model.getInputs(), true)}
-            {this._getRenderedIOs(model.getOutputs(), false)}
+            {this._getRenderedIOs(model.get('inputs'))}
+            {this._getRenderedIOs(model.get('outputs'))}
       </g>
     );
   },
 
-  _getRenderedIOs: function(ioModels, isInput) {
+  _getRenderedIOs: function(ioModels) {
     return ioModels.map(function(ioModel, id) {
       var position = this._getIOPosition(ioModel);
       
       return (
-        <IO model={ioModel} 
+        <IO 
+          model={ioModel}
+          key={ioModel.get('globalId')}
           x={position.x} y={position.y} label={ioModel.label} labelPosition={position.labelPosition}
           onMoveRequested={this._onIOMoveRequested}
         />
@@ -64,20 +66,20 @@ var Node = React.createClass({
   },
 
   _onNodeBodyPseudoDrag: function(event) {
-      var oldPos = this.props.model.getPosition();
+      var oldPos = this.props.model.get('position');
       
       var newX = oldPos.x + event.movementX;
       var newY = oldPos.y + event.movementY;
 
       // Change the position of the node in the model.
-      this.props.globalModel.moveNode(this.props.model.getId(), newX, newY);
+      this.props.globalModel.moveNode(this.props.model.get('globalId'), newX, newY);
   },
 
   //TODO: assumes rectangular nodes
   _getIOPosition: function(ioModel) {
-    var ioPositionModel = ioModel.getPosition();
+    var ioPositionModel = ioModel.get('position');
 
-    var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.getDirection()];
+    var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.get('direction')];
 
     var cartesianPos = PositionUtils.Conversion.cardinalToCartesian(ioPositionModel);
 
@@ -94,7 +96,7 @@ var Node = React.createClass({
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
 
-    ioModel.setPosition(cardinalPosition);
+    ioModel.set('position', cardinalPosition);
 
     // temporary
     this.props.globalModel.render();

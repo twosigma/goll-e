@@ -20,10 +20,11 @@ var Graph = React.createClass({
         var graph = this.props.model.getGraph();
 
          // For each node in the graph, create a node component.
-        var nodeComponents = graph.getNodes().map(function(node) {
+        var nodeComponents = graph.get('nodes').map(function(node) {
             return (
                 <Node
-                    model={node} 
+                    model={node}
+                    key={node.get('globalId')}
                     globalModel={this.props.model}/>
             );
         }.bind(this));
