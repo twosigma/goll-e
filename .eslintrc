@@ -10,7 +10,8 @@
     "quotes": 1,
     "no-trailing-spaces": 1,
     "strict": 1,
-    "no-underscore-dangle": 1,
+    // Turn off error/warning for dangling underscores. We're ok with them.
+    "no-underscore-dangle": 0,
     "no-undef": 1,
     "no-shadow": 1,
     "no-unused-vars": 1,
