@@ -7,7 +7,8 @@ var Node = require(lib + 'model/node');
 var Port = require(lib + 'model/port');
 var CardinalPortPosition = require(lib + 'model/cardinalPortPosition');
 
-var LayoutEngine = require(lib + 'layout/dummyLayoutV2');
+var LayoutEngineV1 = require(lib + 'layout/dummyLayoutV1');
+var LayoutEngineV2 = require(lib + 'layout/dummyLayoutV2');
 
 var generateGraph = function() {
   // the world's simplest graph
@@ -18,10 +19,11 @@ var generateGraph = function() {
 };
 
 
-describe('layout engine', function() {
+
+describe('layout engine V2', function() {
   it('should take a graph and not blow up', function(done) {
     var testGraph = generateGraph();
-    LayoutEngine(testGraph);
+    LayoutEngineV2(testGraph);
     testGraph.should.be.an.instanceOf(Graph);
     done();
   });
