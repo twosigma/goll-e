@@ -1,5 +1,5 @@
 var should = require('should');
-var Attribute = require('./../lib/attribute/attribute');
+var Attribute = require('./../lib/attribute');
 var ObjectUtils = require('./../lib/utilities/objects');
 var createClass = require('./../lib/utilities/createClass');
 
