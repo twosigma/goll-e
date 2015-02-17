@@ -1,0 +1,16 @@
+//
+// node-style.gcl
+// Sample that shows how to apply a style to a node.
+//
+
+california
+{
+    .someStyle
+}
+
+newYork
+{
+    .someStyle
+    .anotherStyle
+}
+

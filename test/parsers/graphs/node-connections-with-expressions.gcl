@@ -1,0 +1,23 @@
+//
+// node-connections-with-expressions.gcl
+// Sample that demonstrates how to create connections between nodes that have
+// metadata and style information.
+//
+
+california
+{
+    +portOfLA
+    -lax
+}
+
+newYork
+{
+    +jfk
+    -portOfNYC
+}
+
+connection ports newYork->portOfNyc => california->portOfLA
+{
+    .oceanStyle
+    "water": "yes"
+}

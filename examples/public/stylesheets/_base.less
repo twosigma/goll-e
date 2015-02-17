@@ -1,0 +1,54 @@
+
+//------------------------------------------------------------------------------
+// TYPOGRAPHY
+//------------------------------------------------------------------------------
+
+// BASE TYPE
+// Should not need to be set directly, as it in inherited.
+@global-font-face: Arial, sans-serif;
+
+@global-monospaced-font-face: monospace;
+
+// BASE FONT SIZE
+// Should not need to be set directly, as it in inherited.
+@global-base-font-size: 12px;
+
+// SMALL FONT SIZE
+// When you need small text, use this.
+@global-small-font-size: 11px;
+
+// VERY SMALL FONT SIZE
+// For small tags and such. Do not use this for actual copy.
+@global-very-small-font-size: 9px;
+
+// LARGE FONT SIZE
+// For larger titles and headlines. Often simply bolding the normal text will be
+// enough to make it stand out.
+@global-large-font-size: 16px;
+
+// USE VERY RARELY!
+@global-extra-large-font-size: 24px;
+
+
+#global {
+  .grab-cursor() {
+    cursor: all-scroll;
+    cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;     
+  }
+
+  .grabbing-cursor() {
+    cursor: all-scroll;
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;     
+  }
+
+  .unselectable() {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+}

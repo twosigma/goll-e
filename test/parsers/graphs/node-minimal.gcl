@@ -1,0 +1,17 @@
+//
+// node-minimal.gcl
+// Sample that demonstrates how to create empty node definitions.
+//
+
+california
+
+newYork{}
+
+massachusetts {}
+
+washington {
+}
+
+austin
+{
+}
