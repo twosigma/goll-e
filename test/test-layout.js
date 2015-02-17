@@ -23,6 +23,14 @@ var generateGraph = function() {
   return graph;
 };
 
+describe('layout engine V1', function() {
+  it('should take a graph and not blow up', function(done) {
+    var testGraph = generateGraph();
+    LayoutEngineV1(testGraph);
+    testGraph.should.be.an.instanceOf(Graph);
+    done();
+  });
+});
 
 
 describe('layout engine V2', function() {
