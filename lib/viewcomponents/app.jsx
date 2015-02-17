@@ -9,7 +9,7 @@ var App = React.createClass({
     render: function() {
         return (
             <div id='app'>
-                <Graph model={this.props.model} />
+                <Graph model={this.props.graphModel} />
             </div>
         );
     },

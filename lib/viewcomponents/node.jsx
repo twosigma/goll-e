@@ -72,7 +72,7 @@ var Node = React.createClass({
       var newY = oldPos.y + event.movementY;
 
       // Change the position of the node in the model.
-      this.props.globalModel.moveNode(this.props.model.get('globalId'), newX, newY);
+      this.props.model.setPosition(newX, newY);
   },
 
   //TODO: assumes rectangular nodes
@@ -97,9 +97,6 @@ var Node = React.createClass({
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
 
     ioModel.set('position', cardinalPosition);
-
-    // temporary
-    this.props.globalModel.render();
   }
 
 });
