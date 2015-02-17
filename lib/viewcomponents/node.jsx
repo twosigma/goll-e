@@ -1,11 +1,11 @@
-var React = require('react');
-var IO = require('./io.jsx');
-var mouseDownDrag = require('../utilities/mouseDownDrag');
-var PositionUtils = require('../utilities/positionUtils.js');
-var CardinalDirection = require('../enum/cardinalDirection.js');
-var IOLabelPosition = require('../enum/ioLabelPosition');
-var CardinalPortPosition = require('../model/cardinalPortPosition');
-var CartesianPortPosition = require('../model/cartesianPortPosition');
+var React = require("react");
+var IO = require("./io.jsx");
+var mouseDownDrag = require("../utilities/mouseDownDrag");
+var PositionUtils = require("../utilities/positionUtils.js");
+var CardinalDirection = require("../enum/cardinalDirection.js");
+var IOLabelPosition = require("../enum/ioLabelPosition");
+var CardinalPortPosition = require("../model/cardinalPortPosition");
+var CartesianPortPosition = require("../model/cartesianPortPosition");
 
 var nodeWidth = 150;
 var nodeHeight = nodeWidth / 1.6;
@@ -26,20 +26,25 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.SOUTH] = IOLabelPosition.ABOVE;
 DIRECTION_TO_LABEL_POSITION[CardinalDirection.EAST] = IOLabelPosition.LEFT;
 DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = IOLabelPosition.RIGHT;
 
-
+// Note: This might have the nasty side effect of overwriting the built-in
+// Node object. We might want to considering namespacing and/or renaming
+// this class.
+/*global Node:true*/
 var Node = React.createClass({
 
   render: function() {
+    "use strict";
+
     var model = this.props.model;
     var position = model.getPosition();
     return (
       <g
         className='node'
-        transform={'translate(' + position.x + ', ' + position.y + ')'} >
+        transform={"translate(" + position.x + ", " + position.y + ")"} >
           <rect
             height={nodeHeight} width={nodeWidth}
             className='node-box'
-            onMouseDown={mouseDownDrag.bind(this, 'node_body', null, null, this._onNodeBodyPseudoDrag)} />
+            onMouseDown={mouseDownDrag.bind(this, "node_body", null, null, this._onNodeBodyPseudoDrag)} />
           <text className='label' text-anchor='start' x={padding} y={padding + 10}>
             {model.getId()}
           </text>
@@ -50,22 +55,25 @@ var Node = React.createClass({
   },
 
   _getRenderedIOs: function(ioModels, isInput) {
+    "use strict";
+
     return ioModels.map(function(ioModel, id) {
       var position = this._getIOPosition(ioModel);
-      
+
       return (
-        <IO model={ioModel} 
+        <IO model={ioModel}
           x={position.x} y={position.y} label={ioModel.label} labelPosition={position.labelPosition}
           onMoveRequested={this._onIOMoveRequested}
         />
       );
-
     }.bind(this));
   },
 
   _onNodeBodyPseudoDrag: function(event) {
+      "use strict";
+
       var oldPos = this.props.model.getPosition();
-      
+
       var newX = oldPos.x + event.movementX;
       var newY = oldPos.y + event.movementY;
 
@@ -75,6 +83,8 @@ var Node = React.createClass({
 
   //TODO: assumes rectangular nodes
   _getIOPosition: function(ioModel) {
+    "use strict";
+
     var ioPositionModel = ioModel.getPosition();
 
     var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.getDirection()];
@@ -89,6 +99,8 @@ var Node = React.createClass({
   },
 
   _onIOMoveRequested: function(pos, ioModel) {
+    "use strict";
+
     var hPct = pos.x / nodeWidth;
     var vPct = pos.y / nodeHeight;
 
