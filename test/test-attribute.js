@@ -136,6 +136,20 @@ describe('attribute', function() {
       myModel.get('myAttr').should.equal(2*5);
     });
 
+    it('should fire a change event', function(done) {
+      myModel.addAttr('myAttr', {
+          value: 1
+        });
+
+      myModel.after('myAttrChange', function(event) {
+        event.newVal.should.equal(2);
+        event.prevVal.should.equal(1);
+        event.source.should.be.exactly(myModel);
+        done();
+      });
+      myModel.set('myAttr', 2);
+    });
+
     describe('getAttrs', function() {
       it('should return a mapping of all attrs', function() {
         myModel.addAttrs({
