@@ -1,24 +1,30 @@
 var React = require('react');
 var App = require('./viewcomponents/app.jsx');
+var GraphParser = require('./model/graphParser');
 
 var TEST_DATA = require('./test-data.json');
 
+var parser = new GraphParser();
+var graph = parser.parseGraph(TEST_DATA);
+
 var dummyModel = {
 
+    _setFromJson: function(json) {
+      var parser = new GraphParser();
+      var graph = parser.parseGraph(json);
+    },
+
     moveNode: function(nodeId, x, y) {
-        TEST_DATA.nodes[nodeId].x = x;
-        TEST_DATA.nodes[nodeId].y = y;
+        graph.getNodeById(nodeId).setPosition(x, y);
         renderGraph();
     },
 
-    setContents: function(newContents){
-        TEST_DATA = JSON.parse(newContents);
-        renderGraph();
+    getGraph: function() {
+      return graph;
     },
 
-    // This method is for prototype purposes only.
-    getContents: function() {
-        return TEST_DATA;
+    render: function() {
+      renderGraph();
     }
 };
 

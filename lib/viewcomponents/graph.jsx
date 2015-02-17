@@ -17,18 +17,14 @@ var Graph = React.createClass({
     },
 
     render: function() {
-        var data = this.props.model.getContents();
+        var graph = this.props.model.getGraph();
 
-         // For each element of data.nodes, create a node component.
-        var nodeComponents = data.nodes.map(function(nodeData) {
+         // For each node in the graph, create a node component.
+        var nodeComponents = graph.getNodes().map(function(node) {
             return (
                 <Node
-                    id={nodeData.id}
-                    key={nodeData.id}
-                    x={nodeData.x}
-                    y={nodeData.y}
-                    label={nodeData.label}
-                    model={this.props.model} />
+                    model={node} 
+                    globalModel={this.props.model}/>
             );
         }.bind(this));
 
@@ -42,7 +38,8 @@ var Graph = React.createClass({
 
         // Put all of the node components in an SVG and a container for zooming and panning.
         return (
-            <svg>
+            <svg className="graph">
+
                 {/* This rectangle forms a background and is a draggable handle for panning the view. */}
                 <rect
                     className={dragHandleClassName}
