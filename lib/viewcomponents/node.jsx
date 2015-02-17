@@ -8,7 +8,7 @@ var CardinalPortPosition = require('../model/cardinalPortPosition');
 var CartesianPortPosition = require('../model/cartesianPortPosition');
 
 var nodeWidth = 150;
-var nodeHeight = nodeWidth/1.6;
+var nodeHeight = nodeWidth / 1.6;
 var headerHeight = 35;
 var padding = 5;
 
@@ -89,8 +89,8 @@ var Node = React.createClass({
   },
 
   _onIOMoveRequested: function(pos, ioModel) {
-    var hPct = pos.x/nodeWidth;
-    var vPct = pos.y/nodeHeight;
+    var hPct = pos.x / nodeWidth;
+    var vPct = pos.y / nodeHeight;
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
 
