@@ -70,7 +70,8 @@ describe('attribute', function() {
             myModel.addAttr('myAttr', {
                 value: 'a',
                 valueFn: function() {
-                  return 'b';
+                    this.should.be.exactly(myModel);
+                    return 'b';
                 }
               }
             );
@@ -111,6 +112,32 @@ describe('attribute', function() {
       myModel.set('myAttr', 'c');
       myModel.get('myAttr').should.equal('b');
     });
+
+    it('should support a setter function', function() {
+      myModel.addAttr('myAttr', {
+          value: 0,
+          setter: function(val) {
+            this.should.be.exactly(myModel);
+            return val + 1;
+          }
+        });
+
+      myModel.set('myAttr', 2);
+      myModel.get('myAttr').should.equal(3);
+    });
+
+    it('should support a getter function', function() {
+      myModel.addAttr('myAttr', {
+          value: 2,
+          getter: function(val) {
+            this.should.be.exactly(myModel);
+            return val * 5;
+          }
+        });
+
+      myModel.get('myAttr').should.equal(2*5);
+    });
+
 
     
     describe('getAttrs', function() {
