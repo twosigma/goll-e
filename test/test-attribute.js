@@ -22,8 +22,8 @@ describe('attribute', function() {
         myModel.get('myAttr').should.equal('a');
     });
 
-    it('should return undefined when not set', function() {
-        ((typeof myModel.get('noneSuch') === 'undefined')).should.be.ok;
+    it('should fail when getting a nonexistant attr', function() {
+        myModel.get.bind(myModel, 'noneSuch').should.throw();
     });
 
     it('should allow setting of valid property', function() {
