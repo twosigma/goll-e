@@ -18,7 +18,7 @@ var uglify = require('gulp-uglify');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 var sourcemaps = require('gulp-sourcemaps');
-var jshint = require('gulp-jshint');
+var eslint = require('gulp-eslint');
 var symlink = require('gulp-symlink');
 var react = require('gulp-react');
 
@@ -94,10 +94,9 @@ gulp.task('lint', ['build'], function () {
     'use strict';
 
     return gulp.src(paths.sourceFiles)
-        .pipe(react())
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail'));
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failOnError());
 });
 
 /**
