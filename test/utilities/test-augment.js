@@ -1,5 +1,5 @@
 var should = require('should');
-var Oop = require('./../../lib/utilities/oop');
+var augment = require('./../../lib/utilities/augment');
 var ObjectUtils = require('./../../lib/utilities/objects');
 
 describe('oop utils', function() {
@@ -20,7 +20,7 @@ describe('oop utils', function() {
       var ProviderClass = function() {};
       ProviderClass.prototype.unused = function(){};
 
-      Oop.augment(ReceiverClass, ProviderClass);
+      augment(ReceiverClass, ProviderClass);
 
       myObject = new ReceiverClass();
       myObject.unused();
@@ -44,7 +44,7 @@ describe('oop utils', function() {
 
       ProviderClass.prototype.providerMethod = function(){};
 
-      Oop.augment(ReceiverClass, ProviderClass);
+      augment(ReceiverClass, ProviderClass);
 
       myObject = new ReceiverClass();
       myObject.providerMethod();
@@ -67,7 +67,7 @@ describe('oop utils', function() {
         done();
       };
 
-      Oop.augment(ReceiverClass, ProviderClass);
+      augment(ReceiverClass, ProviderClass);
 
       myObject = new ReceiverClass();
       myObject.myMethod();

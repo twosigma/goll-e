@@ -1,14 +1,12 @@
 var should = require('should');
 var Attribute = require('./../lib/attribute/attribute');
 var ObjectUtils = require('./../lib/utilities/objects');
-var Oop = require('./../lib/utilities/oop');
-
-
+var createClass = require('./../lib/utilities/createClass');
 
 
 describe('attribute', function() {
 
-    var Model = Oop.createClass();
+    var Model = createClass();
 
     var myModel;
 
@@ -138,8 +136,6 @@ describe('attribute', function() {
       myModel.get('myAttr').should.equal(2*5);
     });
 
-
-    
     describe('getAttrs', function() {
       it('should return a mapping of all attrs', function() {
         myModel.addAttrs({
