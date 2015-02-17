@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "x": 469,
+      "y": 96,
+      "inputs": [
+        {
+          "id": "a",
+          "label": "Alpha",
+          "position": {
+            "percentage": 25,
+            "direction": "W"
+          }
+        },
+        {
+          "id": "b",
+          "label": "Beta",
+          "position":{
+            "percentage": 50,
+            "direction": "W" 
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "id": "d",
+          "label": "Delta",
+          "position": {
+            "percentage": 25,
+            "direction": "E"
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "x": 256,
+      "y": 249,
+      "inputs": [
+        {
+          "id": "a",
+          "position": {
+            "percentage": 25,
+            "direction": "N"
+          }
+        },
+        {
+          "id": "b",
+          "position": {
+            "percentage": 50,
+            "direction": "N"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "id": "g",
+          "position": {
+            "percentage": 25,
+            "direction": "S"
+          }
+        },
+        {
+          "id": "d",
+          "position": {
+            "percentage": 75,
+            "direction": "S"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "x": 256,
+      "y": 24,
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "g",
+          "position": {
+            "percentage": 0,
+            "direction": "E"
+          }
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "0+a",
+      "target": "1-g",
+      "id": "edge1"
+    }
+  ]
+}

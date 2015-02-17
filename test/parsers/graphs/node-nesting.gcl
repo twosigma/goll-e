@@ -1,0 +1,15 @@
+//
+// node-nesting.gcl
+// Sample that demonstrates how to create nested node definitions.
+//
+
+california
+{
+    norCal
+    soCal
+    {
+        losAngeles
+        {
+        }
+    }
+}
