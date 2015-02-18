@@ -1,7 +1,7 @@
 var React = require('react/addons');
 var classSet = React.addons.classSet;
 var mouseDownDrag = require('../utilities/mouseDownDrag');
-var Node = require('./node.jsx');
+var Vertex = require('./vertex.jsx');
  
 /**
  * Graph is a component that shows a graph based on a given data model.
@@ -19,11 +19,11 @@ var Graph = React.createClass({
     render: function() {
         var graph = this.props.model.getGraph();
 
-         // For each node in the graph, create a node component.
-        var nodeComponents = graph.getNodes().map(function(node) {
+         // For each vertex in the graph, create a vertex component.
+        var vertexComponents = graph.getVertices().map(function(vertex) {
             return (
-                <Node
-                    model={node} 
+                <Vertex
+                    model={vertex} 
                     globalModel={this.props.model}/>
             );
         }.bind(this));
@@ -36,7 +36,7 @@ var Graph = React.createClass({
             'dragging_pan': this.state.dragging
         });
 
-        // Put all of the node components in an SVG and a container for zooming and panning.
+        // Put all of the vertex components in an SVG and a container for zooming and panning.
         return (
             <svg className="graph">
 
@@ -47,7 +47,7 @@ var Graph = React.createClass({
                     x='0' y='0' width='100%' height='100%'
                     onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
                 <g id='zoom-container' transform={transformation}>
-                    {nodeComponents}
+                    {vertexComponents}
                 </g>
             </svg>
         );
