@@ -14,8 +14,8 @@ var dummyModel = {
       var graph = parser.parseGraph(json);
     },
 
-    moveNode: function(nodeId, x, y) {
-        graph.getNodeById(nodeId).setPosition(x, y);
+    moveNode: function(vertexId, x, y) {
+        graph.getVertexById(vertexId).setPosition(x, y);
         renderGraph();
     },
 
