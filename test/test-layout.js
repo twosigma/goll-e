@@ -1,15 +1,12 @@
 var should = require('should');
 
-var lib = './../lib/';
+var Graph = require('./../lib/model/graph');
+var Node = require('./../lib/model/node');
+var Port = require('./../lib/model/port');
+var CardinalPortPosition = require('./../lib/model/cardinalPortPosition');
+var Connection = require('./../lib/model/connection');
 
-var Graph = require(lib + 'model/graph');
-var Node = require(lib + 'model/node');
-var Port = require(lib + 'model/port');
-var CardinalPortPosition = require(lib + 'model/cardinalPortPosition');
-var Connection = require(lib + 'model/connection');
-
-var LayoutEngineV1 = require(lib + 'layout/dummyLayoutV1');
-var LayoutEngineV2 = require(lib + 'layout/dummyLayoutV2');
+var DummyLayoutEngine = require('./../lib/layout/dummyLayout');
 
 var generateGraph = function() {
   // the world's simplest graph
@@ -23,20 +20,10 @@ var generateGraph = function() {
   return graph;
 };
 
-describe('layout engine V1', function() {
+describe('dummy layout engine', function() {
   it('should take a graph and not blow up', function(done) {
     var testGraph = generateGraph();
-    LayoutEngineV1(testGraph);
-    testGraph.should.be.an.instanceOf(Graph);
-    done();
-  });
-});
-
-
-describe('layout engine V2', function() {
-  it('should take a graph and not blow up', function(done) {
-    var testGraph = generateGraph();
-    LayoutEngineV2(testGraph);
+    DummyLayoutEngine(testGraph);
     testGraph.should.be.an.instanceOf(Graph);
     done();
   });
