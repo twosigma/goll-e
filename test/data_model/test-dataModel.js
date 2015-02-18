@@ -46,12 +46,6 @@ var should = require('should'),
         to: port2
     });
 
-describe('port', function () {
-	it('should',function (done) {
-		done();
-	});
-});
-
 describe('connection', function () {
     it('should have from port which is an "out" type', function (done) {
         connection.get('from').get('type').should.equal("output");
