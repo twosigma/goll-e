@@ -13,6 +13,12 @@
     // Warn when trailing spaces are detected.
     "no-trailing-spaces": 1,
 
+    // Warn when dangling commas are present.
+    "no-comma-dangle": 1,
+
+    // Warn when the brace style isn't correct.
+    "brace-style": [1, "1tbs"],
+
     // Warn if any functions are missing the "use strict"; hint.
     "strict": [1, "function"],
 
