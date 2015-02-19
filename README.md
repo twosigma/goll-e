@@ -25,10 +25,21 @@ bower install goll-e
 Development Environment:
 
 ````
+# Clone the repo.
 git clone https://github.com/twosigma/goll-e.git
 cd goll-e
-npm install
-bower install
+
+# Run the bootstrapper script.
+# This will globally install gulp, jison and bower.
+npm run bootstrap
+
+# Run the test suite.
 gulp ci
+
+# Install dependencies for the example implementation.
+cd examples
+npm install && bower install
 ````
+
+Navigate to localhost:3000 in Chrome, and voila.
 
