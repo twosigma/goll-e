@@ -11,18 +11,14 @@ var BASE_MARGIN = 6;
 var IO = React.createClass({
   propTypes: {
     model: React.PropTypes.instanceOf(Port).isRequired,
-
     x: React.PropTypes.number.isRequired,
-
     y: React.PropTypes.number.isRequired,
-
     size: React.PropTypes.number,
-
     labelPosition: React.PropTypes.oneOf(ObjectUtils.values(LabelPosition)),
 
     /** callback called when this io, due to user action, would like to move to a new position.
     Passed a new position object.
-    It's up to the receiver to actually update the backing model as appropriate. 
+    It's up to the receiver to actually update the backing model as appropriate.
     If this is not done, the change will revert.
     */
     onMoveRequested: React.PropTypes.func
@@ -62,9 +58,9 @@ var IO = React.createClass({
        transform={'translate(' + pos.x + ', ' + pos.y + ')'} >
        <circle
          r={this.props.size || ioRadius}
-         cx={0} cy={0} 
+         cx={0} cy={0}
          onMouseDown={mouseDownDrag.bind(this, 'iomove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
-       <text class="label"
+       <text class='label'
          x={labelPosition.x}
          y={labelPosition.y}
          textAnchor={labelPosition.textAnchor} >

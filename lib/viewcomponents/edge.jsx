@@ -3,6 +3,7 @@ var React = require('react');
 var Edge = React.createClass({
 
   render: function() {
+
     var startX;
     var startY;
     var endX;
