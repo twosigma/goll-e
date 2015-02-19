@@ -2,6 +2,8 @@ var React = require('react/addons');
 var classSet = React.addons.classSet;
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Node = require('./node.jsx');
+var Edge = require('./edge.jsx');
+
  
 /**
  * Graph is a component that shows a graph based on a given data model.
@@ -28,6 +30,15 @@ var Graph = React.createClass({
             );
         }.bind(this));
 
+        var edgeComponents = graph.get('connections').map(function(edge) {
+          return (
+            <Edge
+              model={edge}
+              container={graph}
+              key={edge.get('globalId')}/>
+          );
+        }.bind(this));
+
         // Turn the pan and zoom properties into a transformation string.
         var transformation = 'translate(' + this.state.panX + ',' + this.state.panY + ') scale(' + this.state.zoom + ')';
 
@@ -48,6 +59,7 @@ var Graph = React.createClass({
                     onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
                 <g id='zoom-container' transform={transformation}>
                     {nodeComponents}
+                  {edgeComponents}
                 </g>
             </svg>
         );
