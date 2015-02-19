@@ -11,13 +11,9 @@ var BASE_MARGIN = 6;
 var IO = React.createClass({
   propTypes: {
     model: React.PropTypes.instanceOf(Port).isRequired,
-
     x: React.PropTypes.number.isRequired,
-
     y: React.PropTypes.number.isRequired,
-
     size: React.PropTypes.number,
-
     labelPosition: React.PropTypes.oneOf(ObjectUtils.values(LabelPosition)),
 
     /** callback called when this io, due to user action, would like to move to a new position.
@@ -29,7 +25,6 @@ var IO = React.createClass({
   },
 
   getInitialState: function() {
-    'use strict';
     return {
       dragging: false
     };
@@ -37,7 +32,6 @@ var IO = React.createClass({
 
   /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
   render: function() {
-    'use strict';
     var model = this.props.model;
 
     var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || ioRadius);
@@ -77,7 +71,6 @@ var IO = React.createClass({
   },
 
   _handleDragStart: function(event) {
-    'use strict';
     this.setState({
       dragging: true,
       draggingPosition: {
@@ -88,7 +81,6 @@ var IO = React.createClass({
   },
 
   _handleDragEnd: function(event) {
-    'use strict';
     var newPos = this.state.draggingPosition;
 
     this.setState({
@@ -101,7 +93,6 @@ var IO = React.createClass({
   },
 
   _handleDragging: function(event) {
-    'use strict';
     var lastPos = this.state.draggingPosition;
 
     this.setState({
@@ -113,7 +104,6 @@ var IO = React.createClass({
   },
 
   _getLabelPositioningData: function(labelPosition, extraMargin) {
-    'use strict';
     var totalMargin = BASE_MARGIN + extraMargin;
 
     switch (labelPosition) {

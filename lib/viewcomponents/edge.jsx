@@ -3,7 +3,6 @@ var React = require('react');
 var Edge = React.createClass({
 
   render: function() {
-    'use strict';
 
     var startX;
     var startY;

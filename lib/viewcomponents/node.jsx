@@ -32,7 +32,6 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = IOLabelPosition.RIGHT;
 /*global Node:true*/
 var Node = React.createClass({
   render: function() {
-    'use strict';
 
     var model = this.props.model;
     var position = model.getPosition();
@@ -54,7 +53,6 @@ var Node = React.createClass({
   },
 
   _getRenderedIOs: function(ioModels, isInput) {
-    'use strict';
 
     return ioModels.map(function(ioModel, id) {
       var position = this._getIOPosition(ioModel);
@@ -69,7 +67,6 @@ var Node = React.createClass({
   },
 
   _onNodeBodyPseudoDrag: function(event) {
-    'use strict';
 
     var oldPos = this.props.model.getPosition();
 
@@ -82,7 +79,6 @@ var Node = React.createClass({
 
   // TODO: assumes rectangular nodes
   _getIOPosition: function(ioModel) {
-    'use strict';
 
     var ioPositionModel = ioModel.getPosition();
     var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.getDirection()];
@@ -96,7 +92,6 @@ var Node = React.createClass({
   },
 
   _onIOMoveRequested: function(pos, ioModel) {
-    'use strict';
 
     var hPct = pos.x / nodeWidth;
     var vPct = pos.y / nodeHeight;

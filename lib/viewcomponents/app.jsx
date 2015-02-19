@@ -7,7 +7,6 @@ var Graph = require('./graph.jsx');
 var App = React.createClass({
 
   render: function() {
-    'use strict';
     return (
       <div id='app'>
         <Graph model={this.props.model} />
@@ -16,7 +15,6 @@ var App = React.createClass({
   },
 
   _onModelChange: function(event) {
-    'use strict';
     this.props.model.setContents(event.target.value);
   }
 

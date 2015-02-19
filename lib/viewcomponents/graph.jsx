@@ -14,7 +14,6 @@ var Node = require('./node.jsx');
 var Graph = React.createClass({
 
   getInitialState: function() {
-    'use strict';
     return {
       panX: 0,
       panY: 0,
@@ -23,7 +22,6 @@ var Graph = React.createClass({
   },
 
   render: function() {
-    'use strict';
     var graph = this.props.model.getGraph();
 
      // For each node in the graph, create a node component.
@@ -61,7 +59,6 @@ var Graph = React.createClass({
   },
 
   _onPanPseudoDrag: function(event) {
-    'use strict';
     var oldPanX = this.state.panX;
     var oldPanY = this.state.panY;
     var newPanX = oldPanX + event.movementX;
