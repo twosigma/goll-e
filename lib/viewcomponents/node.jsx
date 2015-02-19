@@ -7,8 +7,6 @@ var IOLabelPosition = require('../enum/ioLabelPosition');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
 var CartesianPortPosition = require('../model/cartesianPortPosition');
 
-var nodeWidth = 150;
-var nodeHeight = nodeWidth/1.6;
 var headerHeight = 35;
 var padding = 5;
 
@@ -32,12 +30,13 @@ var Node = React.createClass({
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
+    var styles = model.get('styles');
     return (
       <g
         className='node'
         transform={'translate(' + position.x + ', ' + position.y + ')'} >
           <rect
-            height={nodeHeight} width={nodeWidth}
+            height={styles.height} width={styles.width}
             className='node-box'
             onMouseDown={mouseDownDrag.bind(this, 'node_body', null, null, this._onNodeBodyPseudoDrag)} />
           <text className='label' textAnchor='start' x={padding} y={padding + 10}>
@@ -51,13 +50,14 @@ var Node = React.createClass({
 
   _getRenderedIOs: function(ioModels) {
     return ioModels.map(function(ioModel, id) {
-      var position = this._getIOPosition(ioModel);
-      
+      var ioPositionModel = ioModel.get('position');
+      var position = this.props.model.getPortPositionInContext(ioPositionModel);
+      var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.get('direction')];
       return (
         <IO 
           model={ioModel}
           key={ioModel.get('globalId')}
-          x={position.x} y={position.y} label={ioModel.label} labelPosition={position.labelPosition}
+          x={position.x} y={position.y} label={ioModel.label} labelPosition={labelPosition}
           onMoveRequested={this._onIOMoveRequested}
         />
       );
@@ -75,24 +75,11 @@ var Node = React.createClass({
       this.props.model.setPosition(newX, newY);
   },
 
-  //TODO: assumes rectangular nodes
-  _getIOPosition: function(ioModel) {
-    var ioPositionModel = ioModel.get('position');
-
-    var labelPosition = DIRECTION_TO_LABEL_POSITION[ioPositionModel.get('direction')];
-
-    var cartesianPos = PositionUtils.Conversion.cardinalToCartesian(ioPositionModel);
-
-    return {
-      x: cartesianPos.getX() * nodeWidth,
-      y: cartesianPos.getY() * nodeHeight,
-      labelPosition: labelPosition
-    };
-  },
-
   _onIOMoveRequested: function(pos, ioModel) {
-    var hPct = pos.x/nodeWidth;
-    var vPct = pos.y/nodeHeight;
+    var styles = this.props.model.get('styles');
+
+    var hPct = pos.x/styles.width;
+    var vPct = pos.y/styles.height;
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
 

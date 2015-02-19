@@ -8,7 +8,7 @@ var should = require('should'),
     Port = require('../../lib/model/port.js'),
 	Node = require('../../lib/model/node.js'),
 	Connection = require('../../lib/model/connection.js'),
-    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js')
+    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js'),
 
     port1 = new Port({
         id: 2,
@@ -30,14 +30,12 @@ var should = require('should'),
 
 	node1 = new Node({
         id: 1,
-        outputs: [port1],
-        styles: "some style"
+        outputs: [port1]
     }),
 
 	node2 = new Node({
         id: 2,
-        inputs: [port2],
-        styles: "some style",
+        inputs: [port2]
     }),
 
 	connection = new Connection({
@@ -58,10 +56,6 @@ describe('connection', function () {
 });
 
 describe('node', function () {
-    it('should contain some style', function (done) {
-        node1.get('styles').should.equal("some style");
-        done();
-    });
 	it('should have an in port', function (done) {
         node1.get('outputs')[0].should.equal(port1);
         done();
