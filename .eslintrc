@@ -19,8 +19,10 @@
     // Warn when the brace style isn't correct.
     "brace-style": [1, "1tbs"],
 
-    // Warn if any functions are missing the "use strict"; hint.
-    "strict": [1, "function"],
+    // Disable reporting on missing "use strict" statements. By virtue of
+    // having at least one dependency that has "use strict" enabled, we
+    // get it for free.
+    "strict": [0, "function"],
 
     // Turn off error/warning for dangling underscores. We're ok with them.
     "no-underscore-dangle": 0,
