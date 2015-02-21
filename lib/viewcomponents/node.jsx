@@ -43,6 +43,15 @@ var Node = React.createClass({
           <text className='label' textAnchor='start' x={padding} y={padding + 10}>
             {model.get('id')}
           </text>
+          {// If the node is pinned, show an unpin button.
+            model.get('isPinned')?
+              <img
+                className='unpin'
+                title='unpin this vertex'
+                onClick={this._unpin()}
+                src='/images/pin.png'/>:
+              null
+          }
             {this._getRenderedIOs(model.get('inputs'))}
             {this._getRenderedIOs(model.get('outputs'))}
       </g>
@@ -73,6 +82,11 @@ var Node = React.createClass({
 
       // Change the position of the node in the model.
       this.props.model.setPosition(newX, newY);
+      this.props.model.set('isPinned', true);
+  },
+
+  _unpin: function() {
+    this.props.model.set('isPinned', false);
   },
 
   //TODO: assumes rectangular nodes
