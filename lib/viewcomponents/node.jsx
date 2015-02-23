@@ -81,8 +81,17 @@ var Node = React.createClass({
       var newY = oldPos.y + event.movementY;
 
       // Change the position of the node in the model.
-      this.props.model.setPosition(newX, newY);
-      this.props.model.set('isPinned', true);
+      // this.props.model.setPosition(newX, newY);
+      // this.props.model.set('isPinned', true);
+
+      // if(!this.isMounted()) {
+      //   console.log('oops, not mounted and changing the model.');
+      //   return;
+      // }
+      this.props.model.setAttrs({
+        isPinned: true,
+        position: {x: newX, y: newY}
+      });
   },
 
   _unpin: function() {
