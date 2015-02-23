@@ -3,7 +3,7 @@ var classSet = React.addons.classSet;
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Node = require('./node.jsx');
 var Edge = require('./edge.jsx');
-
+var edgeGlobals = require('./edgeGlobals');
  
 /**
  * Graph is a component that shows a graph based on a given data model.
@@ -50,6 +50,7 @@ var Graph = React.createClass({
         // Put all of the node components in an SVG and a container for zooming and panning.
         return (
             <svg className="graph">
+              <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
 
                 {/* This rectangle forms a background and is a draggable handle for panning the view. */}
                 <rect

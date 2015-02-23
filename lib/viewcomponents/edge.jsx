@@ -30,6 +30,7 @@ var Edge = React.createClass({
         <path
           className="edge-line" 
           d={lineFunction(model, container)}
+          markerEnd="url(#defaultArrowhead)"
           />
       </g>
     );
@@ -66,6 +67,19 @@ var lineFunction = function(edge, graph) {
   // the midpoint on the minor axis
   var minorMiddle = (majorAxisX ? targetPos.y + sourcePos.y : targetPos.x + sourcePos.x)/2;
 
+  var arrowOffest;
+  if (majorAxisX) {
+    arrowOffest = {
+      x: 0,
+      y: yDist > 0 ? -5 : 5
+    };
+  } else {
+    arrowOffest = {
+      x: xDist > 0 ? -5 : 5,
+      y: 0
+    };
+  }
+
   var points = {
     x1: sourcePos.x,
     y1: sourcePos.y,
@@ -76,8 +90,8 @@ var lineFunction = function(edge, graph) {
     ctrl2x: majorAxisX ? targetPos.x : minorMiddle,
     ctrl2y: majorAxisX ? minorMiddle : targetPos.y,
 
-    x2: targetPos.x,
-    y2: targetPos.y
+    x2: targetPos.x + arrowOffest.x,
+    y2: targetPos.y + arrowOffest.y
   };
 
   return 'M{x1},{y1} C{ctrl1x},{ctrl1y},{ctrl2x},{ctrl2y},{x2},{y2}'
