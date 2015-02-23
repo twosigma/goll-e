@@ -169,13 +169,13 @@ gulp.task('uglify', ['browserify'], function () {
 });
 
 /**
- * Task definition for symlinking the final build product into public/js.
+ * Task definition for symlinking the final build product into public/scripts.
  * This is done so that the express backend can use the final library.
  */
 gulp.task('symlink', ['uglify'], function () {
     'use strict';
 
-    var linkPath = path.join('examples', 'public', 'js', 'goll-e');
+    var linkPath = path.join('examples', 'public', 'scripts');
 
     fs.exists(linkPath, function (exists) {
         if(!exists) {
