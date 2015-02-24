@@ -1,5 +1,5 @@
 var should = require('should');
-var EventTarget = require('./../lib/eventTarget');
+var EventTarget = require('./../lib/utilities/eventTarget');
 var ObjectUtils = require('./../lib/utilities/objects');
 
 describe('event target', function() {
