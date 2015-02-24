@@ -67,12 +67,13 @@ var Node = React.createClass({
 
   _onNodeBodyPseudoDrag: function(event) {
       var oldPos = this.props.model.get('position');
-      
-      var newX = oldPos.x + event.movementX;
-      var newY = oldPos.y + event.movementY;
 
-      // Change the position of the node in the model.
-      this.props.model.setPosition(newX, newY);
+      var newPos = {
+        x: oldPos.x + event.movementX,
+        y: oldPos.y + event.movementY
+      };
+
+      this.props.model.set('position', newPos);
   },
 
   //TODO: assumes rectangular nodes
