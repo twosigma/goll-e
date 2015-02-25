@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "folder_exclude_patterns": [
+        "node_modules",
+        "examples/public/vendor",
+        "dist",
+        "coverage",
+        "examples/public/js/goll-e"
+      ],
+      "file_exclude_patterns": [
+        "*.sublime-workspace"
+      ]
+    }
+  ]
+}

@@ -1,13 +1,11 @@
 var React = require('react');
-var IO = require('./io.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
-var IOLabelPosition = require('../enum/ioLabelPosition');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
 var CartesianPortPosition = require('../model/cartesianPortPosition');
 var Graph = require('../model/graph');
-var Connection = require('../model/connection');
+var Edge = require('../model/edge');
 
 
 
@@ -15,7 +13,7 @@ var Connection = require('../model/connection');
 var Edge = React.createClass({
 
   propTypes: {
-    model: React.PropTypes.instanceOf(Connection),
+    model: React.PropTypes.instanceOf(Edge),
     container: React.PropTypes.instanceOf(Graph)
   },
 

@@ -1,16 +1,16 @@
 var React = require('react');
-var LabelPosition = require('../enum/ioLabelPosition');
+var LabelPosition = require('../enum/portLabelPosition');
 var ObjectUtils = require('../utilities/objects');
-var IOType = require('../enum/ioType');
-var Port = require('../model/port');
+var PortType = require('../enum/portType');
+var PortModel = require('../model/port');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 
-var ioRadius = 4;
+var portRadius = 4;
 var BASE_MARGIN = 6;
 
-var IO = React.createClass({
+var Port = React.createClass({
   propTypes: {
-    model: React.PropTypes.instanceOf(Port).isRequired,
+    model: React.PropTypes.instanceOf(PortModel).isRequired,
 
     x: React.PropTypes.number.isRequired,
 
@@ -20,7 +20,7 @@ var IO = React.createClass({
 
     labelPosition: React.PropTypes.oneOf(ObjectUtils.values(LabelPosition)),
 
-    /** callback called when this io, due to user action, would like to move to a new position.
+    /** callback called when this port, due to user action, would like to move to a new position.
     Passed a new position object.
     It's up to the receiver to actually update the backing model as appropriate. 
     If this is not done, the change will revert.
@@ -34,16 +34,16 @@ var IO = React.createClass({
     };
   },
 
-  /* it's the responsibility of the Node to position the IO since it's in its coordinate space */
+  /* it's the responsibility of the Node to position the port since it's in its coordinate space */
   render: function() {
     var model = this.props.model;
 
-    var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || ioRadius);
+    var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || portRadius);
 
     var classes = React.addons.classSet({
-      'io': true,
-      'input': model.get('type') === IOType.INPUT,
-      'output': model.get('type') === IOType.OUTPUT,
+      'port': true,
+      'input': model.get('type') === PortType.INPUT,
+      'output': model.get('type') === PortType.OUTPUT,
       'dragging': this.state.dragging
     });
 
@@ -61,9 +61,9 @@ var IO = React.createClass({
        className={classes}
        transform={'translate(' + pos.x + ', ' + pos.y + ')'} >
        <circle
-         r={this.props.size || ioRadius}
+         r={this.props.size || portRadius}
          cx={0} cy={0} 
-         onMouseDown={mouseDownDrag.bind(this, 'iomove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
+         onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
        <text className="label"
          x={labelPosition.x}
          y={labelPosition.y}
@@ -130,4 +130,4 @@ var IO = React.createClass({
 
 });
 
-module.exports = IO;
+module.exports = Port;

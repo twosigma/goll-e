@@ -6,9 +6,9 @@ var CardinalDirection = require('../../lib/enum/cardinalDirection');
 
 var should = require('should'),
     Port = require('../../lib/model/port.js'),
-	Node = require('../../lib/model/node.js'),
-	Connection = require('../../lib/model/connection.js'),
-    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js'),
+	Vertex = require('../../lib/model/vertex.js'),
+	Edge = require('../../lib/model/edge.js'),
+    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js');
 
     port1 = new Port({
         id: 2,
@@ -28,40 +28,40 @@ var should = require('should'),
         })
     }),
 
-	node1 = new Node({
+	vertex1 = new Vertex({
         id: 1,
         outputs: [port1]
     }),
 
-	node2 = new Node({
+	vertex2 = new Vertex({
         id: 2,
         inputs: [port2]
     }),
 
-	connection = new Connection({
+	edge = new Edge({
         id: 1,
         from: port1,
         to: port2
     });
 
-describe('connection', function () {
+describe('edge', function () {
     it('should have from port which is an "out" type', function (done) {
-        connection.get('from').get('type').should.equal("output");
+        edge.get('from').get('type').should.equal("output");
         done();
     });
 	it('should have to port which is an "in" type', function (done) {
-        connection.get('to').get('type').should.equal("input");
+        edge.get('to').get('type').should.equal("input");
         done();
     });
 });
 
-describe('node', function () {
+describe('vertex', function () {
 	it('should have an in port', function (done) {
-        node1.get('outputs')[0].should.equal(port1);
+        vertex1.get('outputs')[0].should.equal(port1);
         done();
     });
 	it('should have an out port', function (done) {
-        node2.get('inputs')[0].should.equal(port2);
+        vertex2.get('inputs')[0].should.equal(port2);
         done();
     });
 });

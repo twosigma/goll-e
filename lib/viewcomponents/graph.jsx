@@ -1,7 +1,7 @@
 var React = require('react/addons');
 var classSet = React.addons.classSet;
 var mouseDownDrag = require('../utilities/mouseDownDrag');
-var Node = require('./node.jsx');
+var Vertex = require('./vertex.jsx');
 var Edge = require('./edge.jsx');
 var edgeGlobals = require('./edgeGlobals');
  
@@ -21,16 +21,16 @@ var Graph = React.createClass({
     render: function() {
         var graph = this.props.model;
 
-         // For each node in the graph, create a node component.
-        var nodeComponents = graph.get('nodes').map(function(node) {
+         // For each vertex in the graph, create a vertex component.
+        var vertexComponents = graph.get('vertices').map(function(vertex) {
             return (
-                <Node
-                    model={node}
-                    key={node.get('globalId')}/>
+                <Vertex
+                    model={vertex}
+                    key={vertex.get('globalId')}/>
             );
         }.bind(this));
 
-        var edgeComponents = graph.get('connections').map(function(edge) {
+        var edgeComponents = graph.get('edges').map(function(edge) {
           return (
             <Edge
               model={edge}
@@ -47,7 +47,7 @@ var Graph = React.createClass({
             'dragging_pan': this.state.dragging
         });
 
-        // Put all of the node components in an SVG and a container for zooming and panning.
+        // Put all of the vertex components in an SVG and a container for zooming and panning.
         return (
             <svg className="graph">
               <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
@@ -60,7 +60,7 @@ var Graph = React.createClass({
                     onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
                 <g id='zoom-container' transform={transformation}>
                   {edgeComponents}
-                    {nodeComponents}
+                    {vertexComponents}
                 </g>
             </svg>
         );
