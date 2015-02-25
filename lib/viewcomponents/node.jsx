@@ -53,7 +53,7 @@ var Node = React.createClass({
                 className='unpin'
                 title='unpin this vertex'
                 onClick={this._unpin()}
-                cx="pinX" cy="pinY" r="pinRadius"/>:
+                cx={pinX} cy={pinY} r={pinRadius}/>:
               null
           }
             {this._getRenderedIOs(model.get('inputs'))}
