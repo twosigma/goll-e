@@ -12,6 +12,6 @@ describe('graph parser (from a JSON file)', function () {
         var parser = new GraphParser();
         var graph = parser.parseGraph(TEST_DATA);
         graph.should.be.instanceOf(Graph);
-        graph.getVertices().length.should.be.greaterThan(0);
+        graph.get('vertices').length.should.be.greaterThan(0);
     });
 });

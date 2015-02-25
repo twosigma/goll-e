@@ -15,6 +15,10 @@ var padding = 5;
 var portRadius = 4;
 var portSpacing = 15;
 
+var pinX = 0;
+var pinY = -20;
+var pinRadius = 15;
+
 // DATA MODEL scales values 0-100. Undo that.
 var DATA_MODEL_MULTIPLIER = 100.0;
 
@@ -31,7 +35,7 @@ var Vertex = React.createClass({
 
   render: function() {
     var model = this.props.model;
-    var position = model.getPosition();
+    var position = model.get('position');
     return (
       <g
         className='vertex'
@@ -40,21 +44,31 @@ var Vertex = React.createClass({
             height={vertexHeight} width={vertexWidth}
             className='vertex-box'
             onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)} />
-          <text className='label' text-anchor='start' x={padding} y={padding + 10}>
-            {model.getId()}
+          <text className='label' textAnchor='start' x={padding} y={padding + 10}>
+            {model.get('id')}
           </text>
-            {this._getRenderedPorts(model.getInputs(), true)}
-            {this._getRenderedPorts(model.getOutputs(), false)}
+          {// If the node is pinned, show an unpin button.
+            model.get('isPinned')?
+              <circle
+                className='unpin'
+                onClick={this._unpin}
+                cx={pinX} cy={pinY} r={pinRadius} />:
+              null
+          }
+          {this._getRenderedPorts(model.get('inputs'))}
+          {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
   },
 
-  _getRenderedPorts: function(portModels, isInput) {
+  _getRenderedPorts: function(portModels) {
     return portModels.map(function(portModel, id) {
       var position = this._getPortPosition(portModel);
-      
+
       return (
-        <Port model={portModel} 
+        <Port
+          model={portModel}
+          key={portModel.get('globalId')}
           x={position.x} y={position.y} label={portModel.label} labelPosition={position.labelPosition}
           onMoveRequested={this._onPortMoveRequested}
         />
@@ -64,20 +78,26 @@ var Vertex = React.createClass({
   },
 
   _onVertexBodyPseudoDrag: function(event) {
-      var oldPos = this.props.model.getPosition();
-      
+      var oldPos = this.props.model.get('position');
+
       var newX = oldPos.x + event.movementX;
       var newY = oldPos.y + event.movementY;
 
-      // Change the position of the vertex in the model.
-      this.props.globalModel.moveVertex(this.props.model.getId(), newX, newY);
+      this.props.model.setAttrs({
+        isPinned: true,
+        position: {x: newX, y: newY}
+      });
+  },
+
+  _unpin: function() {
+    this.props.model.set('isPinned', false);
   },
 
   //TODO: assumes rectangular vertices
   _getPortPosition: function(portModel) {
-    var portPositionModel = portModel.getPosition();
+    var portPositionModel = portModel.get('position');
 
-    var labelPosition = DIRECTION_TO_LABEL_POSITION[portPositionModel.getDirection()];
+    var labelPosition = DIRECTION_TO_LABEL_POSITION[portPositionModel.get('direction')];
 
     var cartesianPos = PositionUtils.Conversion.cardinalToCartesian(portPositionModel);
 
@@ -94,10 +114,7 @@ var Vertex = React.createClass({
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
 
-    portModel.setPosition(cardinalPosition);
-
-    // temporary
-    this.props.globalModel.render();
+    portModel.set('position', cardinalPosition);
   }
 
 });

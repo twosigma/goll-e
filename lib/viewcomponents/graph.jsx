@@ -17,14 +17,14 @@ var Graph = React.createClass({
     },
 
     render: function() {
-        var graph = this.props.model.getGraph();
+        var graph = this.props.model;
 
          // For each vertex in the graph, create a vertex component.
-        var vertexComponents = graph.getVertices().map(function(vertex) {
+        var vertexComponents = graph.get('vertices').map(function(vertex) {
             return (
                 <Vertex
-                    model={vertex} 
-                    globalModel={this.props.model}/>
+                    model={vertex}
+                    key={vertex.get('globalId')}/>
             );
         }.bind(this));
 

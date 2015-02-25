@@ -8,35 +8,66 @@ var should = require('should'),
     Port = require('../../lib/model/port.js'),
 	Vertex = require('../../lib/model/vertex.js'),
 	Edge = require('../../lib/model/edge.js'),
-    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js')
-	port1 = new Port(1,"out",new CardinalPortPosition(CardinalDirection.WEST, 50)),
-	port2 = new Port(2,"in", new CardinalPortPosition(CardinalDirection.SOUTH,60)),
-	vertex1 = new Vertex(1,[port1],[],"some style","some meta data"),
-	vertex2 = new Vertex(2,[],[port2],"some style","some meta data"),
-	edge = new Edge(1,port1,port2,"some meta data");
+    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js');
+
+    port1 = new Port({
+        id: 2,
+        type: "output",
+        position: new CardinalPortPosition({
+            direction: CardinalDirection.WEST,
+            percentage: 60
+        })
+    }),
+
+	port2 = new Port({
+        id: 2,
+        type: "input",
+        position: new CardinalPortPosition({
+            direction: CardinalDirection.SOUTH,
+            percentage: 60
+        })
+    }),
+
+	vertex1 = new Vertex({
+        id: 1,
+        outputs: [port1],
+        styles: "some style"
+    }),
+
+	vertex2 = new Vertex({
+        id: 2,
+        inputs: [port2],
+        styles: "some style",
+    }),
+
+	edge = new Edge({
+        id: 1,
+        from: port1,
+        to: port2
+    });
 
 describe('edge', function () {
     it('should have from port which is an "out" type', function (done) {
-        edge.getFrom().getType().should.equal("out");
+        edge.get('from').get('type').should.equal("output");
         done();
     });
 	it('should have to port which is an "in" type', function (done) {
-        edge.getTo().getType().should.equal("in");
+        edge.get('to').get('type').should.equal("input");
         done();
     });
 });
 
 describe('vertex', function () {
     it('should contain some style', function (done) {
-        vertex1.getStyles().should.equal("some style");
+        vertex1.get('styles').should.equal("some style");
         done();
     });
 	it('should have an in port', function (done) {
-        vertex1.getInputs()[0].should.equal(port1);
+        vertex1.get('outputs')[0].should.equal(port1);
         done();
     });
 	it('should have an out port', function (done) {
-        vertex2.getOutputs()[0].should.equal(port2);
+        vertex2.get('inputs')[0].should.equal(port2);
         done();
     });
 });

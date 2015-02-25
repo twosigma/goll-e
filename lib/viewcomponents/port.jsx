@@ -42,12 +42,12 @@ var Port = React.createClass({
 
     var classes = React.addons.classSet({
       'port': true,
-      'input': model.getType() === PortType.INPUT,
-      'output': model.getType() === PortType.OUTPUT,
+      'input': model.get('type') === PortType.INPUT,
+      'output': model.get('type') === PortType.OUTPUT,
       'dragging': this.state.dragging
     });
 
-    var label = model.getId();
+    var label = model.get('id');
 
     var pos;
     if (this.state.dragging) {
@@ -64,7 +64,7 @@ var Port = React.createClass({
          r={this.props.size || portRadius}
          cx={0} cy={0} 
          onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
-       <text class="label"
+       <text className="label"
          x={labelPosition.x}
          y={labelPosition.y}
          textAnchor={labelPosition.textAnchor} >

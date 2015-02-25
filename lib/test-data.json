@@ -88,8 +88,8 @@
   ],
   "edges": [
     {
-      "source": "a",
-      "target": "g",
+      "source": "0+a",
+      "target": "1-g",
       "id": "edge1"
     }
   ]
