@@ -15,6 +15,10 @@ var padding = 5;
 var portRadius = 4;
 var portSpacing = 15;
 
+var pinX = 0;
+var pinY = -20;
+var pinRadius = 15;
+
 // DATA MODEL scales values 0-100. Undo that.
 var DATA_MODEL_MULTIPLIER = 100.0;
 
@@ -43,8 +47,16 @@ var Vertex = React.createClass({
           <text className='label' textAnchor='start' x={padding} y={padding + 10}>
             {model.get('id')}
           </text>
-            {this._getRenderedPorts(model.get('inputs'))}
-            {this._getRenderedPorts(model.get('outputs'))}
+          {// If the node is pinned, show an unpin button.
+            model.get('isPinned')?
+              <circle
+                className='unpin'
+                onClick={this._unpin}
+                cx={pinX} cy={pinY} r={pinRadius} />:
+              null
+          }
+          {this._getRenderedPorts(model.get('inputs'))}
+          {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
   },
@@ -52,9 +64,9 @@ var Vertex = React.createClass({
   _getRenderedPorts: function(portModels) {
     return portModels.map(function(portModel, id) {
       var position = this._getPortPosition(portModel);
-      
+
       return (
-        <Port 
+        <Port
           model={portModel}
           key={portModel.get('globalId')}
           x={position.x} y={position.y} label={portModel.label} labelPosition={position.labelPosition}
@@ -68,12 +80,17 @@ var Vertex = React.createClass({
   _onVertexBodyPseudoDrag: function(event) {
       var oldPos = this.props.model.get('position');
 
-      var newPos = {
-        x: oldPos.x + event.movementX,
-        y: oldPos.y + event.movementY
-      };
+      var newX = oldPos.x + event.movementX;
+      var newY = oldPos.y + event.movementY;
 
-      this.props.model.set('position', newPos);
+      this.props.model.setAttrs({
+        isPinned: true,
+        position: {x: newX, y: newY}
+      });
+  },
+
+  _unpin: function() {
+    this.props.model.set('isPinned', false);
   },
 
   //TODO: assumes rectangular vertices
