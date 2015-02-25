@@ -1,5 +1,6 @@
 var React = require('react');
 var Port = require('./port.jsx');
+var UnpinButton = require('./unpinButton.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
@@ -48,10 +49,9 @@ var Vertex = React.createClass({
           </text>
           {// If the node is pinned, show an unpin button.
             model.get('isPinned')?
-              <image
-                className='unpin'
+              <UnpinButton
                 onClick={this._unpin}
-                x={pinX} y={pinY} width="24" height="24" xlink:href="/images/pin.png" />:
+                transform={'translate(' + pinX + ', ' + pinY + ')'} />:
               null
           }
           {this._getRenderedPorts(model.get('inputs'))}
