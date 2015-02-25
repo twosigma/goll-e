@@ -59,8 +59,8 @@ var Graph = React.createClass({
                     x='0' y='0' width='100%' height='100%'
                     onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
                 <g id='zoom-container' transform={transformation}>
-                    {nodeComponents}
                   {edgeComponents}
+                    {nodeComponents}
                 </g>
             </svg>
         );
