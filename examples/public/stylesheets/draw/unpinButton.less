@@ -1,8 +1,12 @@
 
-.unpinButton {
+.unpin-button {
   cursor: pointer;
 
   .background {
     fill: transparent;
   }
+}
+
+g::not(:hover) > .unpin-button {
+  display: none;
 }

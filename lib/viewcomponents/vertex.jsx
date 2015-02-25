@@ -34,12 +34,6 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = PortLabelPosition.RIGHT;
 
 var Vertex = React.createClass({
 
-  getInitialState: function() {
-    return {
-      mouseHover: false
-    };
-  },
-
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
@@ -47,9 +41,7 @@ var Vertex = React.createClass({
     return (
       <g
         className='vertex'
-        transform={'translate(' + position.x + ', ' + position.y + ')'}
-        onMouseEnter={this._onMouseEnter}
-        onMouseLeave={this._onMouseLeave} >
+        transform={'translate(' + position.x + ', ' + position.y + ')'} >
           <rect
             height={vertexHeight} width={vertexWidth}
             className='vertex-box'
@@ -68,14 +60,6 @@ var Vertex = React.createClass({
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
-  },
-
-  _onMouseEnter: function() {
-    this.setState({mouseHover: true});
-  },
-
-  _onMouseLeave: function() {
-    this.setState({mouseHover: false});
   },
 
   _getRenderedPorts: function(portModels) {
