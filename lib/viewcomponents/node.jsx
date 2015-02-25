@@ -15,6 +15,10 @@ var padding = 5;
 var ioRadius = 4;
 var ioSpacing = 15;
 
+var pinX = 0;
+var pinY = -20;
+var pinRadius = 15;
+
 // DATA MODEL scales values 0-100. Undo that.
 var DATA_MODEL_MULTIPLIER = 100.0;
 
@@ -45,11 +49,11 @@ var Node = React.createClass({
           </text>
           {// If the node is pinned, show an unpin button.
             model.get('isPinned')?
-              <img
+              <circle
                 className='unpin'
                 title='unpin this vertex'
                 onClick={this._unpin()}
-                src='/images/pin.png'/>:
+                cx="pinX" cy="pinY" r="pinRadius"/>:
               null
           }
             {this._getRenderedIOs(model.get('inputs'))}
