@@ -64,9 +64,9 @@ var Node = React.createClass({
   _getRenderedIOs: function(ioModels) {
     return ioModels.map(function(ioModel, id) {
       var position = this._getIOPosition(ioModel);
-      
+
       return (
-        <IO 
+        <IO
           model={ioModel}
           key={ioModel.get('globalId')}
           x={position.x} y={position.y} label={ioModel.label} labelPosition={position.labelPosition}
@@ -79,7 +79,7 @@ var Node = React.createClass({
 
   _onNodeBodyPseudoDrag: function(event) {
       var oldPos = this.props.model.get('position');
-      
+
       var newX = oldPos.x + event.movementX;
       var newY = oldPos.y + event.movementY;
 
