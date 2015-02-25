@@ -38,7 +38,7 @@ npm install
 gulp ci
 
 # Install dependencies for the example implementation.
-cd examples
+cd server
 npm install && bower install
 npm start
 ````

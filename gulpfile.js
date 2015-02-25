@@ -61,7 +61,7 @@ var mochaDefault = mocha({
 });
 
 /**
- * Task definition for generating parsers using jison. 
+ * Task definition for generating parsers using jison.
  */
 gulp.task('jison', [], function () {
     'use strict';
@@ -77,13 +77,13 @@ gulp.task('jison', [], function () {
         var lexerFile = grammarFile + 'lex';
         var destination = 'jison';
         var jisonCmdPath = path.join('node_modules', 'jison', 'lib', 'cli.js');
-    
+
         // Build up the shell command to run to generate the parser.
         var cmd = jisonCmdPath + ' ' + grammarFile + ' ' + lexerFile + ' --module-type commonjs';
 
         // Run the command.
         shell.exec(cmd);
-        shell.mv('-f', value + '.js', destination); 
+        shell.mv('-f', value + '.js', destination);
     });
 });
 
@@ -105,8 +105,8 @@ gulp.task('lint', ['build'], function () {
  */
 gulp.task('mocha', ['lint', 'jison'], function () {
     'use strict';
-    
-    return gulp.src(paths.testFiles, { 
+
+    return gulp.src(paths.testFiles, {
         read: false
     }).pipe(mochaDefault);
 });
@@ -116,7 +116,7 @@ gulp.task('mocha', ['lint', 'jison'], function () {
  */
 gulp.task('coverage', ['lint', 'build'], function () {
     'use strict';
-    
+
     return gulp.src(paths.sourceFiles)
         .pipe(react())
         .pipe(istanbul())
@@ -137,12 +137,12 @@ gulp.task('browserify', ['jison'], function () {
     var sourceFile = path.join('lib', mainFile);
     var outputFile = getBundleName() + '.js';
 
-    
+
     var bundler = browserify({
         entries: ['.' + path.sep + sourceFile],
     });
     bundler.transform(reactify);
-    
+
     return bundler
         .bundle()
         .pipe(source(outputFile))
@@ -154,7 +154,7 @@ gulp.task('browserify', ['jison'], function () {
  */
 gulp.task('uglify', ['browserify'], function () {
     'use strict';
-  
+
     var outputFile = getBundleName() + '.js';
     var unminified = [path.join(paths.distDir, outputFile)];
     var minified = getBundleName(['min']) + '.js';
@@ -175,7 +175,7 @@ gulp.task('uglify', ['browserify'], function () {
 gulp.task('symlink', ['uglify'], function () {
     'use strict';
 
-    var linkPath = path.join('examples', 'public', 'scripts');
+    var linkPath = path.join('server', 'public', 'scripts');
 
     fs.exists(linkPath, function (exists) {
         if(!exists) {
@@ -199,5 +199,3 @@ gulp.task('clean', function () {
 gulp.task('test', ['build', 'lint', 'coverage']);
 gulp.task('build', ['jison', 'browserify', 'uglify', 'symlink']);
 gulp.task('ci', ['build', 'test']);
-
-
