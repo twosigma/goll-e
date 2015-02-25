@@ -16,8 +16,9 @@ var padding = 5;
 var portRadius = 4;
 var portSpacing = 15;
 
-var pinX = 10;
-var pinY = -10;
+var pinX = 130;
+var pinY = 0;
+var pinScale = 1.5;
 
 // DATA MODEL scales values 0-100. Undo that.
 var DATA_MODEL_MULTIPLIER = 100.0;
@@ -33,13 +34,22 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = PortLabelPosition.RIGHT;
 
 var Vertex = React.createClass({
 
+  getInitialState: function() {
+    return {
+      mouseHover: false
+    };
+  },
+
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
+    var showPin = model.get('isPinned') && this.state.mouseHover;
     return (
       <g
         className='vertex'
-        transform={'translate(' + position.x + ', ' + position.y + ')'} >
+        transform={'translate(' + position.x + ', ' + position.y + ')'}
+        onMouseEnter={this._onMouseEnter}
+        onMouseLeave={this._onMouseLeave} >
           <rect
             height={vertexHeight} width={vertexWidth}
             className='vertex-box'
@@ -48,16 +58,24 @@ var Vertex = React.createClass({
             {model.get('id')}
           </text>
           {// If the node is pinned, show an unpin button.
-            model.get('isPinned')?
+            showPin?
               <UnpinButton
                 onClick={this._unpin}
-                transform={'translate(' + pinX + ', ' + pinY + ')'} />:
+                transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
               null
           }
           {this._getRenderedPorts(model.get('inputs'))}
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
+  },
+
+  _onMouseEnter: function() {
+    this.setState({mouseHover: true});
+  },
+
+  _onMouseLeave: function() {
+    this.setState({mouseHover: false});
   },
 
   _getRenderedPorts: function(portModels) {
