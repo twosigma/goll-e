@@ -37,7 +37,7 @@ var Vertex = React.createClass({
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
-    var showPin = model.get('isPinned') && this.state.mouseHover;
+    var showPin = model.get('isPinned');
     return (
       <g
         className='vertex'
