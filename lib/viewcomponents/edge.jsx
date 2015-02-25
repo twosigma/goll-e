@@ -103,7 +103,7 @@ var lineFunction = function(edge, graph) {
 var normalizeAngle = function(a) {
   a = a % (2 * Math.PI);
   return a < 0 ? a + (2 * Math.PI) : a;
-}
+};
 
 
 /*
