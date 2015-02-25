@@ -47,22 +47,14 @@ var Edge = React.createClass({
 var lineFunction = function(edge, graph) {
 
   var sourcePos = edge.getStartPositionIn(graph);
-  sourcePos.angle = normalizeAngle(sourcePos.angle);
   var targetPos = edge.getEndPositionIn(graph);
-  targetPos.angle = normalizeAngle(targetPos.angle);
 
   // The change between the start and end.
   var delta = {
     x: targetPos.x - sourcePos.x,
     y: targetPos.y - sourcePos.y
   };
-  // calculate the angle of the line
-  delta.angle = Math.atan(delta.y/delta.x);
-  if (delta.x < 0) {
-    // because the arctan function has a limited range.
-    delta.angle += Math.PI;
-  }
-  delta.angle = normalizeAngle(delta.angle);
+
   //pythagorize it
   delta.len = Math.sqrt(Math.pow(delta.x, 2) + Math.pow(delta.y, 2));
 
@@ -96,13 +88,6 @@ var lineFunction = function(edge, graph) {
   });
 
 };
-
-
-var normalizeAngle = function(a) {
-  a = a % (2 * Math.PI);
-  return a < 0 ? a + (2 * Math.PI) : a;
-};
-
 
 /*
 The provided point is a point with a direction angle.
