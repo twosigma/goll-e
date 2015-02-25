@@ -51,7 +51,7 @@ var Node = React.createClass({
             model.get('isPinned')?
               <circle
                 className='unpin'
-                onClick={this._unpin()}
+                onClick={this._unpin}
                 cx={pinX} cy={pinY} r={pinRadius} />:
               null
           }
