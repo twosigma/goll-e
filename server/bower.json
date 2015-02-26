@@ -1,5 +1,5 @@
 {
-  "name": "goll-e-examples",
+  "name": "goll-e-server",
   "version": "0.0.1",
   "homepage": "https://github.com/twosigma/goll-e",
   "repository": {
@@ -37,7 +37,6 @@
   ],
   "dependencies": {
     "fluidable": "*",
-    "jquery": "~2.1.1",
     "normalize.css": "~3.0.2"
   }
 }

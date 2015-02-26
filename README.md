@@ -31,17 +31,16 @@ cd goll-e
 
 # Run the bootstrapper script.
 # This will globally install gulp, jison and bower.
-npm run bootstrap
+sudo npm run bootstrap
 npm install
 
 # Run the test suite.
 gulp ci
 
 # Install dependencies for the example implementation.
-cd examples
+cd server
 npm install && bower install
 npm start
 ````
 
 Navigate to localhost:3000 in Chrome, and voila.
-
