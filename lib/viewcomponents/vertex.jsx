@@ -1,5 +1,6 @@
 var React = require('react');
 var Port = require('./port.jsx');
+var UnpinButton = require('./unpinButton.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
@@ -15,9 +16,9 @@ var padding = 5;
 var portRadius = 4;
 var portSpacing = 15;
 
-var pinX = 0;
-var pinY = -20;
-var pinRadius = 15;
+var pinX = 130;
+var pinY = 0;
+var pinScale = 1.5;
 
 // DATA MODEL scales values 0-100. Undo that.
 var DATA_MODEL_MULTIPLIER = 100.0;
@@ -36,6 +37,7 @@ var Vertex = React.createClass({
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
+    var showPin = model.get('isPinned');
     return (
       <g
         className='vertex'
@@ -48,11 +50,10 @@ var Vertex = React.createClass({
             {model.get('id')}
           </text>
           {// If the node is pinned, show an unpin button.
-            model.get('isPinned')?
-              <circle
-                className='unpin'
+            showPin?
+              <UnpinButton
                 onClick={this._unpin}
-                cx={pinX} cy={pinY} r={pinRadius} />:
+                transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
               null
           }
           {this._getRenderedPorts(model.get('inputs'))}
