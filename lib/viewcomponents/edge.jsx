@@ -56,14 +56,14 @@ var lineFunction = function(edge, graph) {
   };
 
   //pythagorize it
-  delta.len = Math.sqrt(Math.pow(delta.x, 2) + Math.pow(delta.y, 2));
+  delta.distance = Math.sqrt(Math.pow(delta.x, 2) + Math.pow(delta.y, 2));
 
   /*
   The distance from the source/target to the nearest curve control point.
-  It should be some nondecreasing function of the line length, here's one such function.
+  It should be some nondecreasing function of the displacement, here's one such function.
   There may be a better one.
    */
-  var ctrlDistance = Math.min(0.3 * delta.len, 100);
+  var ctrlDistance = Math.min(0.3 * delta.distance, 100);
 
   var ctrl1 = getPointDistanceFromPoint(ctrlDistance, sourcePos);
   var ctrl2 = getPointDistanceFromPoint(ctrlDistance, targetPos);
