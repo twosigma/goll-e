@@ -6,8 +6,7 @@ var SemanticAnalysis = require('./parse/semanticAnalysis');
 
 var ASTExample = require('./parse/ASTExample.json');
 
-var modelFactory = new ModelFactory();
-var graph = modelFactory.buildGraphModel(ASTExample);
+var graph = ModelFactory.parseGraph(ASTExample);
 var gclErrors = [];
 
 // rerender on any change
@@ -25,7 +24,7 @@ var renderGraphFromGCL = function(contentLanguageText) {
   var abtractSyntaxTree = Lex(contentLanguageText);
   gclErrors = SemanticAnalysis(abtractSyntaxTree);
   if (gclErrors.length === 0) {
-    graph = modelFactory.buildGraphModel(abtractSyntaxTree);
+    graph = ModelFactory.parseGraph(abtractSyntaxTree);
   }
   renderGraph();
 }
