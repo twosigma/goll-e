@@ -24,7 +24,6 @@
       "classes": [],
       "metadata": {},
       "subGraph": {
-        // You guessed it. subGraph is of the same structure as the top-level object.
         "vertices": {
           "Charlie": {
             "id": "Charlie",
@@ -138,5 +137,3 @@
     }
   }
 }
-
-// It's probably okay to omit empty arrays and empty objects here, but I showed them to make the structure clear.
