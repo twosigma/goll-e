@@ -91,6 +91,11 @@
       "source": "0+a",
       "target": "1-g",
       "id": "edge1"
+    },
+	{
+      "source": "0+a",
+      "target": "2-g",
+      "id": "edge2"
     }
   ]
 }
