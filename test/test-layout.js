@@ -21,10 +21,8 @@ var generateGraph = function() {
   // the world's simplest graph
   var port = new Port('a+a', 'input', new CardinalPortPosition({percentage: 50, direction: CardinalDirection.NORTH}));
   var vertex = new Vertex('a', [port], []);
-  port.set('ownerVertexId', vertex);
   var port2 = new Port('b+b', 'output', new CardinalPortPosition({percentage: 50, direction: CardinalDirection.SOUTH}));
   var vertex2 = new Vertex('b', [], [port2]);
-  port2.set('ownerVertexId', vertex2);
   var edge = new Edge({id:'edge 1', from: port2, to: port});
   //(id, from, to, metadata) 
   var graph = new Graph({vertices: [vertex, vertex2], edges:[edge]});
