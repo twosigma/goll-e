@@ -41,7 +41,7 @@ describe('event target', function() {
 
   it('should have preventable events', function() {
 
-    eventTarget.on('myEvent', function(e, extraArg) {e
+    eventTarget.on('myEvent', function(e, extraArg) {
       e.preventDefault();
     });
 
@@ -54,4 +54,17 @@ describe('event target', function() {
     });
   });
 
+  it('should have detachable events', function() {
+    var firstReceive = true;
+
+    var handle = eventTarget.on('myEvent', function(e) {
+      firstReceive.should.be.true;
+      firstReceive = false;
+      handle.detach();
+    });
+
+    eventTarget.fire('myEvent');
+    eventTarget.fire('myEvent');
+    eventTarget.fire('myEvent');
+  });
 });
