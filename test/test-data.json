@@ -84,6 +84,21 @@
           }
         }
       ]
+    },
+	 {
+      "id": 3,
+      "x": 0,
+      "y": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "k",
+          "position": {
+            "percentage": 0,
+            "direction": "E"
+          }
+        }
+      ]
     }
   ],
   "edges": [
