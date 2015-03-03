@@ -8,6 +8,14 @@ var Edge = require('./../lib/model/edge');
 var CardinalDirection = require('./../lib/enum/cardinalDirection');
 
 var DummyLayoutEngine = require('./../lib/layout/dummyLayout');
+var SpringLayoutEngine = require('./../lib/layout/force-directed-layout');
+var GraphParser = require('./../lib/model/graphParser');
+
+var TEST_DATA = require('./test-data.json');
+
+var parser = new GraphParser();
+var graph = parser.parseGraph(TEST_DATA);
+
 
 var generateGraph = function() {
   // the world's simplest graph
@@ -26,6 +34,16 @@ describe('dummy layout engine', function() {
   it('should take a graph and not blow up', function(done) {
     var testGraph = generateGraph();
     DummyLayoutEngine(testGraph);
+    testGraph.should.be.an.instanceOf(Graph);
+    done();
+  });
+});
+
+
+describe('spring layout engine', function() {
+  it('should take a graph and not blow up', function(done) {
+    var testGraph = generateGraph();
+    SpringLayoutEngine(graph);
     testGraph.should.be.an.instanceOf(Graph);
     done();
   });
