@@ -1,32 +1,18 @@
 var React = require('react');
-var App = require('./viewcomponents/app.jsx');
-var ModelFactory = require('./parse/modelFactory');
-var Lex = require('./parse/lex');
-var SemanticAnalysis = require('./parse/semanticAnalysis');
+var AppView = require('./viewcomponents/app.jsx');
+var GCLEditorModel = require('./model/gclEditorModel');
 
-var ASTExample = require('./parse/ASTExample.json');
+var gclEditorModel = new GCLEditorModel();
 
-var graph = ModelFactory.buildGraph(ASTExample);
-var gclErrors = [];
-
-// rerender on any change
-// graph.after('change', renderGraph);
-graph.after('change', function(e) {
+gclEditorModel.after('change', function(){
   renderGraph();
 });
 
 var renderGraph = function() {
-  React.render(<App graphModel={graph} gclErrors={gclErrors} />, document.getElementById('app-container'));
+  React.render(
+    <AppView gclEditorModel={gclEditorModel} />,
+    document.getElementById('app-container')
+  );
 };
-
-// TODO: Call this function when the text in the editor changes.
-var renderGraphFromGCL = function(contentLanguageText) {
-  var abtractSyntaxTree = Lex(contentLanguageText);
-  gclErrors = SemanticAnalysis(abtractSyntaxTree);
-  if (gclErrors.length === 0) {
-    graph = ModelFactory.buildGraph(abtractSyntaxTree);
-  }
-  renderGraph();
-}
 
 window.onload = renderGraph;
