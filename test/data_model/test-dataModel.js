@@ -30,14 +30,12 @@ var should = require('should'),
 
 	vertex1 = new Vertex({
         id: 1,
-        outputs: [port1],
-        styles: "some style"
+        outputs: [port1]
     }),
 
 	vertex2 = new Vertex({
         id: 2,
-        inputs: [port2],
-        styles: "some style",
+        inputs: [port2]
     }),
 
 	edge = new Edge({
@@ -58,10 +56,6 @@ describe('edge', function () {
 });
 
 describe('vertex', function () {
-    it('should contain some style', function (done) {
-        vertex1.get('styles').should.equal("some style");
-        done();
-    });
 	it('should have an in port', function (done) {
         vertex1.get('outputs')[0].should.equal(port1);
         done();
