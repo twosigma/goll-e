@@ -32,17 +32,19 @@
     "gulp-rename": "^1.2.0",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-symlink": "^2.0.0",
+    "gulp-traceur-compiler": "^1.1.4",
     "gulp-uglify": "^1.0.1",
     "istanbul": "^0.3.2",
     "jison": "^0.4.15",
     "jshint": "^2.5.6",
     "mocha": "^1.21.5",
+    "mocha-traceur": "^2.1.0",
     "react": "^0.12.1",
     "reactify": "^0.15.2",
     "shelljs": "^0.3.0",
     "should": "^4.0.4",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
   },
   "dependencies": {}
 }
