@@ -18,7 +18,7 @@ var App = React.createClass({
             {gclEditorModel.get('text')}
           </textarea>
         </div>
-        <Graph model={gclEditorModel.get('graphModel')} />
+        <Graph model={gclEditorModel.get('graph')} />
       </div>
     );
   },
