@@ -3,14 +3,14 @@
 // Sample that shows how to apply a style to a node.
 //
 
-california
+vertex california
 {
-    .someStyle
+    class "someStyle"
 }
 
-newYork
+vertex newYork
 {
-    .someStyle
-    .anotherStyle
+    class "someStyle"
+    class "anotherStyle"
 }
 

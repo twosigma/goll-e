@@ -4,17 +4,17 @@
 // and styles.
 // 
 
-newYork
+vertex newYork
 {
-    + jfk_airport
+    output jfk_airport
     {
-        "size": "really big"
-        .someStyle
+        attribute "size": "really big"
+        class "someStyle"
     }
     
-    - port_of_new_york
+    input port_of_new_york
     {
-        "size": "le huge"
-        .coolStyle
+        attribute "size": "le huge"
+        class "coolStyle"
     }
 }

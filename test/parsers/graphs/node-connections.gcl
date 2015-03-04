@@ -4,21 +4,21 @@
 // node inputs and outputs.
 //
 
-california
+vertex california
 {
-    +portOfLA
-    -lax
+    input portOfLA
+    output lax
 }
 
-newYork
+vertex newYork
 {
-    +jfk
-    -portOfNYC
+    input jfk
+    output portOfNYC
 }
 
 // Connection between the default inputs/outputs.
-connection cali_nyc california => newYork
+edge cali_nyc california -> newYork
 
 // Connection between explicitly named inputs/outputs.
-connection airports california->lax => newYork->jfk
+edge airports california.lax -> newYork.jfk
 

@@ -4,20 +4,20 @@
 // metadata and style information.
 //
 
-california
+vertex california
 {
-    +portOfLA
-    -lax
+    input portOfLA
+    output lax
 }
 
-newYork
+vertex newYork
 {
-    +jfk
-    -portOfNYC
+    input jfk
+    output portOfNYC
 }
 
-connection ports newYork->portOfNyc => california->portOfLA
+edge ports newYork.portOfNyc -> california.portOfLA
 {
-    .oceanStyle
-    "water": "yes"
+    class "oceanStyle"
+    attribute "water": "yes"
 }

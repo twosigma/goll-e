@@ -3,11 +3,11 @@
 // Sample that demonstrates how to create inputs and outputs on a node.
 //
 
-california
+vertex california
 {
-    + port_of_los_angeles
-    + lax {}
-    - interstate_highway
-    - spaceships {}
+    input port_of_los_angeles
+    input lax {}
+    output interstate_highway
+    output spaceships {}
 }
 

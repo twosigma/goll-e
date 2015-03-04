@@ -3,13 +3,13 @@
 // Sample that demonstrates how to add metadata to a node.
 //
 
-california
+vertex california
 {
-    "population": "38,332,521"
+    attribute "population": "38,332,521"
 }
 
-newYork
+vertex newYork
 {
-    "population": "19,651,127"
-    "population density per square mile": "411.2"
+    attribute "population": "19,651,127"
+    attribute "population density per square mile": "411.2"
 }

@@ -3,12 +3,12 @@
 // Sample that demonstrates how to create nested node definitions.
 //
 
-california
+vertex california
 {
-    norCal
-    soCal
+    vertex norCal
+    vertex soCal
     {
-        losAngeles
+        vertex losAngeles
         {
         }
     }
