@@ -1,131 +1,129 @@
 
-%nonassoc COLON ARROW
-%right REF_ARROW
-%right DOT PLUS MINUS
+%nonassoc COLON_OP CONN_ARROW_OP
+%left DOT_OP 
 
 %%
 
-/* Graphs consist of node definitions and reflexive connection definitions. */
-graph
-    : node_declarations connection_declarations ENDOFFILE
+markup
+    : definitions EOF
+    | EOF
     ;
 
-/* We can define many nodes in a single graph by recursively appending
-   the nodes together. */
-node_declarations
-    : node node_declarations
+definitions
+    : definition_expression definitions
+    | definition_expression 
+    ;
+
+definition_expression
+    : vertex
+    | edge
+    | template
+    ;
+
+vertex
+    : VERTEX_DECL identifier apply_template vertex_body 
+    ;
+
+vertex_body
+    : LBRACE vertex_expression_list RBRACE
     |
     ;
 
-/* Nodes consist of an identifier and list of node expressions
-   and connection declarations within a pair of braces. */
-node
-    : identifier
-    | identifier LBRACE node_expression_declarations RBRACE
-    ;
-
-/* Nodes can have zero or more node expressions. */
-node_expression_declarations
-    : node_expression node_expression_declarations
+vertex_expression_list
+    : vertex_expression vertex_expression_list
     |
     ;
 
-/* We can have the following things within a node. */
-node_expression
-    : node
-    | input
-    | output
-    | style
+vertex_expression
+    : vertex
+    | edge
+    | class
     | attribute
-    | connection
+    | port
     ;
 
-/**
- * Production rule which handles input declarations.
- */
-input
-    : PLUS identifier
-    | PLUS identifier LBRACE expression_declaration RBRACE
+edge
+    : EDGE_DECL identifier arrow_expression apply_template edge_body 
     ;
 
-/**
- * Production rule which handles output declarations.
- */
-output
-    : MINUS identifier
-    | MINUS identifier LBRACE expression_declaration RBRACE
+edge_body
+    : LBRACE edge_expression_list RBRACE
+    | 
     ;
 
-/**
- * Production rule which handles style declarations.
- */
-style
-    : DOT identifier
+edge_expression_list
+    : edge_expression edge_expression_list
+    |
     ;
 
-/**
- * Production rule which handles attribute declarations.
- */
+edge_expression
+    : class
+    | attribute
+    ;
+
+arrow_expression
+    : identifier DOT_OP identifier CONN_ARROW_OP identifier DOT_OP identifier
+    | identifier CONN_ARROW_OP identifier
+    ;
+
+port
+    : INPUT_DECL identifier apply_template port_body 
+    | OUTPUT_DECL identifier apply_template port_body
+    ;
+
+port_body
+    : LBRACE port_expression_list RBRACE
+    |
+    ;
+
+port_expression_list
+    : port_expression port_expression_list
+    | 
+    ;
+
+port_expression
+    : class
+    | attribute
+    ;
+
+template
+    : TEMPLATE_DECL vertex_template
+    | TEMPLATE_DECL edge_template
+    | TEMPLATE_DECL port_template
+    ;
+
+vertex_template
+    : VERTEX_DECL identifier vertex_body
+    ;
+
+edge_template
+    : EDGE_DECL identifier edge_body
+    ;
+
+port_template
+    : PORT_DECL identifier port_body
+    ;
+
+apply_template
+    : IS_OP identifier
+    |
+    ; 
+
+class
+    : CLASS_DECL string
+        { $$ = { 'type': 'CLASS', 'value': $2 }; }
+    ;
+
 attribute
-    : string_literal COLON string_literal 
+    : ATTR_DECL string ATTR_OP string
     ;
 
-/**
- * Production rule which allows for right-recursive declarations of a list
- * of connections.
- */
-connection_declarations
-    : connection connection_declarations
-    |
-    ;
-
-/**
- * Production rule which handles connection declarations.
- */
-connection
-    : CONNECTION identifier directional_dereference ARROW directional_dereference
-    | CONNECTION identifier directional_dereference ARROW directional_dereference LBRACE expression_declaration RBRACE
-    ;
-
-/**
- * Production rule for the expression which mades an input or output from
- * a node available for connection.
- */ 
-directional_dereference
-    : identifier
-    | identifier REF_ARROW identifier
-    ;
-
-/**
- * Production rule which allows for right-recursive declarations of a generic 
- * expression in the language.
- */
-expression_declaration
-    : expression expression_declaration
-    |
-    ;
-
-/**
- * Production rule for a basic expression. These appear in attributes and
- * connections but not nodes.
- */
-expression
-    : style
-    | attribute
-    ;
-
-/**
- * Production rule which aliases to any identifier.
- */
 identifier
-    : IDENTIFIER
+    : ID
     ;
 
-/**
- * Production rule which aliases to any string literal.
- */
-string_literal
+string
     : STR_LITERAL
+       { $$ = $1; }
     ;
-
 
