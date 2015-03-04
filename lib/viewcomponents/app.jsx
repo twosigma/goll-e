@@ -11,9 +11,6 @@ var App = React.createClass({
     return (
       <div id='app'>
         <div id='editorPanel'>
-          <button id='autoLayout' onClick={this._onAutoLayoutClick}>
-            perform automatic layout
-          </button>
           <textarea onChange={this._onGCLChange}>
             {gclEditorModel.get('text')}
           </textarea>
