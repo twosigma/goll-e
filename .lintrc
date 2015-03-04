@@ -1,0 +1,9 @@
+[tools]
+linters = eslint
+
+[tool_eslint]
+config = eslint-config.json
+
+[tool_jshint]
+config = jshint-config.json
+
