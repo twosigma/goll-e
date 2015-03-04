@@ -1,4 +1,10 @@
 
+%{
+    // Logic goes here.
+%}
+
+%ebnf
+
 %nonassoc COLON_OP CONN_ARROW_OP
 %left DOT_OP 
 
@@ -6,7 +12,9 @@
 
 markup
     : definitions EOF
+        {{ $$ = $1; console.log( $$ ); }}
     | EOF
+        {{ $$ = { "vertices": [], "edges": [] }; console.log( $$ ); }}
     ;
 
 definitions
@@ -16,8 +24,11 @@ definitions
 
 definition_expression
     : vertex
+        {{ $$ = $1; }}
     | edge
+        {{ $$ = $1; }}
     | template
+        {{ $$ = $1; }}
     ;
 
 vertex
