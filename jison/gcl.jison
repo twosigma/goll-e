@@ -137,12 +137,12 @@ definition_expression
 
 vertex
     : VERTEX_DECL identifier apply_template vertex_body
-      {{ $$ = createVertex($1, $3); }}
+      {{ $$ = createVertex($2, $4); }}
     ;
 
 vertex_body
     : LBRACE vertex_expression_list RBRACE
-      {{ $$ = $1; }}
+      {{ $$ = $2; }}
     |
       {{ $$ = []; }}
     ;
@@ -164,12 +164,12 @@ vertex_expression
 
 edge
     : EDGE_DECL identifier arrow_expression apply_template edge_body
-      {{ $$ = createVertex($1, $2.source, $2.target, $4); }}
+      {{ $$ = createVertex($2, $3.source, $3.target, $5); }}
     ;
 
 edge_body
     : LBRACE edge_expression_list RBRACE
-      {{ $$ = $1; }}
+      {{ $$ = $2; }}
     |
       {{ $$ = []; }}
     ;
@@ -199,14 +199,14 @@ port_selector
 
 port
     : INPUT_DECL identifier apply_template port_body
-      {{ $$ = createPort(INPUT_TYPE, $1, $3); }}
+      {{ $$ = createPort(INPUT_TYPE, $2, $4); }}
     | OUTPUT_DECL identifier apply_template port_body
-      {{ $$ = createPort(OUTPUT_TYPE, $1, $3)}}
+      {{ $$ = createPort(OUTPUT_TYPE, $2, $4)}}
     ;
 
 port_body
     : LBRACE port_expression_list RBRACE
-      {{ $$ = $1; }}
+      {{ $$ = $2; }}
     |
       {{ $$ = []; }}
     ;
