@@ -1,6 +1,9 @@
 
 %{
-    // Logic goes here.
+    var prependListValue = function(list, value) {
+      list.unshift(value);
+      return list;
+    }
 %}
 
 %ebnf
@@ -12,14 +15,22 @@
 
 markup
     : definitions EOF
-        {{ $$ = $1; console.log( $$ ); }}
+        {{
+            $$ = $1;
+            console.log( $$ );
+        }}
     | EOF
-        {{ $$ = { "vertices": [], "edges": [] }; console.log( $$ ); }}
+        {{ 
+            $$ = { "vertices": [], "edges": [] };
+            console.log( $$ );
+        }}
     ;
 
 definitions
     : definition_expression definitions
+        {{ $$ = prependListValue( $2, $1 ); }}
     | definition_expression 
+        {{ $$ = [$1]; }}
     ;
 
 definition_expression
@@ -42,7 +53,9 @@ vertex_body
 
 vertex_expression_list
     : vertex_expression vertex_expression_list
+        {{ $$ = prependListValue( $2, $1 ); }}
     |
+        {{ $$ = []; }}
     ;
 
 vertex_expression
@@ -64,7 +77,9 @@ edge_body
 
 edge_expression_list
     : edge_expression edge_expression_list
+        {{ $$ = prependListValue( $2, $1 ); }}
     |
+        {{ $$ = []; }}
     ;
 
 edge_expression
@@ -73,8 +88,14 @@ edge_expression
     ;
 
 arrow_expression
-    : identifier DOT_OP identifier CONN_ARROW_OP identifier DOT_OP identifier
-    | identifier CONN_ARROW_OP identifier
+    : port_selector CONN_ARROW_OP port_selector
+    ;
+
+port_selector
+    : identifier DOT_OP identifier
+    | identifier
+    | SELF_REF DOT_OP identifier
+    | SELF_REF
     ;
 
 port
@@ -89,7 +110,9 @@ port_body
 
 port_expression_list
     : port_expression port_expression_list
-    | 
+       {{ $$ = prependListValue( $2, $1 ); }}
+    |
+       {{ $$ = []; }}
     ;
 
 port_expression
@@ -122,19 +145,21 @@ apply_template
 
 class
     : CLASS_DECL string
-        { $$ = { 'type': 'CLASS', 'value': $2 }; }
+        {{ $$ = { 'type': 'class', 'value': $2 }; }}
     ;
 
 attribute
     : ATTR_DECL string ATTR_OP string
+        {{ $$ = { 'type': 'attribute', 'key': $2, 'value': $4 }; }}
     ;
 
 identifier
     : ID
+        {{ $$ = $1; }}
     ;
 
 string
     : STR_LITERAL
-       { $$ = $1; }
+        {{ $$ = $1; }}
     ;
 
