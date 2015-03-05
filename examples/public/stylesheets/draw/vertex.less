@@ -1,0 +1,19 @@
+
+.vertex {
+  cursor: move;
+  opacity: 0.8;
+
+  .vertex-box {
+    fill: white;
+    stroke: hsl(0, 0, 5%);
+  }
+
+  .label {
+    color: black;
+    alignment-baseline: central;
+  }
+
+  &:not(:hover) > .unpin-button {
+    display: none;
+  }
+}

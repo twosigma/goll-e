@@ -1,0 +1,20 @@
+//
+// node-inputs-outputs-with-style-metadata.gcl
+// Sample that demonstrates how to create inputs and outputs with metadata
+// and styles.
+// 
+
+newYork
+{
+    + jfk_airport
+    {
+        "size": "really big"
+        .someStyle
+    }
+    
+    - port_of_new_york
+    {
+        "size": "le huge"
+        .coolStyle
+    }
+}
