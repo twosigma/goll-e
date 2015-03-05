@@ -8,7 +8,7 @@ var Edge = require('./../lib/model/edge');
 var CardinalDirection = require('./../lib/enum/cardinalDirection');
 
 var DummyLayoutEngine = require('./../lib/layout/dummyLayout');
-var SpringLayoutEngine = require('./../lib/layout/force-directed-layout');
+var SpringLayoutEngine = require('./../lib/layout/forceDirectedLayout');
 var GraphParser = require('./../lib/model/graphParser');
 
 var TEST_DATA = require('./test-data.json');

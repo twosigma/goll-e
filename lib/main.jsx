@@ -6,7 +6,7 @@ var TEST_DATA = require('./test-data.json');
 
 var parser = new GraphParser();
 var graph = parser.parseGraph(TEST_DATA);
-var SpringLayoutEngine = require('./layout/force-directed-layout');
+var SpringLayoutEngine = require('./layout/forceDirectedLayout');
 
 // rerender on any change
 // graph.after('change', renderGraph);
