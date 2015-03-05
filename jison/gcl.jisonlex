@@ -12,6 +12,7 @@ str                \"[^\"\r\n]*\"|\'[^\'\r\n]*\'
 "class"            return 'CLASS_DECL';
 "attribute"        return 'ATTR_DECL';
 "is"               return 'IS_OP';
+"self"             return 'SELF_REF';
 "->"               return 'CONN_ARROW_OP';
 ":"                return 'ATTR_OP';
 "."                return 'DOT_OP';
