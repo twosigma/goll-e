@@ -142,7 +142,7 @@ vertex
 
 vertex_body
     : LBRACE vertex_expression_list RBRACE
-      {{ $$ = vertex_expression_list; }}
+      {{ $$ = $1; }}
     |
       {{ $$ = []; }}
     ;
@@ -169,7 +169,7 @@ edge
 
 edge_body
     : LBRACE edge_expression_list RBRACE
-      {{ $$ = edge_expression_list; }}
+      {{ $$ = $1; }}
     |
       {{ $$ = []; }}
     ;
@@ -206,7 +206,7 @@ port
 
 port_body
     : LBRACE port_expression_list RBRACE
-      {{ $$ = port_expression_list; }}
+      {{ $$ = $1; }}
     |
       {{ $$ = []; }}
     ;
