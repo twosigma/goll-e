@@ -2,7 +2,7 @@ var React = require('react');
 var Graph = require('./graph.jsx');
 
 var Toolbar = require('./gui/toolbar.jsx');
-var toolbarConfig = require('./gui/ToolbarConfig');
+var toolbarConfig = require('./gui/toolbarConfig');
  
 /**
  * App is the top-level component. It fills the whole body of the page.
