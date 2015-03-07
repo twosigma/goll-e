@@ -65,7 +65,9 @@ var handleKeydown = function(e) {
  */
 var CodeArea = React.createClass({
   propTypes: {
+    // single character, usually a tab or space
     tabChar: React.PropTypes.string,
+    // how many of the tabChar, or if it was a \t, the displayed width
     tabSize: React.PropTypes.number
   },
 
@@ -98,14 +100,20 @@ var CodeArea = React.createClass({
       textAreaProps.className += ' ' + this.props.className;
     }
 
-    // set the display size of the tab character in case that's used
-    if (!Lang.isObject(textAreaProps.style)) {
-      textAreaProps.style = {};
-    }
-    // does not actually work due to a React bug
-    textAreaProps.style['tab-size'] = this.props.tabSize;
+    if (this.props.tabChar === '\t') {
+      // set the display size of the tab character
+      if (!Lang.isObject(textAreaProps.style)) {
+        textAreaProps.style = {};
+      }
+      // does not actually work due to a React bug, but nice try.
+      textAreaProps.style['tab-size'] = this.props.tabSize;
 
-    this.tabStr = (new Array(this.props.tabSize + 1)).join(this.props.tabChar);
+      this.tabStr = '\t';
+
+    } else {
+      this.tabStr = (new Array(this.props.tabSize + 1)).join(this.props.tabChar);
+    }
+
 
     return React.createElement('textarea', textAreaProps, this.props.children);
   },
