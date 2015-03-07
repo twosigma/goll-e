@@ -140,6 +140,7 @@ gulp.task('browserify', ['jison'], function () {
     
     var bundler = browserify({
         entries: ['.' + path.sep + sourceFile],
+        debug: true
     });
     bundler.transform(reactify);
     

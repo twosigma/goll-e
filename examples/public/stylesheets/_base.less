@@ -29,6 +29,12 @@
 // USE VERY RARELY!
 @global-extra-large-font-size: 24px;
 
+@color-light-grey: #f2f2f2;
+@color-grey: #e2e2e2;
+
+@color-background: @color-light-grey;
+@color-background-darker: @color-grey;
+
 
 #global {
   .grab-cursor() {
@@ -50,5 +56,15 @@
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+  }
+
+  .standard-shadow() {
+    // calculate shadow from same parameters as photoshop
+    @distance: 4px;
+    @angle: 120deg;
+    @size: 9px;
+    @spread: .10;
+
+    box-shadow: -(@distance * cos(@angle)) (@distance * sin(@angle)) @size (@size * @spread) fade(black, 22%);
   }
 }
