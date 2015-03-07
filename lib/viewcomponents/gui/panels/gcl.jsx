@@ -1,10 +1,11 @@
 var React = require('react');
+var CodeArea = require('../codeArea.jsx');
 
 var GCLPanel = React.createClass({
   render: function() {
     return (
       <div className="gcl-panel">
-        <textarea className="code-editor"></textarea>
+        <CodeArea defaultValue="hello world;" className="code-editor"/>
         <div className="button-bar">
           <div className="wrapper">
             {/*buttons must be divs with class button. <input> and <button> cannot be styled for a button bar */}
