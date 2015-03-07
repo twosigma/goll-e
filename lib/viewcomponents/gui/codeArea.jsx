@@ -74,7 +74,7 @@ var CodeArea = React.createClass({
       tabChar: ' ',
       tabSize: 2,
       spellCheck: false
-    }
+    };
   },
 
   render: function() {
