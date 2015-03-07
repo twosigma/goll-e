@@ -4,7 +4,7 @@
 
 
   top: @top-offset;
-  @media (max-height: (720px)) {
+  @media (max-height: (@top-offset / 0.22)) {
     top: 22%;
   }
   right: 40px;
@@ -56,40 +56,4 @@
     height: ~"calc(100% - "@top-offset~")";
   }
 
-}
-
-.panel {
-  #global.standard-shadow();
-  
-  .title-bar {
-    height: 40px;
-    background-color: @color-background;
-    padding: 0 6px;
-
-    opacity: 0.65;
-
-    .title {
-      display: inline;
-      margin: 0;
-      font-size: 12.5px;
-      font-weight: bold;
-      text-transform: uppercase;
-
-      line-height: 40px;
-    }
-
-
-    .icon {
-      height: 20px;
-      padding-right: 5px;
-      vertical-align: middle;
-      margin-top: -2px;
-    }
-  }
-
-  .contentBox {
-    padding: 6px;
-
-    background-color: @color-background-darker;
-  }
 }

@@ -2,6 +2,8 @@ var React = require('react');
 var classSet = React.addons.classSet;
 
 var ObjectUtils = require('../../utilities/objects');
+
+var Panel = require('./panel.jsx');
 /*
 tools: an array of tool config objects keyed by name [{
   panelContent: ctor for the react component of contents of the panel,
@@ -48,25 +50,16 @@ var Toolbar = React.createClass({
       if (this.state.activePanel === null) {
         return null;
       }
-      var toolConfig = this.props.tools[this.state.activePanel];
 
-      return (
-        <div className="panel">
-          <div className="title-bar">
-            <img className="icon" src={toolConfig.icon} />
-            <h2 className="title">{toolConfig.title}</h2>
-          </div>
-          <div className="contentBox">
-          {React.createElement(toolConfig.panelContent, toolConfig.props)}
-          </div>
-        </div>
-      );
+      return React.createElement(Panel, this.props.tools[this.state.activePanel]);
     }.bind(this);
 
     return (
 
       <div className="toolbar">
-        <div className="panel-container">{createPanel()}</div>
+        <div className="panel-container">
+          {createPanel()}
+        </div>
 
         <ul className="tools">
           {createButtons()}
