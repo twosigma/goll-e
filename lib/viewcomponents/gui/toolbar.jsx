@@ -17,7 +17,7 @@ var Toolbar = React.createClass({
   getInitialState: function() {
     return {
       activePanel: null
-    }
+    };
   },
 
   render: function() {

@@ -23,7 +23,7 @@ var CreditsPanel = React.createClass({
           </div>
         </div>
       </div>
-    )
+    );
   }
 });
 
