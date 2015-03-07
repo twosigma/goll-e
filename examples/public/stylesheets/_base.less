@@ -69,4 +69,25 @@
 
     box-shadow: -(@distance * cos(@angle)) (@distance * sin(@angle)) @size (@size * @spread) fade(black, 22%);
   }
+
+  .button() {
+    opacity: 0.65;
+    font-weight: 500;
+
+    /* remove browser button styles */
+    outline: 0;
+    background-color: @color-background;
+    border: 0;
+
+    height: 40px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    .unselectable();
+
+    &:active {
+      background-color: @color-background-darker; 
+    }
+  }
 }

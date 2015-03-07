@@ -1,13 +1,17 @@
-
 .panel {
+  @padding: 9px;
   #global.standard-shadow();
   
   .title-bar {
     height: 40px;
     background-color: @color-background;
-    padding: 0 6px;
+    padding: 0 @padding;
 
-    opacity: 0.65;
+    #global.unselectable();
+
+    & > * {
+      opacity: 0.65;
+    }
 
     .title {
       display: inline;
@@ -30,10 +34,37 @@
   }
 
   .contentBox {
-    padding: 6px;
-
     background-color: @color-background-darker;
 
     color: @color-foreground;
+
+    padding: @padding;
+  }
+
+  /* panels may choose to have a div.button-bar filled with div.buttons as the last element */
+  .button-bar {
+    margin: -@padding;
+    margin-top: @padding;
+
+    display: table;
+    & > .wrapper {
+      display: table-row;
+      width: 100%;
+    }
+    width: 240px;
+    height: 45px; 
+    background-color: @color-background;
+    table-layout: fixed;
+    
+    div.button {
+      opacity: 1;
+      height: 100%;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+
+      border-right: 1px solid darken(@color-background, 10%);
+      width: 2%;
+    }
   }
 }
