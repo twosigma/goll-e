@@ -1,33 +1,95 @@
 .toolbar {
   position: absolute;
-  top: 160px;
+  @top-offset: 160px;
+
+
+  top: @top-offset;
+  @media (max-height: (720px)) {
+    top: 22%;
+  }
   right: 40px;
 
-  width: 45px;
+  @tools-width: 45px;
 
-  background-color: @color-background;
+  .tools {
 
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    position: absolute;
+    right: 0;
 
-  #global.standard-shadow();
-
-  .button {
-    height: 40px;
+    width: @tools-width;
 
     background-color: @color-background;
-    border-bottom: 1px solid darken(@color-background, 10%);
 
-    cursor: pointer;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-    & > img {
-      opacity: 0.65;
-      border: none;
+    #global.standard-shadow();
+
+    .button {
+      height: 40px;
+
+      background-color: @color-background;
+      border-bottom: 1px solid darken(@color-background, 10%);
+
+      cursor: pointer;
+
+      & > img {
+        opacity: 0.65;
+        border: none;
+      }
+
+      &.active {
+        background-color: @color-background-darker;
+      }
+    }
+  }
+
+  .panel-container {
+    position: absolute;
+    right: @tools-width;
+
+    margin-right: 5px;
+
+    width: 240px;
+
+    height: ~"calc(100% - "@top-offset~")";
+  }
+
+}
+
+.panel {
+  #global.standard-shadow();
+  
+  .title-bar {
+    height: 40px;
+    background-color: @color-background;
+    padding: 0 6px;
+
+    opacity: 0.65;
+
+    .title {
+      display: inline;
+      margin: 0;
+      font-size: 12.5px;
+      font-weight: bold;
+      text-transform: uppercase;
+
+      line-height: 40px;
     }
 
-    &.active {
-      background-color: @color-background-darker;
+
+    .icon {
+      height: 20px;
+      padding-right: 5px;
+      vertical-align: middle;
+      margin-top: -2px;
     }
+  }
+
+  .contentBox {
+    padding: 6px;
+
+    background-color: @color-background-darker;
   }
 }

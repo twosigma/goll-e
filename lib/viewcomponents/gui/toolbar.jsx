@@ -24,7 +24,7 @@ var Toolbar = React.createClass({
       ObjectUtils.each(this.props.tools, function(toolConfig, name) {
           var clickHander = function() {
             this.setState({
-              activePanel: name
+              activePanel: this.state.activePanel == name ? null : name
             });
           }.bind(this);
 
@@ -44,11 +44,34 @@ var Toolbar = React.createClass({
       return buttons;
     }.bind(this);
 
+    var createPanel = function() {
+      if (this.state.activePanel === null) {
+        return null;
+      }
+      var toolConfig = this.props.tools[this.state.activePanel];
+
+      return (
+        <div className="panel">
+          <div className="title-bar">
+            <img className="icon" src={toolConfig.icon} />
+            <h2 className="title">{toolConfig.title}</h2>
+          </div>
+          <div className="contentBox">
+          {React.createElement(toolConfig.panelContent, toolConfig.props)}
+          </div>
+        </div>
+      );
+    }.bind(this);
+
     return (
 
-      <ul className="toolbar buttons">
-        {createButtons()}
-      </ul>
+      <div className="toolbar">
+        <div className="panel-container">{createPanel()}</div>
+
+        <ul className="tools">
+          {createButtons()}
+        </ul>
+      </div>
 
     );
   }
