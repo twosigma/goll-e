@@ -75,6 +75,7 @@ var CodeArea = React.createClass({
     return {
       tabChar: ' ',
       tabSize: 2,
+
       spellCheck: false
     };
   },
@@ -101,21 +102,30 @@ var CodeArea = React.createClass({
     }
 
     if (this.props.tabChar === '\t') {
-      // set the display size of the tab character
-      if (!Lang.isObject(textAreaProps.style)) {
-        textAreaProps.style = {};
-      }
-      // does not actually work due to a React bug, but nice try.
-      textAreaProps.style['tab-size'] = this.props.tabSize;
-
       this.tabStr = '\t';
 
     } else {
       this.tabStr = (new Array(this.props.tabSize + 1)).join(this.props.tabChar);
     }
 
+    textAreaProps.ref = "textarea";
+
 
     return React.createElement('textarea', textAreaProps, this.props.children);
+  },
+
+  componentDidMount: function() {
+    // Bypassing React to do real stuff
+
+    var textareaNode = this.refs.textarea.getDOMNode();
+    // React can suck a dick (Issue #140 - cannot set nonstandard atttributes)
+    // This defunct HTML attribute is the only way to prevent wrapping and allow tabbing.
+    textareaNode.setAttribute('wrap', 'off');
+
+    // React can suck another dick
+    // It appends 'px' to the tab size, which is wrong and not accepted by the browser.
+    textareaNode.style['tab-size'] = this.props.tabSize;
+    
   }
 });
 

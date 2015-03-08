@@ -100,4 +100,33 @@
       }
     }
   }
+
+  .standard-scrollbars() {
+    @size: 6px;
+    @base-color: @color-background-darker;
+
+    ::-webkit-scrollbar {
+      width: @size;
+      height: @size;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: @base-color;
+    }
+
+    @thumb-color: darken(@base-color, 10%);
+
+    ::-webkit-scrollbar-thumb {
+      background: @thumb-color;
+    }
+
+    ::-webkit-scrollbar-thumb:window-inactive {
+      background: lighten(@thumb-color, 5%);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: darken(@thumb-color, 5%);
+    }
+
+  }
 }

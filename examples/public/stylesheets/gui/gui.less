@@ -14,22 +14,4 @@
   #global.button();
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background:@color-background-darker, 10%;
-}
-
-::-webkit-scrollbar-thumb {
-  background: darken(@color-background-darker, 10%);
-}
-
-::-webkit-scrollbar-thumb:window-inactive {
-  background: darken(@color-background-darker, 5%);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: darken(@color-background-darker, 15%);
-}
+#global.standard-scrollbars();
