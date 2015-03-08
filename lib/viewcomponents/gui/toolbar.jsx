@@ -5,15 +5,26 @@ var ObjectUtils = require('../../utilities/objects');
 
 var Panel = require('./panel.jsx');
 /*
-tools: an array of tool config objects keyed by name [{
+tools: an object of tool config objects keyed by name {
   panelContent: ctor for the react component of contents of the panel,
   icon: path to icon image
-  title: string titilo
-}]
+  title: string title of panel
+  props: any props to pass to the panel
+}
  */
 
 
 var Toolbar = React.createClass({
+  propTypes: {
+    tools: React.PropTypes.object
+  },
+
+  getDefaultProps: function() {
+    return {
+      tools: {}
+    };
+  },
+
   getInitialState: function() {
     return {
       activePanel: null
@@ -24,24 +35,26 @@ var Toolbar = React.createClass({
     var createButtons = function() {
       var buttons = [];
       ObjectUtils.each(this.props.tools, function(toolConfig, name) {
-          var clickHander = function() {
-            this.setState({
-              activePanel: this.state.activePanel == name ? null : name
-            });
-          }.bind(this);
 
-          var classPredicates = {};
-          classPredicates.button = true;
-          classPredicates.active = this.state.activePanel === name;
-          classPredicates['button-' + name] = !!name;
-          var classes = classSet(classPredicates);
+        var clickHander = function() {
+          // make active panel clicked panel. If already active, close panel (make null).
+          this.setState({
+            activePanel: this.state.activePanel === name ? null : name
+          });
+        }.bind(this);
 
-          buttons.push(
-            <li key={name} onClick={clickHander} title={toolConfig.title} className={classes} >
-              <img src={toolConfig.icon}/>
-            </li>
-          );
-        }, this);
+        var classPredicates = {};
+        classPredicates.button = true;
+        classPredicates.active = this.state.activePanel === name;
+        classPredicates['button-' + name] = !!name;
+        var classes = classSet(classPredicates);
+
+        buttons.push(
+          <li key={name} onClick={clickHander} title={toolConfig.title} className={classes} >
+            <img src={toolConfig.icon}/>
+          </li>
+        );
+      }, this);
 
       return buttons;
     }.bind(this);
@@ -52,7 +65,6 @@ var Toolbar = React.createClass({
       }
       var toolConfig = this.props.tools[this.state.activePanel];
 
-      // return React.createElement(Panel, this.props.tools[this.state.activePanel]);
       return (
         <Panel title={toolConfig.title} icon={toolConfig.icon}>
           {React.createElement(toolConfig.panelContent, toolConfig.props)}

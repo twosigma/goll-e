@@ -50,7 +50,7 @@ var handleKeydown = function(e) {
       insertString += tabStr;
       thisLine = thisLine.substring(tabStr.length);
     }
-    
+
     el.value = text.substring(0, start) + insertString + text.substring(end);
     el.selectionStart = el.selectionEnd = start + insertString.length;
     break;
@@ -116,7 +116,7 @@ var CodeArea = React.createClass({
 
 
     return React.createElement('textarea', textAreaProps, this.props.children);
-  },
+  }
 });
 
 module.exports = CodeArea;

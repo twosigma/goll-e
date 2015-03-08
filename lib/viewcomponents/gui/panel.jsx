@@ -16,7 +16,7 @@ var Panel = React.createClass({
       </div>
     );
   }
-  
+
 });
 
 module.exports = Panel;
