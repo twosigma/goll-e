@@ -1,14 +1,4 @@
 .toolbar {
-  position: absolute;
-  @top-offset: 160px;
-
-
-  top: @top-offset;
-  @media (max-height: (@top-offset / 0.22)) {
-    top: 22%;
-  }
-  right: 40px;
-
   @tools-width: 45px;
 
   .tools {
@@ -59,7 +49,7 @@
 
     width: 240px;
 
-    height: ~"calc(100% - "(@top-offset - 40px)~")";
+    
   }
 
 }
