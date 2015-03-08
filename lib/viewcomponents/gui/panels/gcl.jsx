@@ -6,11 +6,12 @@ var GCLPanel = React.createClass({
     return (
       <div className="gcl-panel">
         <CodeArea defaultValue="hello world;" className="code-editor"/>
+        {/* good example of panel's button-bar styles. Must done in this way. div.button-bar:last-child > div.wrapper > div.button
+        <input> and <button> cannot be styled for a button bar :-( */}
         <div className="button-bar">
           <div className="wrapper">
-            {/*buttons must be divs with class button. <input> and <button> cannot be styled for a button bar */}
+            <div className="button btn-revert disabled">Revert</div>
             <div className="button btn-apply">Apply</div>
-            <div className="button btn-revert">Revert</div>
           </div>
         </div>
       </div>

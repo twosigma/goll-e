@@ -50,8 +50,14 @@ var Toolbar = React.createClass({
       if (this.state.activePanel === null) {
         return null;
       }
+      var toolConfig = this.props.tools[this.state.activePanel];
 
-      return React.createElement(Panel, this.props.tools[this.state.activePanel]);
+      // return React.createElement(Panel, this.props.tools[this.state.activePanel]);
+      return (
+        <Panel title={toolConfig.title} icon={toolConfig.icon}>
+          {React.createElement(toolConfig.panelContent, toolConfig.props)}
+        </Panel>
+      );
     }.bind(this);
 
     return (

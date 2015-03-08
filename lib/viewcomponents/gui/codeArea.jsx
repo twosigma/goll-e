@@ -59,7 +59,7 @@ var handleKeydown = function(e) {
 
 /**
  * Identical to an HTML textarea, but has reasonable defaults for code,
- * especially with smart tabbing.
+ * especially with smart tabbing (tabbing in a textarea blurs it).
  * @class CodeArea
  * @constructor
  */

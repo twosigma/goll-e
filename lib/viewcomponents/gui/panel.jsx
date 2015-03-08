@@ -10,7 +10,8 @@ var Panel = React.createClass({
           <h2 className="title">{this.props.title}</h2>
         </div>
         <div className="contentBox">
-          {React.createElement(this.props.panelContent, this.props.props)}
+          {/*React.createElement(this.props.panelContent, this.props.props)*/}
+          {this.props.children}
         </div>
       </div>
     );
