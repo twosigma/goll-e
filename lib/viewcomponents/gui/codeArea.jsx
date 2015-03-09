@@ -118,11 +118,11 @@ var CodeArea = React.createClass({
     // Bypassing React to do real stuff
 
     var textareaNode = this.refs.textarea.getDOMNode();
-    // React can suck a dick (Issue #140 - cannot set nonstandard atttributes)
+    // React can **** a **** (Issue #140 - cannot set nonstandard atttributes)
     // This defunct HTML attribute is the only way to prevent wrapping and allow tabbing.
     textareaNode.setAttribute('wrap', 'off');
 
-    // React can suck another dick
+    // React can **** another ****
     // It appends 'px' to the tab size, which is wrong and not accepted by the browser.
     textareaNode.style['tab-size'] = this.props.tabSize;
     
