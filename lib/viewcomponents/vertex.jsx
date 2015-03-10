@@ -6,7 +6,6 @@ var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
 var PortLabelPosition = require('../enum/portLabelPosition');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
-var CartesianPortPosition = require('../model/cartesianPortPosition');
 
 var vertexWidth = 150;
 var vertexHeight = vertexWidth/1.6;
@@ -103,8 +102,8 @@ var Vertex = React.createClass({
     var cartesianPos = PositionUtils.Conversion.cardinalToCartesian(portPositionModel);
 
     return {
-      x: cartesianPos.getX() * vertexWidth,
-      y: cartesianPos.getY() * vertexHeight,
+      x: cartesianPos.x * vertexWidth,
+      y: cartesianPos.y * vertexHeight,
       labelPosition: labelPosition
     };
   },
@@ -113,7 +112,7 @@ var Vertex = React.createClass({
     var hPct = pos.x/vertexWidth;
     var vPct = pos.y/vertexHeight;
 
-    var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal(new CartesianPortPosition(hPct, vPct));
+    var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
 
     portModel.set('position', cardinalPosition);
   }
