@@ -6,6 +6,7 @@
 var fs = require('fs'),
     path = require('path'),
     should = require('should'),
+    _ = require('underscore'),
     generateAST = require('../../jison/gcl').parse;
 
 var graphsDir = path.join(__dirname , 'graphs');
@@ -35,14 +36,8 @@ var testGenerateAST = function (description, name) {
       // Make sure that it doesn't return null.
       generatedAST.should.not.equal(null);
 
-      if (generatedAST) {
-        generatedAST = JSON.stringify(generatedAST);
-      }
-
-      var properAST = JSON.stringify(testingGraph.ast)
-
       // Make sure that it looks like the expected result.
-      generatedAST.should.be.exactly(properAST);
+      should(_.isEqual(generatedAST, testingGraph.ast)).be.ok;
 
       done();
     });
