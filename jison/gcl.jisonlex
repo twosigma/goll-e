@@ -1,5 +1,5 @@
 id                 [_a-zA-Z][_a-zA-Z0-9]*
-str                [^\"\r\n]*
+str                \"[^\"\r\n]*\"|\'[^\'\r\n]*\'
 
 %%
 "//".*             /* Ignore */
@@ -18,8 +18,9 @@ str                [^\"\r\n]*
 "."                return 'DOT_OP';
 "{"                return 'LBRACE';
 "}"                return 'RBRACE';
-"\""               return 'DOUBLE_QUOTE';
 {id}               return 'ID';
 {str}              return 'STR_LITERAL';
 \s+                /* Ignore Whitespace */
 <<EOF>>            return 'EOF';
+
+
