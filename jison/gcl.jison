@@ -285,5 +285,5 @@ identifier
 
 string
     : STR_LITERAL
-        {{ $$ = $1; }}
+        {{ $$ = $1.slice(1, -1); }}
     ;
