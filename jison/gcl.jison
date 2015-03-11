@@ -30,11 +30,11 @@
       'id': id,
       'classes': [],
       'metadata': {},
-      'inputs': [],
-      'outputs': [],
+      'inputs': {},
+      'outputs': {},
       'subGraph': {
-        'vertices': [],
-        'edges': []
+        'vertices': {},
+        'edges': {}
       }
     };
     expressionList.forEach(function(expression) {
