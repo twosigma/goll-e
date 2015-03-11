@@ -1,6 +1,6 @@
 //
-// node-inputs-outputs.gcl
-// Sample that demonstrates how to create inputs and outputs on a node.
+// port.gcl
+// Sample that demonstrates how to create ports.
 //
 
 vertex california
@@ -10,4 +10,3 @@ vertex california
     output interstate_highway
     output spaceships {}
 }
-

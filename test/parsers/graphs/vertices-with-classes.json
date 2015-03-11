@@ -1,0 +1,32 @@
+{
+  "vertices": {
+    "california": {
+      "id": "california",
+      "inputs": {},
+      "outputs": {},
+      "classes": [
+        "someStyle"
+      ],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "newYork": {
+      "id": "newYork",
+      "inputs": {},
+      "outputs": {},
+      "classes": [
+        "someStyle",
+        "anotherStyle"
+      ],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {}
+}

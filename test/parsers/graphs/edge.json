@@ -1,0 +1,78 @@
+{
+  "vertices": {
+    "california": {
+      "id": "california",
+      "inputs": {
+        "portOfLA": {
+          "id": "portOfLA",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "outputs": {
+        "lax": {
+          "id": "lax",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "newYork": {
+      "id": "newYork",
+      "inputs": {
+        "jfk": {
+          "id": "jfk",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "outputs": {
+        "portOfNYC": {
+          "id": "portOfNYC",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {
+    "cali_nyc": {
+      "id": "cali_nyc",
+      "source": {
+        "vertexId": "california",
+        "portId": null
+      },
+      "target": {
+        "vertexId": "newYork",
+        "portId": null
+      },
+      "classes": [],
+      "metadata": {}
+    },
+    "airports": {
+      "id": "airports",
+      "source": {
+        "vertexId": "california",
+        "portId": "lax"
+      },
+      "target": {
+        "vertexId": "newYork",
+        "portId": "jfk"
+      },
+      "classes": [],
+      "metadata": {}
+    }
+  }
+}

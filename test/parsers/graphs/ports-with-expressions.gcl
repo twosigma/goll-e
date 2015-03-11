@@ -1,8 +1,7 @@
 //
-// node-inputs-outputs-with-style-metadata.gcl
-// Sample that demonstrates how to create inputs and outputs with metadata
-// and styles.
-// 
+// ports-with-expressions.gcl
+// Sample that demonstrates how to create port with metadata and styles.
+//
 
 vertex newYork
 {
@@ -11,7 +10,7 @@ vertex newYork
         attribute "size": "really big"
         class "someStyle"
     }
-    
+
     input port_of_new_york
     {
         attribute "size": "le huge"

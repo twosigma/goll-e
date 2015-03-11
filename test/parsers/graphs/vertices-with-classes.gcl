@@ -1,6 +1,6 @@
 //
-// node-style.gcl
-// Sample that shows how to apply a style to a node.
+// vertices-with-classes.gcl
+// Sample that shows how to apply a class to a vertex.
 //
 
 vertex california
@@ -13,4 +13,3 @@ vertex newYork
     class "someStyle"
     class "anotherStyle"
 }
-

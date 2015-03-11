@@ -1,6 +1,6 @@
 //
-// node-metadata.gcl
-// Sample that demonstrates how to add metadata to a node.
+// vertex-metadata.gcl
+// Sample that demonstrates how to add metadata to a vertex.
 //
 
 vertex california

@@ -7,6 +7,24 @@
   var CLASS_TYPE = 'class';
   var ATTRIBUTE_TYPE = 'attribute';
 
+  var createTopLevel = function(expressionList) {
+    var topLevel = {
+      'vertices': {},
+      'edges': {}
+    };
+    expressionList.forEach(function(expression) {
+      switch (expression.type) {
+        case VERTEX_TYPE:
+          addToObject(topLevel.vertices, expression.value);
+          break;
+        case EDGE_TYPE:
+          addToObject(topLevel.edges, expression.value);
+          break;
+      }
+    });
+    return topLevel;
+  }
+
   var createVertex = function(id, expressionList) {
     var vertex = {
       'id': id,
@@ -28,16 +46,16 @@
           vertex.metadata[expression.key] = expression.value;
           break;
         case INPUT_TYPE:
-          vertex.inputs.push(expression.value);
+          addToObject(vertex.subGraph.inputs, expression.value);
           break;
         case OUTPUT_TYPE:
-          vertex.outputs.push(expression.value);
+          addToObject(vertex.subGraph.outputs, expression.value);
           break;
         case VERTEX_TYPE:
-          vertex.subGraph.vertices.push(expression.value);
+          addToObject(vertex.subGraph.vertices, expression.value);
           break;
         case EDGE_TYPE:
-          vertex.subGraph.edges.push(expression.value);
+          addToObject(vertex.subGraph.edges, expression.value);
           break;
       }
     });
@@ -93,6 +111,10 @@
     };
   };
 
+  var addToObject = function(obj, element) {
+    obj[element.id] = element;
+  }
+
   var prependListValue = function(list, value) {
     list.unshift(value);
     return list;
@@ -109,13 +131,13 @@
 markup
     : definitions EOF
         {{
-            $$ = $1;
-            console.log( $$ );
+            $$ = createTopLevel($1);
+            return $$;
         }}
     | EOF
         {{
-            $$ = { "vertices": [], "edges": [] };
-            console.log( $$ );
+            $$ = createTopLevel([]);
+            return $$;
         }}
     ;
 
@@ -164,7 +186,7 @@ vertex_expression
 
 edge
     : EDGE_DECL identifier arrow_expression apply_template edge_body
-      {{ $$ = createVertex($2, $3.source, $3.target, $5); }}
+      {{ $$ = createEdge($2, $3.source, $3.target, $5); }}
     ;
 
 edge_body

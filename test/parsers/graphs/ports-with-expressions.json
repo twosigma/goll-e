@@ -1,0 +1,36 @@
+{
+  "vertices": {
+    "newYork": {
+      "id": "newYork",
+      "inputs": {
+        "port_of_new_york": {
+          "id": "port_of_new_york",
+          "classes": [
+            "coolStyle"
+          ],
+          "metadata": {
+            "size": "le huge"
+          }
+        }
+      },
+      "outputs": {
+        "jfk_airport": {
+          "id": "jfk_airport",
+          "classes": [
+            "someStyle"
+          ],
+          "metadata": {
+            "size": "really big"
+          }
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {}
+}

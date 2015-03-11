@@ -1,0 +1,51 @@
+{
+  "vertices": {
+    "california": {
+      "id": "california",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {
+          "norCal": {
+            "id": "norCal",
+            "inputs": {},
+            "outputs": {},
+            "classes": [],
+            "metadata": {},
+            "subGraph": {
+              "vertices": {},
+              "edges": {}
+            }
+          },
+          "soCal": {
+            "id": "soCal",
+            "inputs": {},
+            "outputs": {},
+            "classes": [],
+            "metadata": {},
+            "subGraph": {
+              "vertices": {
+                "losAngeles": {
+                  "id": "losAngeles",
+                  "inputs": {},
+                  "outputs": {},
+                  "classes": [],
+                  "metadata": {},
+                  "subGraph": {
+                    "vertices": {},
+                    "edges": {}
+                  }
+                }
+              },
+              "edges": {}
+            }
+          }
+        },
+        "edges": {}
+      }
+    }
+  },
+  "edges": {}
+}

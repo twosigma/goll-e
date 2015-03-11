@@ -1,78 +1,58 @@
 /**
- * Unit tests that attempt to verify that we can at parse some minimal, valid
- * GOLL-E Content Language files.
+ * Unit tests that attempt to verify that we can generate ASTs from some minimal,
+ * valid GOLL-E Content Language files.
  */
 
 var fs = require('fs'),
     path = require('path'),
     should = require('should'),
-    parser = require('../../jison/gcl.js');
+    generateAST = require('../../jison/gcl').parse;
 
-var testParse = function (gclPath, done) {
+var graphsDir = path.join(__dirname , 'graphs');
+
+var graph = function(name) {
+  var gcl = String(fs.readFileSync(path.join(__dirname , 'graphs', name + '.gcl')));
+  var ast = require(path.join(__dirname , 'graphs', name + '.json'));
+  return {
+    gcl: gcl,
+    ast: ast
+  }
+};
+
+var testGenerateAST = function (description, name) {
     'use strict';
-    
-    // Attempt to read in the specified sample file.
-    fs.readFile(gclPath, { 
-        encoding: 'utf-8', 
-        flag: 'r'
-    }, function (err, data) {
-        // Throw an error if the file can't be rest.
-        if(err) throw err;
 
-        // Make sure that the file can actually be parsed.
-        (function() {
-            parser.parse(data);
-        }).should.not.throw();
+    it('should generate an AST from ' + description, function(done) {
+      var testingGraph = graph(name);
+      var generatedAST = null;
 
-        // If it doesn't throw, we're good.
-        done();
+      // Make sure that the file can actually be parsed.
+      (function() {
+          generatedAST = generateAST(testingGraph.gcl);
+      }).should.not.throw();
+
+
+      // Make sure that it doesn't return null.
+      generatedAST.should.not.equal(null);
+
+      // Make sure that it looks like the expected result.
+      generatedAST.should.equal(testingGraph.ast);
+
+      done();
     });
-}
+};
 
 describe('gcl parser', function() {
-    it('should parse an empty gcl file', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'empty.gcl');
-        testParse(filePath, done);
-    });
 
-    it('should parse a minimal gcl file', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-minimal.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with nested nodes', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-nesting.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with attributes present', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-metadata.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with styles on nodes.', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-style.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with inputs and outputs', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-inputs-outputs.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with styles and attributes on inputs and outputs', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-inputs-outputs-with-expressions.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with connected nodes present', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-connections.gcl');
-        testParse(filePath, done);
-    });
-
-    it('should parse a gcl file with styles and attributes on node connections', function(done) {
-        var filePath = path.join(__dirname, 'graphs', 'node-connections-with-expressions.gcl');
-        testParse(filePath, done);
-    });
+    testGenerateAST('an empty gcl file', 'empty');
+    testGenerateAST('a minimal gcl file', 'vertex-minimal');
+    testGenerateAST('a gcl file with nested vertices', 'nesting');
+    testGenerateAST('a gcl file with metadata on vertices', 'vertex-metadata');
+    testGenerateAST('a gcl file with classes on to vertices.', 'vertices-with-classes');
+    testGenerateAST('a gcl file with ports', 'port');
+    testGenerateAST('a gcl file with classes and metadata on ports', 'ports-with-expressions');
+    testGenerateAST('a gcl file with edges', 'edge');
+    testGenerateAST('a gcl file with classes and metadata on edges', 'edges-with-classes-and-metadata');
+    testGenerateAST('a complex gcl file with nesting, edges, self keyword, classes, and metadata', 'complex');
 
 });

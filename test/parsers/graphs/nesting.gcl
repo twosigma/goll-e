@@ -1,6 +1,6 @@
 //
-// node-nesting.gcl
-// Sample that demonstrates how to create nested node definitions.
+// nesting.gcl
+// Sample that demonstrates how to create nested subgraphs.
 //
 
 vertex california
