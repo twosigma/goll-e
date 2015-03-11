@@ -46,10 +46,10 @@
           vertex.metadata[expression.key] = expression.value;
           break;
         case INPUT_TYPE:
-          addToObject(vertex.subGraph.inputs, expression.value);
+          addToObject(vertex.inputs, expression.value);
           break;
         case OUTPUT_TYPE:
-          addToObject(vertex.subGraph.outputs, expression.value);
+          addToObject(vertex.outputs, expression.value);
           break;
         case VERTEX_TYPE:
           addToObject(vertex.subGraph.vertices, expression.value);
