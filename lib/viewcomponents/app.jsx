@@ -10,9 +10,8 @@ var App = React.createClass({
     var gclEditorModel = this.props.gclEditorModel;
     return (
       <div id='app'>
-        <div id='editorPanel'>
-          <textarea onChange={this._onGCLChange}>
-            {gclEditorModel.get('text')}
+        <div id='model_editor'>
+          <textarea onChange={this._onGCLChange} defaultValue={gclEditorModel.get('text')}>
           </textarea>
         </div>
         <Graph model={gclEditorModel.get('graph')} />
