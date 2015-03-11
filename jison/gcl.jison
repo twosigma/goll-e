@@ -284,6 +284,6 @@ identifier
     ;
 
 string
-    : STR_LITERAL
-        {{ $$ = $1; }}
+    : DOUBLE_QUOTE STR_LITERAL DOUBLE_QUOTE
+        {{ $$ = $2; }}
     ;
