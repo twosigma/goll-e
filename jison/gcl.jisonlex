@@ -22,5 +22,3 @@ str                \"[^\"\r\n]*\"|\'[^\'\r\n]*\'
 {str}              return 'STR_LITERAL';
 \s+                /* Ignore Whitespace */
 <<EOF>>            return 'EOF';
-
-
