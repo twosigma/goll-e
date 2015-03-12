@@ -1,7 +1,6 @@
 //
-// node-connections.gcl
-// Sample that demonstrates how to create connections between
-// node inputs and outputs.
+// edge.gcl
+// Sample that demonstrates how to create edges.
 //
 
 vertex california
@@ -21,4 +20,3 @@ edge cali_nyc california -> newYork
 
 // Connection between explicitly named inputs/outputs.
 edge airports california.lax -> newYork.jfk
-
