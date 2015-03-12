@@ -52,8 +52,8 @@ var Vertex = React.createClass({
             className='vertex-box'
             onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
-          <text className='label' textAnchor='start' x={padding} y={titlePosition}>
-            {model.get('id')}
+          <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
+            {/*model.get('id')*/}
           </text>
           {// If the node is pinned, show an unpin button.
             showPin?
@@ -66,6 +66,28 @@ var Vertex = React.createClass({
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
+  },
+
+  componentDidMount: function() {
+    // keep adding characters until it just fits into the container
+    var textNode = this.refs.titleText.getDOMNode();
+    var title = this.props.model.get('id');
+    var maxWidth = this.props.model.get('styles').get('width') - padding * 2 - 5;
+
+    // as an optimization, try the whole string first
+    textNode.textContent = title;
+    if (textNode.getBBox().width < maxWidth) {
+      return;
+    } else {
+      textNode.textContent = '';
+    }
+
+    var n = 0;
+
+    while (textNode.getBBox().width < maxWidth && n < title.length) {
+      textNode.textContent = title.substring(n) + '…';
+      n++;
+    }
   },
 
   _getRenderedPorts: function(portModels) {
