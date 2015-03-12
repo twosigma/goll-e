@@ -8,6 +8,8 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var portRadius = 4;
 var BASE_MARGIN = 6;
 
+var yOffset = 8;
+
 var Port = React.createClass({
   propTypes: {
     model: React.PropTypes.instanceOf(PortModel).isRequired,
@@ -116,6 +118,12 @@ var Port = React.createClass({
 
       case LabelPosition.LEFT:
       return {x: -totalMargin, y: 0, textAnchor: 'end'};
+
+      case LabelPosition.RIGHT_OFFSET:
+      return {x: totalMargin, y: -yOffset, textAnchor: 'start'};
+
+      case LabelPosition.LEFT_OFFSET:
+      return {x: -totalMargin, y: -yOffset, textAnchor: 'end'};
 
       case LabelPosition.ABOVE:
       return {x: 0, y: -totalMargin, textAnchor: 'start'};
