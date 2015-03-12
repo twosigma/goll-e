@@ -36,8 +36,6 @@ var testGenerateAST = function (description, name) {
       // Make sure that it doesn't return null.
       generatedAST.should.not.equal(null);
 
-      console.log('\n' + '\n' + JSON.stringify(generatedAST) + '\n' + '\n');
-
       // Make sure that it looks like the expected result.
       should(_.isEqual(generatedAST, testingGraph.ast)).be.ok;
 
