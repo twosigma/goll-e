@@ -1,0 +1,32 @@
+{
+  "vertices": {
+    "california": {
+      "id": "california",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {
+        "population": "38,332,521"
+      },
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "newYork": {
+      "id": "newYork",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {
+        "population": "19,651,127",
+        "population density per square mile": "411.2"
+      },
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {}
+}

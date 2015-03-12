@@ -1,0 +1,15 @@
+//
+// vertex-metadata.gcl
+// Sample that demonstrates how to add metadata to a vertex.
+//
+
+vertex california
+{
+    attribute "population": "38,332,521"
+}
+
+vertex newYork
+{
+    attribute "population": "19,651,127"
+    attribute "population density per square mile": "411.2"
+}

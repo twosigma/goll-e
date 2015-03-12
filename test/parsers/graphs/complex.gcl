@@ -1,0 +1,27 @@
+vertex Alpha {
+  input Bill {
+    class "excellent"
+    class "bogus"
+    attribute "myKey": "val"
+    attribute "myOtherKey": "val"
+  }
+  input Ted
+  vertex Charlie
+  vertex Delta
+  edge CharlieToDelta Charlie -> Delta
+  edge DeltaToParent Delta -> self
+}
+
+vertex Bravo {
+  input Ben
+  output Jerry
+}
+
+edge JerryToBill Bravo.Jerry -> Alpha.Bill {
+  class "long"
+  class "wobbly"
+  attribute "myKey": "val"
+  attribute "myOtherKey": "val"
+}
+
+edge AlphaToBravo Alpha -> Bravo

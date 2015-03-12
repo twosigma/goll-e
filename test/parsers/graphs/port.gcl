@@ -1,0 +1,12 @@
+//
+// port.gcl
+// Sample that demonstrates how to create ports.
+//
+
+vertex california
+{
+    input port_of_los_angeles
+    input lax {}
+    output interstate_highway
+    output spaceships {}
+}

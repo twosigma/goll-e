@@ -1,0 +1,15 @@
+//
+// nesting.gcl
+// Sample that demonstrates how to create nested subgraphs.
+//
+
+vertex california
+{
+    vertex norCal
+    vertex soCal
+    {
+        vertex losAngeles
+        {
+        }
+    }
+}

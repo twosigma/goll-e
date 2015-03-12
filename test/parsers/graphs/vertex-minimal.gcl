@@ -3,15 +3,15 @@
 // Sample that demonstrates how to create empty node definitions.
 //
 
-california
+vertex California
 
-newYork{}
+vertex NewYork {}
 
-massachusetts {}
+vertex Massachusetts {}
 
-washington {
+vertex Washington {
 }
 
-austin
+vertex Austin
 {
 }
