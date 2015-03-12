@@ -118,7 +118,7 @@ var Vertex = React.createClass({
   _onPortMoveRequested: function(pos, portModel) {
     var styles = this.props.model.get('styles');
 
-    var hPct = pos.x/tyles.get('width');
+    var hPct = pos.x/styles.get('width');
     var vPct = pos.y/styles.get('height');
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});

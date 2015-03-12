@@ -21,6 +21,8 @@ var Graph = React.createClass({
   render: function() {
     var graph = this.props.model;
 
+    var bgPatternSize = 26;
+
     // For each vertex in the graph, create a vertex component.
     var vertexComponents = graph.get('vertices').map(function(vertex) {
       return (
@@ -51,12 +53,21 @@ var Graph = React.createClass({
     return (
       <svg className="graph">
         <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
+        {/* define the background image pattern */}
+        <defs>
+          <pattern id="background-pattern" width={bgPatternSize} height={bgPatternSize} patternUnits="userSpaceOnUse" dangerouslySetInnerHTML={{__html: 
+            '<image x="0" y="0" width="' + bgPatternSize + '" height="' + bgPatternSize + '" xlink:href="/images/tiny_grid.png"></image>'
+          }}>
+          </pattern>
+        </defs>
 
         {/* This rectangle forms a background and is a draggable handle for panning the view. */}
+        {/* It moves graphPan % patternSize to give the illusion of dragging the background */}
         <rect
           className={dragHandleClassName}
           id='pan_drag_handle'
-          x='0' y='0' width='100%' height='100%'
+          fill="url(#background-pattern)"
+          transform={'translate(' + (this.state.panX % bgPatternSize - bgPatternSize) + ',' + (this.state.panY % bgPatternSize - bgPatternSize) + ')'} width='150%' height='150%'
           onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
         <g id='zoom-container' transform={transformation}>
           {edgeComponents}
