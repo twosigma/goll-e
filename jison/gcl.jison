@@ -98,10 +98,10 @@
     expressionList.forEach(function(expression) {
       switch (expression.type) {
         case CLASS_TYPE:
-          port.classes.push(expression.value);
+          edge.classes.push(expression.value);
           break;
         case ATTRIBUTE_TYPE:
-          port.metadata[expression.key] = expression.value;
+          edge.metadata[expression.key] = expression.value;
           break;
       }
     });
