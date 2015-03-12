@@ -67,8 +67,8 @@
 
   var createPortSelector = function(vertexId, portId) {
     var selector = {
-      vertexId: vertexId,
-      portId: portId
+      'vertexId': vertexId,
+      'portId': portId
     };
     return selector;
   };
