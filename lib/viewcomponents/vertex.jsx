@@ -10,6 +10,7 @@ var CardinalPortPosition = require('../model/cardinalPortPosition');
 
 var borderRadius = 5;
 var padding = 5;
+var titlePosition = padding + 10;
 
 var portRadius = 4;
 var portSpacing = 15;
@@ -24,7 +25,7 @@ var DATA_MODEL_MULTIPLIER = 100.0;
 // TODO: specific to rectangular vertices. Refactor out.
 var DIRECTION_TO_LABEL_POSITION = {};
 
-DIRECTION_TO_LABEL_POSITION[CardinalDirection.NORTH] = PortLabelPosition.BELOW;
+DIRECTION_TO_LABEL_POSITION[CardinalDirection.NORTH] = PortLabelPosition.ABOVE;
 DIRECTION_TO_LABEL_POSITION[CardinalDirection.SOUTH] = PortLabelPosition.ABOVE;
 DIRECTION_TO_LABEL_POSITION[CardinalDirection.EAST] = PortLabelPosition.LEFT;
 DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = PortLabelPosition.RIGHT;
@@ -51,8 +52,8 @@ var Vertex = React.createClass({
             className='vertex-box'
             onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
-          <text className='label' textAnchor='start' x={padding} y={padding + 10}>
-            {model.get('id')}
+          <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
+            {/*model.get('id')*/}
           </text>
           {// If the node is pinned, show an unpin button.
             showPin?
@@ -65,6 +66,28 @@ var Vertex = React.createClass({
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
+  },
+
+  componentDidMount: function() {
+    // keep adding characters until it just fits into the container
+    var textNode = this.refs.titleText.getDOMNode();
+    var title = this.props.model.get('id');
+    var maxWidth = this.props.model.get('styles').get('width') - padding * 2 - 5;
+
+    // as an optimization, try the whole string first
+    textNode.textContent = title;
+    if (textNode.getBBox().width < maxWidth) {
+      return;
+    } else {
+      textNode.textContent = '';
+    }
+
+    var n = 0;
+
+    while (textNode.getBBox().width < maxWidth && n < title.length) {
+      textNode.textContent = title.substring(n) + '…';
+      n++;
+    }
   },
 
   _getRenderedPorts: function(portModels) {
@@ -103,8 +126,18 @@ var Vertex = React.createClass({
   _getPortPosition: function(portModel) {
     var styles = this.props.model.get('styles');
     var portPositionModel = portModel.get('position');
+    var portDirection = portPositionModel.get('direction');
+    var portPercentage = portPositionModel.get('percentage');
 
     var labelPosition = DIRECTION_TO_LABEL_POSITION[portPositionModel.get('direction')];
+
+    if (portPercentage/DATA_MODEL_MULTIPLIER * styles.get('height') < titlePosition) {
+      if (portDirection === CardinalDirection.WEST) {
+        labelPosition = PortLabelPosition.LEFT_OFFSET;
+      } else if (portDirection === CardinalDirection.EAST) {
+        labelPosition = PortLabelPosition.RIGHT_OFFSET;
+      }
+    }
 
     var cartesianPos = PositionUtils.Conversion.cardinalToCartesian(portPositionModel);
 
