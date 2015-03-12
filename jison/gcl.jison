@@ -65,6 +65,14 @@
     };
   };
 
+  var createPortSelector = function(identifier, port) {
+    var selector = {
+      "vertexId": identifier,
+      "portId": port
+    };
+    return selector;
+  }
+
   var createPort = function(portType, id, expressionList) {
     var port = {
       'id': id,
@@ -210,13 +218,31 @@ edge_expression
 
 arrow_expression
     : port_selector CONN_ARROW_OP port_selector
+      {{
+        $$ = {
+          source: $1,
+          target: $3
+        };
+      }}
     ;
 
 port_selector
     : identifier DOT_OP identifier
+        {{
+          $$ = createPortSelector($1, $3);
+        }}
     | identifier
+        {{
+          $$ = createPortSelector($1, null);
+        }}
     | SELF_REF DOT_OP identifier
+        {{
+          $$ = createPortSelector(null, $3);
+        }}
     | SELF_REF
+        {{
+          $$ = createPortSelector(null, null);
+        }}
     ;
 
 port
