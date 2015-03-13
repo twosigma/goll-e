@@ -52,12 +52,6 @@ var Graph = React.createClass({
     var bgTransform = 'translate(' + (this.state.panX % bgPatternSize - bgPatternSize) + 
       ',' + (this.state.panY % bgPatternSize - bgPatternSize) + ') scale(' + this.state.scale + ')';
 
-    // Adding this class name changes the cursor style from hand to grabbing hand.
-    var dragHandleClassName = classSet({
-      'drag-handle': true,
-      'dragging': this.state.dragging
-    });
-
     // Put all of the vertex components in an SVG and a container for zooming and panning.
     return (
       <svg className="graph" onWheel={this._handleWheel}>
@@ -73,7 +67,7 @@ var Graph = React.createClass({
         {/* This rectangle forms a background and is a draggable handle for panning the view. */}
         {/* It moves graphPan % patternSize to give the illusion of dragging the background */}
         <rect
-          className={dragHandleClassName}
+          className='drag-handle'
           fill="url(#background-pattern)"
           transform={bgTransform} 
           width={bgSize} height={bgSize}
@@ -101,11 +95,11 @@ var Graph = React.createClass({
     e.preventDefault();
     var newScale = this.state.scale + (-e.deltaY * SCROLL_SPEED);
 
-    this._scale(newScale, e.clientX, e.clientY);
+    this.scale(newScale, e.clientX, e.clientY);
 
   },
 
-  _scale: function(newScale, aboutX, aboutY) {
+  scale: function(newScale, aboutX, aboutY) {
     // limit zoom
     if (newScale < MIN_SCALE) {
       newScale = MIN_SCALE;
@@ -123,6 +117,12 @@ var Graph = React.createClass({
       scale: newScale,
       panX: x,
       panY: y
+    });
+  },
+
+  zoomIn: function() {
+    this.setState({
+      scale: this.state.scale + 0.003
     });
   }
 

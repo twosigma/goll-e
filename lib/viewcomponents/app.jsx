@@ -1,5 +1,5 @@
 var React = require('react');
-var Graph = require('./graph.jsx');
+var GraphCanvas = require('./graphCanvas.jsx');
 
 /**
  * App is the top-level component. It fills the whole body of the page.
@@ -14,7 +14,7 @@ var App = React.createClass({
           <textarea onChange={this._onGCLChange} defaultValue={gclEditorModel.get('text')}>
           </textarea>
         </div>
-        <Graph model={gclEditorModel.get('graph')} />
+        <GraphCanvas rootGraph={gclEditorModel.get('graph')} />
       </div>
     );
   },
