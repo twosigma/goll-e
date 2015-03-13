@@ -38,8 +38,8 @@
           },
           "Delta": {
             "id": "Delta",
-            "inputs": [],
-            "outputs": [],
+            "inputs": {},
+            "outputs": {},
             "classes": [],
             "metadata": {},
             "subGraph": {
