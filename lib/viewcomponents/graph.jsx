@@ -130,12 +130,12 @@ var Graph = React.createClass({
   /**
    * Increase scale about center
    * @method zoom
-   * @param  {Number} amount added to current scale. Negative to zoom out.
+   * @param  {Number} factor added to current scale. Negative to zoom out.
    */
-  zoom: function(amount) {
+  scaleAboutCenter: function(factor) {
     // Scale about center
     var svg = this.refs.svg.getDOMNode();
-    this.scale(this.state.scale + amount, svg.offsetWidth/2, svg.offsetHeight/2);
+    this.scale(factor, svg.offsetWidth/2, svg.offsetHeight/2);
   }
 
 });
