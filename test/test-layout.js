@@ -1,50 +1,37 @@
+var fs = require('fs');
+var path = require('path');
 var should = require('should');
-
-var Graph = require('./../lib/model/graph');
-var Vertex = require('./../lib/model/vertex');
-var Port = require('./../lib/model/port');
-var CardinalPortPosition = require('./../lib/model/cardinalPortPosition');
-var Edge = require('./../lib/model/edge');
-var CardinalDirection = require('./../lib/enum/cardinalDirection');
 
 var dummyLayoutEngine = require('./../lib/layout/dummyLayout');
 var springLayoutEngine = require('./../lib/layout/forceDirectedLayout');
-var GraphParser = require('./../lib/model/graphParser');
 
-var TEST_DATA = require('./test-data.json');
-
-var parser = new GraphParser();
-var graph = parser.parseGraph(TEST_DATA);
+var parse = require('./../lib/parse/parse.js');
+var graphsDir = path.join(__dirname , 'graphs');
 
 
-var generateGraph = function() {
-  // the world's simplest graph
-  var port = new Port('a+a', 'input', new CardinalPortPosition({percentage: 50, direction: CardinalDirection.NORTH}));
-  var vertex = new Vertex('a', [port], []);
-  var port2 = new Port('b+b', 'output', new CardinalPortPosition({percentage: 50, direction: CardinalDirection.SOUTH}));
-  var vertex2 = new Vertex('b', [], [port2]);
-  var edge = new Edge({id:'edge 1', from: port2, to: port});
-  //(id, from, to, metadata) 
-  var graph = new Graph({vertices: [vertex, vertex2], edges:[edge]});
-
+var getGraph = function(name) {
+  var gcl = String(fs.readFileSync(path.join(graphsDir, name + '.gcl')));
+  var graph = parse(gcl).model;
   return graph;
 };
 
 describe('dummy layout engine', function() {
-  it('should take a graph and not blow up', function(done) {
-    var testGraph = generateGraph();
-    dummyLayoutEngine(testGraph);
-    testGraph.should.be.an.instanceOf(Graph);
+  it('should not throw when laying out a simple graph', function(done) {
+    var testGraph = getGraph('edge');
+    (function () {
+      dummyLayoutEngine(testGraph);
+    }).should.not.throw();
     done();
   });
 });
 
 
 describe('spring layout engine', function() {
-  it('should take a graph and not blow up', function(done) {
-    var testGraph = generateGraph();
-    springLayoutEngine(graph);
-    testGraph.should.be.an.instanceOf(Graph);
+  it('should not throw when laying out a simple graph', function(done) {
+    var testGraph = getGraph('edge');
+    (function () {
+      springLayoutEngine(testGraph);
+    }).should.not.throw();
     done();
   });
 });
