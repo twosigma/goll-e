@@ -6,13 +6,13 @@
 var fs = require('fs'),
     path = require('path'),
     should = require('should'),
-    _ = require('underscore'),
-    generateAST = require('../../jison/gcl').parse;
+    _ = require('lodash'),
+    generateAST = require('../jison/gcl').parse;
 
 var graphsDir = path.join(__dirname , 'graphs');
 
 var graph = function(name) {
-  var gcl = String(fs.readFileSync(path.join(__dirname , 'graphs', name + '.gcl')));
+  var gcl = String(fs.readFileSync(path.join(graphsDir, name + '.gcl')));
   var ast = require(path.join(__dirname , 'graphs', name + '.json'));
   return {
     gcl: gcl,
@@ -31,10 +31,6 @@ var testGenerateAST = function (description, name) {
       (function() {
           generatedAST = generateAST(testingGraph.gcl);
       }).should.not.throw();
-
-
-      // Make sure that it doesn't return null.
-      generatedAST.should.not.equal(null);
 
       // Make sure that it looks like the expected result.
       should(_.isEqual(generatedAST, testingGraph.ast)).be.ok;

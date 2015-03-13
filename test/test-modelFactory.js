@@ -1,7 +1,7 @@
 /**
  * Unit tests for the Model Factory component of the parser.
  */
-var ASTExample = require('./parsers/graphs/complex.json');
+var ASTExample = require('./graphs/complex.json');
 var ModelFactory = require('./../lib/parse/modelFactory');
 var Graph = require('./../lib/model/graph');
 
