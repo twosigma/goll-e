@@ -27,7 +27,9 @@ var Port = React.createClass({
     It's up to the receiver to actually update the backing model as appropriate. 
     If this is not done, the change will revert.
     */
-    onMoveRequested: React.PropTypes.func
+    onMoveRequested: React.PropTypes.func,
+
+    parentScale: React.PropTypes.number
   },
 
   getInitialState: function() {
@@ -104,8 +106,8 @@ var Port = React.createClass({
 
     this.setState({
       draggingPosition: {
-        x: lastPos.x + event.movementX/this.props.parentScale,
-        y: lastPos.y + event.movementY/this.props.parentScale
+        x: lastPos.x + event.movementX / this.props.parentScale,
+        y: lastPos.y + event.movementY / this.props.parentScale
       }
     });
   },

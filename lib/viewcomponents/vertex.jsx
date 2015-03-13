@@ -36,7 +36,7 @@ var Vertex = React.createClass({
   getDefaultProps: function() {
     return {
       parentScale: 1
-    }
+    };
   },
 
   render: function() {
@@ -47,11 +47,9 @@ var Vertex = React.createClass({
     var vertexWidth = styles.get('width');
     var vertexHeight = styles.get('height');
 
-    var classes = 'vertex shape-' + styles.get('shape');
-
     return (
       <g
-        className={'vertex shape-' + styles.get('shape')} 
+        className={'vertex shape-' + styles.get('shape')}
         transform={'translate(' + position.x + ', ' + position.y + ')'} >
           <path
             d={roundedRectanglePath(0, 0, vertexWidth, vertexHeight, borderRadius)}
@@ -62,7 +60,7 @@ var Vertex = React.createClass({
             {/*model.get('id')*/}
           </text>
           {// If the node is pinned, show an unpin button.
-            showPin?
+            showPin ?
               <UnpinButton
                 onClick={this._unpin}
                 transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
@@ -114,15 +112,15 @@ var Vertex = React.createClass({
   },
 
   _onVertexBodyPseudoDrag: function(event) {
-      var oldPos = this.props.model.get('position');
+    var oldPos = this.props.model.get('position');
 
-      var newX = oldPos.x + event.movementX/this.props.parentScale;
-      var newY = oldPos.y + event.movementY/this.props.parentScale;
+    var newX = oldPos.x + event.movementX / this.props.parentScale;
+    var newY = oldPos.y + event.movementY / this.props.parentScale;
 
-      this.props.model.setAttrs({
-        isPinned: true,
-        position: {x: newX, y: newY}
-      });
+    this.props.model.setAttrs({
+      isPinned: true,
+      position: {x: newX, y: newY}
+    });
   },
 
   _unpin: function() {

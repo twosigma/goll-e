@@ -1,5 +1,4 @@
 var React = require('react/addons');
-var classSet = React.addons.classSet;
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Vertex = require('./vertex.jsx');
 var Edge = require('./edge.jsx');
@@ -8,7 +7,7 @@ var edgeGlobals = require('./edgeGlobals');
 var SCROLL_SPEED = 0.0005;
 var MIN_SCALE = 0.2;
 var MAX_SCALE = 2.5;
- 
+
 /**
  * Graph is a component that shows a graph based on a given data model.
  */
@@ -50,8 +49,8 @@ var Graph = React.createClass({
     // Turn the pan and zoom properties into a transformation string.
     var transformation = 'translate(' + this.state.panX + ',' + this.state.panY + ') scale(' + this.state.scale + ')';
 
-    var bgSize = '' + (120/this.state.scale) + '%';
-    var bgTransform = 'translate(' + (this.state.panX % bgPatternSize - bgPatternSize) + 
+    var bgSize = '' + (120 / this.state.scale) + '%';
+    var bgTransform = 'translate(' + (this.state.panX % bgPatternSize - bgPatternSize) +
       ',' + (this.state.panY % bgPatternSize - bgPatternSize) + ') scale(' + this.state.scale + ')';
 
     // Put all of the vertex components in an SVG and a container for zooming and panning.
@@ -60,7 +59,7 @@ var Graph = React.createClass({
         <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
         {/* define the background image pattern */}
         <defs>
-          <pattern id="background-pattern" width={bgPatternSize} height={bgPatternSize} patternUnits="userSpaceOnUse" dangerouslySetInnerHTML={{__html: 
+          <pattern id="background-pattern" width={bgPatternSize} height={bgPatternSize} patternUnits="userSpaceOnUse" dangerouslySetInnerHTML={{__html:
             '<image x="0" y="0" width="' + bgPatternSize + '" height="' + bgPatternSize + '" xlink:href="/images/tiny_grid.png"></image>'
           }}>
           </pattern>
@@ -71,7 +70,7 @@ var Graph = React.createClass({
         <rect
           className='drag-handle'
           fill="url(#background-pattern)"
-          transform={bgTransform} 
+          transform={bgTransform}
           width={bgSize} height={bgSize}
           onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
         <g id='zoom-container' transform={transformation}>
@@ -85,7 +84,7 @@ var Graph = React.createClass({
   _onPanPseudoDrag: function(event) {
     var oldPanX = this.state.panX;
     var oldPanY = this.state.panY;
-    var newPanX = oldPanX + event.movementX; 
+    var newPanX = oldPanX + event.movementX;
     var newPanY = oldPanY + event.movementY;
     this.setState({
       panX: newPanX,
@@ -137,7 +136,7 @@ var Graph = React.createClass({
   scaleAboutCenter: function(factor) {
     // Scale about center
     var svg = this.refs.svg.getDOMNode();
-    this.scale(factor, svg.offsetWidth/2, svg.offsetHeight/2);
+    this.scale(factor, svg.offsetWidth / 2, svg.offsetHeight / 2);
   }
 
 });
