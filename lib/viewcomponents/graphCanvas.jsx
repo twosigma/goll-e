@@ -25,8 +25,9 @@ var GraphCanvas = React.createClass({
     return (
       <div className="graph-canvas">
         <div className="navigation-controls">
-          <button className="zoom-btn zoom-in" onClick={this._getZoomHanderFn(1)}>+</button>
+          <button className="zoom-btn zoom-actual" onClick={this._handleActualSize}>1&times;</button>
           <button className="zoom-btn zoom-out" onClick={this._getZoomHanderFn(-1)}>&ndash;</button>
+          <button className="zoom-btn zoom-in" onClick={this._getZoomHanderFn(1)}>+</button>
         </div>
         <Graph ref="graph" model={this._getActiveGraph()} />
       </div>
@@ -41,8 +42,12 @@ var GraphCanvas = React.createClass({
     var AMOUNT = 0.25;
     return function() {
       var graphView = this.refs.graph;
-      graphView.scaleAboutCenter(graphView.state.scale + 0.5 * direction);
+      graphView.scaleAboutCenter(graphView.state.scale + AMOUNT * direction);
     }.bind(this);
+  },
+
+  _handleActualSize: function() {
+    this.refs.graph.scaleAboutCenter(1);
   }
 });
 

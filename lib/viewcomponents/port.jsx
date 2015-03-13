@@ -32,7 +32,8 @@ var Port = React.createClass({
 
   getInitialState: function() {
     return {
-      dragging: false
+      dragging: false,
+      parentScale: 1
     };
   },
 
@@ -103,8 +104,8 @@ var Port = React.createClass({
 
     this.setState({
       draggingPosition: {
-        x: lastPos.x + event.movementX,
-        y: lastPos.y + event.movementY
+        x: lastPos.x + event.movementX/this.props.parentScale,
+        y: lastPos.y + event.movementY/this.props.parentScale
       }
     });
   },

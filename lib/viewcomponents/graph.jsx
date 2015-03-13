@@ -32,7 +32,8 @@ var Graph = React.createClass({
       return (
         <Vertex
           model={vertex}
-          key={vertex.get('globalId')} />
+          key={vertex.get('globalId')}
+          parentScale={this.state.scale} />
         );
     }.bind(this));
 
@@ -41,7 +42,8 @@ var Graph = React.createClass({
         <Edge
           model={edge}
           container={graph}
-          key={edge.get('globalId')}/>
+          key={edge.get('globalId')}
+          parentScale={this.state.scale} />
       );
     }.bind(this));
 

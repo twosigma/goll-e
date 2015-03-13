@@ -33,6 +33,12 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = PortLabelPosition.RIGHT;
 
 var Vertex = React.createClass({
 
+  getDefaultProps: function() {
+    return {
+      parentScale: 1
+    }
+  },
+
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
@@ -100,6 +106,7 @@ var Vertex = React.createClass({
           key={portModel.get('globalId')}
           x={position.x} y={position.y} label={portModel.label} labelPosition={position.labelPosition}
           onMoveRequested={this._onPortMoveRequested}
+          parentScale={this.props.parentScale}
         />
       );
 
@@ -109,8 +116,8 @@ var Vertex = React.createClass({
   _onVertexBodyPseudoDrag: function(event) {
       var oldPos = this.props.model.get('position');
 
-      var newX = oldPos.x + event.movementX;
-      var newY = oldPos.y + event.movementY;
+      var newX = oldPos.x + event.movementX/this.props.parentScale;
+      var newY = oldPos.y + event.movementY/this.props.parentScale;
 
       this.props.model.setAttrs({
         isPinned: true,
