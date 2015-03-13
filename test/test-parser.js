@@ -12,7 +12,7 @@ var fs = require('fs'),
 var graphsDir = path.join(__dirname , 'graphs');
 
 var graph = function(name) {
-  var gcl = String(fs.readFileSync(path.join(__dirname , 'graphs', name + '.gcl')));
+  var gcl = String(fs.readFileSync(path.join(graphsDir, name + '.gcl')));
   var ast = require(path.join(__dirname , 'graphs', name + '.json'));
   return {
     gcl: gcl,
