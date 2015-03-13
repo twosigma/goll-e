@@ -9,11 +9,10 @@
 
 
 // TEMP STUFF:
-#pan_drag_handle {
-  // fill: lightgrey;
+.drag-handle {
   #global.grab-cursor();
 
-  &:active {
+  &.dragging {
     #global.grabbing-cursor();
   }
 }
