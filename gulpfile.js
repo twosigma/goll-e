@@ -155,6 +155,29 @@ gulp.task('browserify', ['jison'], function () {
 });
 
 /**
+ * Task definition for bundling up the project files into a single JS file.
+ */
+gulp.task('browserify-layout-testing', ['jison'], function () {
+    'use strict';
+
+    var mainFile = 'layoutTestingMain.js';
+    var sourceFile = path.join('lib', mainFile);
+    var outputFile = 'layout-testing.js';
+
+    
+    var bundler = browserify({
+        entries: ['.' + path.sep + sourceFile],
+        debug: true
+    });
+    bundler.transform(reactify);
+    
+    return bundler
+        .bundle()
+        .pipe(source(outputFile))
+        .pipe(gulp.dest(paths.distDir));
+});
+
+/**
  * Task definition for minifying distributables.
  */
 gulp.task('uglify', ['browserify'], function () {
@@ -172,6 +195,7 @@ gulp.task('uglify', ['browserify'], function () {
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.distDir));
 });
+
 
 /**
  * Task definition for symlinking the final build product into public/js.
@@ -203,6 +227,7 @@ gulp.task('clean', function () {
 
 gulp.task('test', ['build', 'lint', 'coverage']);
 gulp.task('build', ['jison', 'browserify', 'uglify', 'symlink']);
+gulp.task('build-layout-testing', ['jison', 'browserify-layout-testing']);
 gulp.task('ci', ['build', 'test']);
 
 
