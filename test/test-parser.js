@@ -7,7 +7,7 @@ var fs = require('fs'),
     path = require('path'),
     should = require('should'),
     _ = require('underscore'),
-    generateAST = require('../../jison/gcl').parse;
+    generateAST = require('../jison/gcl').parse;
 
 var graphsDir = path.join(__dirname , 'graphs');
 
