@@ -54,7 +54,7 @@ var Graph = React.createClass({
 
     // Put all of the vertex components in an SVG and a container for zooming and panning.
     return (
-      <svg className="graph" onWheel={this._handleWheel}>
+      <svg className="graph" onWheel={this._handleWheel} ref="svg">
         <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
         {/* define the background image pattern */}
         <defs>
@@ -83,7 +83,7 @@ var Graph = React.createClass({
   _onPanPseudoDrag: function(event) {
     var oldPanX = this.state.panX;
     var oldPanY = this.state.panY;
-    var newPanX = oldPanX + event.movementX;
+    var newPanX = oldPanX + event.movementX; 
     var newPanY = oldPanY + event.movementY;
     this.setState({
       panX: newPanX,
@@ -99,6 +99,13 @@ var Graph = React.createClass({
 
   },
 
+  /**
+   * Set a new scaling factor about a point
+   * @method scale
+   * @param  {Number} newScale new scale factor
+   * @param  {Number} aboutX point in client coordinates
+   * @param  {Number} aboutY point in client coordinates
+   */
   scale: function(newScale, aboutX, aboutY) {
     // limit zoom
     if (newScale < MIN_SCALE) {
@@ -120,10 +127,15 @@ var Graph = React.createClass({
     });
   },
 
-  zoomIn: function() {
-    this.setState({
-      scale: this.state.scale + 0.003
-    });
+  /**
+   * Increase scale about center
+   * @method zoom
+   * @param  {Number} amount added to current scale. Negative to zoom out.
+   */
+  zoom: function(amount) {
+    // Scale about center
+    var svg = this.refs.svg.getDOMNode();
+    this.scale(this.state.scale + amount, svg.offsetWidth/2, svg.offsetHeight/2);
   }
 
 });

@@ -13,11 +13,33 @@ var GraphCanvas = React.createClass({
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    if (this.state.navigationStack[0] !== nextProps.rootGraph) {
+      this.setState({
+        navigationStack: [nextProps.rootGraph]
+      });
+    }
+  },
+
   render: function() {
     var activeGraph = this.state.navigationStack[this.state.navigationStack.length - 1];
     return (
-      <Graph model={activeGraph} />
+      <div className="graph-canvas">
+        <div className="navigation-controls">
+          <button className="zoom-btn zoom-in" onClick={this._handleZoomInClick}>+</button>
+          <button className="zoom-btn zoom-out" onClick={this._handleZoomOutClick}>&ndash;</button>
+        </div>
+        <Graph ref="graph" model={activeGraph} />
+      </div>
     );
+  },
+
+  _handleZoomInClick: function() {
+    this.refs.graph.zoom(0.5);
+  },
+
+  _handleZoomOutClick: function() {
+    this.refs.graph.zoom(-0.5);
   }
 });
 
