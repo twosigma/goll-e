@@ -1,0 +1,17 @@
+//
+// node-minimal.gcl
+// Sample that demonstrates how to create empty node definitions.
+//
+
+vertex California
+
+vertex NewYork {}
+
+vertex Massachusetts {}
+
+vertex Washington {
+}
+
+vertex Austin
+{
+}

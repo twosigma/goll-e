@@ -1,0 +1,22 @@
+//
+// edge.gcl
+// Sample that demonstrates how to create edges.
+//
+
+vertex california
+{
+    input portOfLA
+    output lax
+}
+
+vertex newYork
+{
+    input jfk
+    output portOfNYC
+}
+
+// Connection between the default inputs/outputs.
+edge cali_nyc california -> newYork
+
+// Connection between explicitly named inputs/outputs.
+edge airports california.lax -> newYork.jfk

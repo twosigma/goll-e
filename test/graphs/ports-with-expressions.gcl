@@ -1,0 +1,19 @@
+//
+// ports-with-expressions.gcl
+// Sample that demonstrates how to create port with metadata and styles.
+//
+
+vertex newYork
+{
+    output jfk_airport
+    {
+        attribute "size": "really big"
+        class "someStyle"
+    }
+
+    input port_of_new_york
+    {
+        attribute "size": "le huge"
+        class "coolStyle"
+    }
+}

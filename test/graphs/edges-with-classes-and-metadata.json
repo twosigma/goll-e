@@ -1,0 +1,69 @@
+{
+  "vertices": {
+    "california": {
+      "id": "california",
+      "inputs": {
+        "portOfLA": {
+          "id": "portOfLA",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "outputs": {
+        "lax": {
+          "id": "lax",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "newYork": {
+      "id": "newYork",
+      "inputs": {
+        "jfk": {
+          "id": "jfk",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "outputs": {
+        "portOfNYC": {
+          "id": "portOfNYC",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {
+    "ports": {
+      "id": "ports",
+      "source": {
+        "vertexId": "newYork",
+        "portId": "portOfNYC"
+      },
+      "target": {
+        "vertexId": "california",
+        "portId": "portOfLA"
+      },
+      "classes": [
+        "oceanStyle"
+      ],
+      "metadata": {
+        "water": "yes"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- 0.1
+- 0.11
+before_install:
+- npm install -g gulp
+script:
+- gulp ci
+branches:
+  only:
+    - master
+    - develop
+notifications:
+  hipchat:
+    rooms:
+      secure: NBfM96Di4VDqBwqp6vr6ZDQyIgnlFTaGjcR6fy3f+u9EXAik8nUaVgD/OsmJ/zNx53E8BUCRdn8xUnfYw6VqtlRKef6YixM5sG413IAFbnKaFz9lHPh8+KBycpbaEbEnQx0lz/nJ8NQCGQb0h+emcZ9FkhnBvHFA32RGBL+No4w=
