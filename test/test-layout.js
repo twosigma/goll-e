@@ -27,7 +27,7 @@ describe('dummy layout engine', function() {
 
 describe('spring layout engine', function() {
   it('should take a graph and not blow up', function(done) {
-    var testGraph = getGraph('getGraph');
+    var testGraph = getGraph('edge');
     springLayoutEngine(testGraph);
     testGraph.should.be.an.instanceOf(Graph);
     done();
