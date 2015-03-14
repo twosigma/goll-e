@@ -8,7 +8,7 @@ var CardinalDirection = require('../enum/cardinalDirection.js');
 var PortLabelPosition = require('../enum/portLabelPosition');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
 
-var borderRadius = 5;
+var DEFAULT_BORDER_RADIUS = 5;
 var padding = 5;
 var titlePosition = padding + 10;
 
@@ -46,15 +46,21 @@ var Vertex = React.createClass({
     var styles = model.get('styles');
     var vertexWidth = styles.get('width');
     var vertexHeight = styles.get('height');
+    var hasSubGraph = !!model.get('subGraph');
+
+    var borderRadius = hasSubGraph ? 0 : DEFAULT_BORDER_RADIUS;
 
     return (
       <g
         className={'vertex shape-' + styles.get('shape')}
         transform={'translate(' + position.x + ', ' + position.y + ')'} >
-          <path
-            d={roundedRectanglePath(0, 0, vertexWidth, vertexHeight, borderRadius)}
+          <rect
+            width={vertexWidth}
+            height={vertexHeight}
+            ry={borderRadius} rx={borderRadius}
             className='vertex-box'
-            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)} />
+            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)}
+            onDblclick={this._openContainer} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
           <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
             {/*model.get('id')*/}
@@ -66,6 +72,7 @@ var Vertex = React.createClass({
                 transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
               null
           }
+          <circle className='open-container-btn' cx={pinX - 10} cy={pinY} r='8' onClick={this._openContainer}/>
           {this._getRenderedPorts(model.get('inputs'))}
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
@@ -162,6 +169,15 @@ var Vertex = React.createClass({
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
 
     portModel.set('position', cardinalPosition);
+  },
+
+  _openContainer: function() {
+    var subGraph = this.props.model.get('subGraph');
+    if (!subGraph) {
+      return;
+    }
+
+    this.props.openContainerCommand(subGraph);
   }
 
 });

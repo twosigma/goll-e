@@ -3,6 +3,7 @@ var GraphCanvas = require('./graphCanvas.jsx');
 
 /**
  * App is the top-level component. It fills the whole body of the page.
+ * Singleton
  */
 var App = React.createClass({
 

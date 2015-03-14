@@ -32,7 +32,8 @@ var Graph = React.createClass({
         <Vertex
           model={vertex}
           key={vertex.get('globalId')}
-          parentScale={this.state.scale} />
+          parentScale={this.state.scale}
+          openContainerCommand={this.props.openContainerCommand} />
         );
     }.bind(this));
 

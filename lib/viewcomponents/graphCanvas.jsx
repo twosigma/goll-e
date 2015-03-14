@@ -2,6 +2,7 @@ var React = require('react');
 var GraphModel = require('./../model/graph');
 var Graph = require('./graph.jsx');
 
+// Singleton
 var GraphCanvas = React.createClass({
   propType: {
     rootGraph: React.PropTypes.instanceOf(GraphModel)
@@ -29,7 +30,7 @@ var GraphCanvas = React.createClass({
           <button className="zoom-btn zoom-out" onClick={this._getZoomHanderFn(-1)}>&ndash;</button>
           <button className="zoom-btn zoom-in" onClick={this._getZoomHanderFn(1)}>+</button>
         </div>
-        <Graph ref="graph" model={this._getActiveGraph()} />
+        <Graph ref="graph" model={this._getActiveGraph()} openContainerCommand={this.pushGraph} />
       </div>
     );
   },
@@ -48,6 +49,13 @@ var GraphCanvas = React.createClass({
 
   _handleActualSize: function() {
     this.refs.graph.scaleAboutCenter(1);
+  },
+
+  pushGraph: function(graph) {
+    this.state.navigationStack.push(graph);
+    this.setState({
+      navigationStack: this.state.navigationStack
+    });
   }
 });
 
