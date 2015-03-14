@@ -8,6 +8,33 @@
     // position: relative;
   }
 
+  ol.breadcrumbs {
+    height: 35px;
+    line-height: 35px;
+    margin: 0;
+
+    list-style: none;
+    background-color: #f2f2f2; //TODO: replace with upcoming variables.
+
+    & > li {
+      display: inline-block;
+
+      &:after {
+        content: '>';
+        margin: 0 0.5em;
+      }
+
+      &:last-child:after {
+        content: '';
+      }
+    }
+  }
+
+  .color-bar {
+    height: 10px;
+    background-color: #2b2b2b;
+  }
+
   .navigation-controls {
     position: absolute;
     left: 40px;

@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var Lang = require('../utilities/lang');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Vertex = require('./vertex.jsx');
 var Edge = require('./edge.jsx');
@@ -14,11 +15,18 @@ var MAX_SCALE = 2.5;
 var Graph = React.createClass({
 
   getInitialState: function() {
-    return {
-      panX: 0,
-      panY: 0,
-      scale: 1.0
-    };
+    if (Lang.isObject(this.props.initialPanAndZoom)) {
+
+      return this.props.initialPanAndZoom
+    } else {
+
+      return {
+        panX: 0,
+        panY: 0,
+        scale: 1.0
+      };
+
+    }
   },
 
   render: function() {

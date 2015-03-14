@@ -171,13 +171,17 @@ var Vertex = React.createClass({
     portModel.set('position', cardinalPosition);
   },
 
-  _openContainer: function() {
+  _openContainer: function(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
     var subGraph = this.props.model.get('subGraph');
     if (!subGraph) {
       return;
     }
 
-    this.props.openContainerCommand(subGraph);
+    this.props.openContainerCommand(this.props.model);
   }
 
 });
