@@ -2,6 +2,7 @@ var React = require('react');
 var Port = require('./port.jsx');
 var UnpinButton = require('./unpinButton.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
+var doubleClick = require('../utilities/pseudoDoubleClick');
 var roundedRectanglePath = require('../utilities/roundedRectangle');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
@@ -60,7 +61,7 @@ var Vertex = React.createClass({
             ry={borderRadius} rx={borderRadius}
             className='vertex-box'
             onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)}
-            onDblclick={this._openContainer} />
+            onClick={doubleClick.bind(this, 'vertex_body', this._openContainer)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
           <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
             {/*model.get('id')*/}
@@ -72,7 +73,6 @@ var Vertex = React.createClass({
                 transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
               null
           }
-          <circle className='open-container-btn' cx={pinX - 10} cy={pinY} r='8' onClick={this._openContainer}/>
           {this._getRenderedPorts(model.get('inputs'))}
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
