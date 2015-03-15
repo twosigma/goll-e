@@ -16,8 +16,8 @@ var Graph = React.createClass({
 
   getInitialState: function() {
     if (Lang.isObject(this.props.initialPanAndZoom)) {
+      return this.props.initialPanAndZoom;
 
-      return this.props.initialPanAndZoom
     } else {
 
       return {

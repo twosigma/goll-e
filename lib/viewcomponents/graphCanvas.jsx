@@ -91,7 +91,7 @@ var GraphCanvas = React.createClass({
 
     this.setState({
       navigationStack: newNavigationStack,
-      vertexStack: newVertexStack,
+      vertexStack: newVertexStack
     });
   },
 
