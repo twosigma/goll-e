@@ -22,10 +22,23 @@
 
     & > li {
       display: inline-block;
+      font-weight: bold;
+
+      a {
+        color: @color-dark-grey;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+          color: darken(@color-dark-grey, 10%);
+        }
+      }
 
       &:after {
         content: '>';
         margin: 0 0.5em;
+
+        color: #666;
       }
 
       &:last-child:after {
@@ -38,7 +51,7 @@
     height: 10px;
 
     /* Overridden with inline style except on root*/
-    background-color: #2b2b2b;
+    background-color: @color-dark-grey;
   }
 
   .navigation-controls {
