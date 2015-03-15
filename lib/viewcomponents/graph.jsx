@@ -25,6 +25,7 @@ var Graph = React.createClass({
     var graph = this.props.model;
 
     var bgPatternSize = 26;
+    var effectiveBgPatternSize = bgPatternSize * this.state.scale;
 
     // For each vertex in the graph, create a vertex component.
     var vertexComponents = graph.get('vertices').map(function(vertex) {
@@ -50,8 +51,8 @@ var Graph = React.createClass({
     var transformation = 'translate(' + this.state.panX + ',' + this.state.panY + ') scale(' + this.state.scale + ')';
 
     var bgSize = '' + (120 / this.state.scale) + '%';
-    var bgTransform = 'translate(' + (this.state.panX % bgPatternSize - bgPatternSize) +
-      ',' + (this.state.panY % bgPatternSize - bgPatternSize) + ') scale(' + this.state.scale + ')';
+    var bgTransform = 'translate(' + (this.state.panX % effectiveBgPatternSize - effectiveBgPatternSize) +
+      ',' + (this.state.panY % effectiveBgPatternSize - effectiveBgPatternSize) + ') scale(' + this.state.scale + ')';
 
     // Put all of the vertex components in an SVG and a container for zooming and panning.
     return (
