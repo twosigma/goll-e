@@ -1,12 +1,17 @@
 var React = require('react');
 var LabelPosition = require('../enum/portLabelPosition');
 var ObjectUtils = require('../utilities/objects');
+var UnpinButton = require('./unpinButton.jsx');
 var PortType = require('../enum/portType');
 var PortModel = require('../model/port');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 
 var portRadius = 4;
 var BASE_MARGIN = 6;
+
+var pinX = 15;
+var pinY = -15;
+var pinScale = 0.75;
 
 var yOffset = 8;
 
@@ -39,7 +44,7 @@ var Port = React.createClass({
   /* it's the responsibility of the Node to position the port since it's in its coordinate space */
   render: function() {
     var model = this.props.model;
-
+    var showPin = model.get('isPinned');
     var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || portRadius);
 
     var classes = React.addons.classSet({
@@ -72,10 +77,21 @@ var Port = React.createClass({
          textAnchor={labelPosition.textAnchor} >
          {label}
        </text>
+	   {// If the node is pinned, show an unpin button.
+          showPin?
+            <UnpinButton
+              onClick={this._unpin}
+              transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
+            null
+          }
      </g>
      );
   },
 
+  _unpin: function() {
+    this.props.model.set('isPinned', false);
+  },
+  
   _handleDragStart: function(event) {
     this.setState({
       dragging: true,
