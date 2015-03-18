@@ -4,16 +4,13 @@ var Vertex = require('./vertex.jsx');
 var Edge = require('./edge.jsx');
 var edgeGlobals = require('./edgeGlobals');
 
-var SCROLL_SPEED = 0.0005;
-var MIN_SCALE = 0.2;
-var MAX_SCALE = 2.5;
 
 /**
  * Graph is a component that shows a graph based on a given data model.
  */
 var Graph = React.createClass({
 
-  getInitialState: function() {
+  getDefaultProps: function() {
     return {
       panX: 0,
       panY: 0,
@@ -25,7 +22,7 @@ var Graph = React.createClass({
     var graph = this.props.model;
 
     var bgPatternSize = 26;
-    var effectiveBgPatternSize = bgPatternSize * this.state.scale;
+    var effectiveBgPatternSize = bgPatternSize * this.props.scale;
 
     // For each vertex in the graph, create a vertex component.
     var vertexComponents = graph.get('vertices').map(function(vertex) {
@@ -33,7 +30,7 @@ var Graph = React.createClass({
         <Vertex
           model={vertex}
           key={vertex.get('globalId')}
-          zoomScale={this.state.scale} />
+          zoomScale={this.props.scale} />
         );
     }.bind(this));
 
@@ -43,20 +40,20 @@ var Graph = React.createClass({
           model={edge}
           container={graph}
           key={edge.get('globalId')}
-          zoomScale={this.state.scale} />
+          zoomScale={this.props.scale} />
       );
     }.bind(this));
 
     // Turn the pan and zoom properties into a transformation string.
-    var transformation = 'translate(' + this.state.panX + ',' + this.state.panY + ') scale(' + this.state.scale + ')';
+    var transformation = 'translate(' + this.props.panX + ',' + this.props.panY + ') scale(' + this.props.scale + ')';
 
-    var bgSize = '' + (120 / this.state.scale) + '%';
-    var bgTransform = 'translate(' + (this.state.panX % effectiveBgPatternSize - effectiveBgPatternSize) +
-      ',' + (this.state.panY % effectiveBgPatternSize - effectiveBgPatternSize) + ') scale(' + this.state.scale + ')';
+    var bgSize = '' + (120 / this.props.scale) + '%';
+    var bgTransform = 'translate(' + (this.props.panX % effectiveBgPatternSize - effectiveBgPatternSize) +
+      ',' + (this.props.panY % effectiveBgPatternSize - effectiveBgPatternSize) + ') scale(' + this.props.scale + ')';
 
     // Put all of the vertex components in an SVG and a container for zooming and panning.
     return (
-      <svg className="graph" onWheel={this._handleWheel} ref="svg">
+      <svg className="graph" onWheel={this.props.onWheel} ref="svg">
         <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
         {/* define the background image pattern */}
         <defs>
@@ -69,75 +66,17 @@ var Graph = React.createClass({
         {/* This rectangle forms a background and is a draggable handle for panning the view. */}
         {/* It moves graphPan % patternSize to give the illusion of dragging the background */}
         <rect
-          className='drag-handle'
+          className='drag-handle background'
           fill="url(#background-pattern)"
           transform={bgTransform}
           width={bgSize} height={bgSize}
-          onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag, 1)} />
+          onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this.props.onDrag, 1)} />
         <g id='zoom-container' transform={transformation}>
           {edgeComponents}
           {vertexComponents}
         </g>
       </svg>
     );
-  },
-
-  _onPanPseudoDrag: function(event) {
-    var oldPanX = this.state.panX;
-    var oldPanY = this.state.panY;
-    var newPanX = oldPanX + event.movementX;
-    var newPanY = oldPanY + event.movementY;
-    this.setState({
-      panX: newPanX,
-      panY: newPanY
-    });
-  },
-
-  _handleWheel: function(e) {
-    e.preventDefault();
-    var newScale = this.state.scale + (-e.deltaY * SCROLL_SPEED);
-
-    this.scale(newScale, e.clientX, e.clientY);
-
-  },
-
-  /**
-   * Set a new scaling factor about a point
-   * @method scale
-   * @param  {Number} newScale new scale factor
-   * @param  {Number} aboutX point in client coordinates
-   * @param  {Number} aboutY point in client coordinates
-   */
-  scale: function(newScale, aboutX, aboutY) {
-    // limit zoom
-    if (newScale < MIN_SCALE) {
-      newScale = MIN_SCALE;
-    } else if (newScale > MAX_SCALE) {
-      newScale = MAX_SCALE;
-    }
-
-    // scale about a point
-    var scaleDelta = newScale / this.state.scale;
-
-    var x = scaleDelta * (this.state.panX - aboutX) + aboutX;
-    var y = scaleDelta * (this.state.panY - aboutY) + aboutY;
-
-    this.setState({
-      scale: newScale,
-      panX: x,
-      panY: y
-    });
-  },
-
-  /**
-   * Increase scale about center
-   * @method zoom
-   * @param  {Number} factor added to current scale. Negative to zoom out.
-   */
-  scaleAboutCenter: function(factor) {
-    // Scale about center
-    var svg = this.refs.svg.getDOMNode();
-    this.scale(factor, svg.offsetWidth / 2, svg.offsetHeight / 2);
   }
 
 });
