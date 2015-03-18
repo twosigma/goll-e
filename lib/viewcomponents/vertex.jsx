@@ -36,7 +36,7 @@ var Vertex = React.createClass({
 
   getDefaultProps: function() {
     return {
-      parentScale: 1
+      zoomScale: 1
     };
   },
 
@@ -60,7 +60,7 @@ var Vertex = React.createClass({
             height={vertexHeight}
             ry={borderRadius} rx={borderRadius}
             className='vertex-box'
-            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)}
+            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag, this.props.zoomScale)}
             onClick={doubleClick.bind(this, 'vertex_body', this._openContainer)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
           <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
@@ -111,7 +111,7 @@ var Vertex = React.createClass({
           key={portModel.get('globalId')}
           x={position.x} y={position.y} label={portModel.label} labelPosition={position.labelPosition}
           onMoveRequested={this._onPortMoveRequested}
-          parentScale={this.props.parentScale}
+          zoomScale={this.props.zoomScale}
         />
       );
 
@@ -121,8 +121,8 @@ var Vertex = React.createClass({
   _onVertexBodyPseudoDrag: function(event) {
     var oldPos = this.props.model.get('position');
 
-    var newX = oldPos.x + event.movementX / this.props.parentScale;
-    var newY = oldPos.y + event.movementY / this.props.parentScale;
+    var newX = oldPos.x + event.scaledMovementX;
+    var newY = oldPos.y + event.scaledMovementY;
 
     this.props.model.setAttrs({
       isPinned: true,

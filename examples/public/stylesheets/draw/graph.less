@@ -1,3 +1,12 @@
 .graph {
   #global.unselectable();
+
+  .drag-handle {
+    #global.grab-cursor();
+
+    &:active {
+      #global.grabbing-cursor();
+    }
+  }
+
 }
