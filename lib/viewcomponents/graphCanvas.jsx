@@ -89,7 +89,7 @@ var GraphCanvas = React.createClass({
   },
 
   _actualSizeHandler: function() {
-    this.refs.graph.scaleAboutCenter(1);
+    this.scaleAboutCenter(1);
   },
 
   _handleWheel: function(e) {
