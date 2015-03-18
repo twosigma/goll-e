@@ -79,18 +79,6 @@ var GraphCanvas = React.createClass({
     );
   },
 
-  _getZoomHanderFn: function(direction) {
-    var AMOUNT = 0.25;
-    return function() {
-      var graphView = this.refs.graph;
-      graphView.scaleAboutCenter(graphView.state.scale + AMOUNT * direction);
-    }.bind(this);
-  },
-
-  _handleActualSize: function() {
-    this.refs.graph.scaleAboutCenter(1);
-  },
-
   pushGraph: function(vertex) {
     var newNavigationStack = this.state.navigationStack.slice();
     newNavigationStack.push(vertex.get('subGraph'));
