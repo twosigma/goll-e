@@ -34,8 +34,7 @@ var Port = React.createClass({
 
   getInitialState: function() {
     return {
-      dragging: false,
-      zoomScale: 1
+      dragging: false
     };
   },
 
@@ -68,7 +67,7 @@ var Port = React.createClass({
        <circle
          r={this.props.size || portRadius}
          cx={0} cy={0}
-         onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
+         onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging, this.props.zoomScale)}/>
        <text className="label"
          x={labelPosition.x}
          y={labelPosition.y}
@@ -106,8 +105,8 @@ var Port = React.createClass({
 
     this.setState({
       draggingPosition: {
-        x: lastPos.x + event.movementX / this.props.zoomScale,
-        y: lastPos.y + event.movementY / this.props.zoomScale
+        x: lastPos.x + event.scaledMovementX,
+        y: lastPos.y + event.scaledMovementY
       }
     });
   },

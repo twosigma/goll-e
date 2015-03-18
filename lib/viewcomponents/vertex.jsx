@@ -54,7 +54,7 @@ var Vertex = React.createClass({
           <path
             d={roundedRectanglePath(0, 0, vertexWidth, vertexHeight, borderRadius)}
             className='vertex-box'
-            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)} />
+            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag, this.props.zoomScale)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
           <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
             {/*model.get('id')*/}
@@ -114,8 +114,8 @@ var Vertex = React.createClass({
   _onVertexBodyPseudoDrag: function(event) {
     var oldPos = this.props.model.get('position');
 
-    var newX = oldPos.x + event.movementX / this.props.zoomScale;
-    var newY = oldPos.y + event.movementY / this.props.zoomScale;
+    var newX = oldPos.x + event.scaledMovementX;
+    var newY = oldPos.y + event.scaledMovementY;
 
     this.props.model.setAttrs({
       isPinned: true,

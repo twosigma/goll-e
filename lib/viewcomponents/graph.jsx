@@ -73,7 +73,7 @@ var Graph = React.createClass({
           fill="url(#background-pattern)"
           transform={bgTransform}
           width={bgSize} height={bgSize}
-          onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag)} />
+          onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this._onPanPseudoDrag, 1)} />
         <g id='zoom-container' transform={transformation}>
           {edgeComponents}
           {vertexComponents}
