@@ -24,18 +24,18 @@ var Port = React.createClass({
 
     /** callback called when this port, due to user action, would like to move to a new position.
     Passed a new position object.
-    It's up to the receiver to actually update the backing model as appropriate. 
+    It's up to the receiver to actually update the backing model as appropriate.
     If this is not done, the change will revert.
     */
     onMoveRequested: React.PropTypes.func,
 
-    parentScale: React.PropTypes.number
+    zoomScale: React.PropTypes.number
   },
 
   getInitialState: function() {
     return {
       dragging: false,
-      parentScale: 1
+      zoomScale: 1
     };
   },
 
@@ -67,7 +67,7 @@ var Port = React.createClass({
        transform={'translate(' + pos.x + ', ' + pos.y + ')'} >
        <circle
          r={this.props.size || portRadius}
-         cx={0} cy={0} 
+         cx={0} cy={0}
          onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
        <text className="label"
          x={labelPosition.x}
@@ -106,8 +106,8 @@ var Port = React.createClass({
 
     this.setState({
       draggingPosition: {
-        x: lastPos.x + event.movementX / this.props.parentScale,
-        y: lastPos.y + event.movementY / this.props.parentScale
+        x: lastPos.x + event.movementX / this.props.zoomScale,
+        y: lastPos.y + event.movementY / this.props.zoomScale
       }
     });
   },

@@ -33,7 +33,7 @@ var Graph = React.createClass({
         <Vertex
           model={vertex}
           key={vertex.get('globalId')}
-          parentScale={this.state.scale} />
+          zoomScale={this.state.scale} />
         );
     }.bind(this));
 
@@ -43,7 +43,7 @@ var Graph = React.createClass({
           model={edge}
           container={graph}
           key={edge.get('globalId')}
-          parentScale={this.state.scale} />
+          zoomScale={this.state.scale} />
       );
     }.bind(this));
 

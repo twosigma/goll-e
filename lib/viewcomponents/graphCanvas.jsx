@@ -2,6 +2,8 @@ var React = require('react');
 var GraphModel = require('./../model/graph');
 var Graph = require('./graph.jsx');
 
+var AMOUNT = 0.25;
+
 var GraphCanvas = React.createClass({
   propType: {
     rootGraph: React.PropTypes.instanceOf(GraphModel)
@@ -26,8 +28,8 @@ var GraphCanvas = React.createClass({
       <div className="graph-canvas">
         <div className="navigation-controls">
           <button className="zoom-btn zoom-actual" onClick={this._handleActualSize}>1&times;</button>
-          <button className="zoom-btn zoom-out" onClick={this._getZoomHanderFn(-1)}>&ndash;</button>
-          <button className="zoom-btn zoom-in" onClick={this._getZoomHanderFn(1)}>+</button>
+          <button className="zoom-btn zoom-out" onClick={this._zoomOutHanlderFn}>&ndash;</button>
+          <button className="zoom-btn zoom-in" onClick={this._zoomInHanlderFn}>+</button>
         </div>
         <Graph ref="graph" model={this._getActiveGraph()} />
       </div>
@@ -38,12 +40,14 @@ var GraphCanvas = React.createClass({
     return this.state.navigationStack[this.state.navigationStack.length - 1];
   },
 
-  _getZoomHanderFn: function(direction) {
-    var AMOUNT = 0.25;
-    return function() {
-      var graphView = this.refs.graph;
-      graphView.scaleAboutCenter(graphView.state.scale + AMOUNT * direction);
-    }.bind(this);
+  _zoomOutHanlderFn: function(direction) {
+    var graphView = this.refs.graph;
+    graphView.scaleAboutCenter(graphView.state.scale + AMOUNT * -1);
+  },
+
+  _zoomInHanlderFn: function(direction) {
+    var graphView = this.refs.graph;
+    graphView.scaleAboutCenter(graphView.state.scale + AMOUNT);
   },
 
   _handleActualSize: function() {
