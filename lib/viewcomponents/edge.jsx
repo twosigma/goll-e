@@ -3,7 +3,6 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
-var CartesianPortPosition = require('../model/cartesianPortPosition');
 var Graph = require('../model/graph');
 var Edge = require('../model/edge');
 

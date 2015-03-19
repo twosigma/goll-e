@@ -1,0 +1,60 @@
+{
+  "vertices": {
+    "California": {
+      "id": "California",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "NewYork": {
+      "id": "NewYork",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "Massachusetts": {
+      "id": "Massachusetts",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "Washington": {
+      "id": "Washington",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    },
+    "Austin": {
+      "id": "Austin",
+      "inputs": {},
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {}
+}

@@ -22,6 +22,8 @@ var jshint = require('gulp-jshint');
 var symlink = require('gulp-symlink');
 var react = require('gulp-react');
 
+var traceur = require('gulp-traceur-compiler');
+
 var gollePackage = require('./package.json');
 
 /**
@@ -108,7 +110,9 @@ gulp.task('mocha', ['lint', 'jison'], function () {
     
     return gulp.src(paths.testFiles, { 
         read: false
-    }).pipe(mochaDefault);
+    })
+    .pipe(traceur())
+    .pipe(mochaDefault);
 });
 
 /**

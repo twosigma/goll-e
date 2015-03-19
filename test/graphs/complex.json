@@ -1,0 +1,139 @@
+{
+  "vertices": {
+    "Alpha": {
+      "id": "Alpha",
+      "inputs": {
+          "Bill": {
+            "id": "Bill",
+            "classes": [
+              "excellent",
+              "bogus"
+            ],
+            "metadata": {
+              "myKey": "val",
+              "myOtherKey": "val"
+            }
+          },
+          "Ted": {
+            "id": "Ted",
+            "classes": [],
+            "metadata": {}
+          }
+      },
+      "outputs": {},
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {
+          "Charlie": {
+            "id": "Charlie",
+            "inputs": {},
+            "outputs": {},
+            "classes": [],
+            "metadata": {},
+            "subGraph": {
+              "vertices": {},
+              "edges": {}
+            }
+          },
+          "Delta": {
+            "id": "Delta",
+            "inputs": {},
+            "outputs": {},
+            "classes": [],
+            "metadata": {},
+            "subGraph": {
+              "vertices": {},
+              "edges": {}
+            }
+          }
+        },
+        "edges": {
+          "CharlieToDelta": {
+            "id": "CharlieToDelta",
+            "source": {
+              "vertexId": "Charlie",
+              "portId": null
+            },
+            "target": {
+              "vertexId": "Delta",
+              "portId": null
+            },
+            "classes": [],
+            "metadata": {}
+          },
+          "DeltaToParent": {
+            "id": "DeltaToParent",
+            "source": {
+              "vertexId": "Delta",
+              "portId": null
+            },
+            "target": {
+              "vertexId": null,
+              "portId": null
+            },
+            "classes": [],
+            "metadata": {}
+          }
+        }
+      }
+    },
+    "Bravo": {
+      "id": "Bravo",
+      "inputs": {
+        "Ben": {
+          "id": "Ben",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "outputs": {
+        "Jerry": {
+          "id": "Jerry",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {
+    "JerryToBill": {
+      "id": "JerryToBill",
+      "source": {
+        "vertexId": "Bravo",
+        "portId": "Jerry"
+      },
+      "target": {
+        "vertexId": "Alpha",
+        "portId": "Bill"
+      },
+      "classes": [
+        "long",
+        "wobbly"
+      ],
+      "metadata": {
+        "myKey": "val",
+        "myOtherKey": "val"
+      }
+    },
+    "AlphaToBravo": {
+      "id": "AlphaToBravo",
+      "source": {
+        "vertexId": "Alpha",
+        "portId": null
+      },
+      "target": {
+        "vertexId": "Bravo",
+        "portId": null
+      },
+      "classes": [],
+      "metadata": {}
+    }
+  }
+}

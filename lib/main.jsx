@@ -1,20 +1,18 @@
 var React = require('react');
-var App = require('./viewcomponents/app.jsx');
-var GraphParser = require('./model/graphParser');
+var AppView = require('./viewcomponents/app.jsx');
+var GCLEditorModel = require('./model/gclEditorModel');
 
-var TEST_DATA = require('./test-data.json');
+var gclEditorModel = new GCLEditorModel();
 
-var parser = new GraphParser();
-var graph = parser.parseGraph(TEST_DATA);
-
-// rerender on any change
-// graph.after('change', renderGraph);
-graph.after('change', function(e) {
+gclEditorModel.after('change', function(){
   renderGraph();
 });
 
 var renderGraph = function() {
-  React.render(<App graphModel={graph} />, document.getElementById('app-container'));
+  React.render(
+    <AppView gclEditorModel={gclEditorModel} />,
+    document.getElementById('app-container')
+  );
 };
 
 window.onload = renderGraph;

@@ -6,6 +6,10 @@ before_install:
 - npm install -g gulp
 script:
 - gulp ci
+branches:
+  only:
+    - master
+    - develop
 notifications:
   hipchat:
     rooms:

@@ -1,0 +1,22 @@
+//
+// edges-with-classes-and-metadata.gcl
+// Sample that demonstrates how to create edges with classes and metadata.
+//
+
+vertex california
+{
+    input portOfLA
+    output lax
+}
+
+vertex newYork
+{
+    input jfk
+    output portOfNYC
+}
+
+edge ports newYork.portOfNYC -> california.portOfLA
+{
+    class "oceanStyle"
+    attribute "water": "yes"
+}

@@ -1,29 +1,24 @@
-identifier      [a-zA-Z][^\s+-:.->{}]*
-str_literal     \"[^\"\r\n]*\"|\'[^\'\r\n]*\'
+id                 [_a-zA-Z][_a-zA-Z0-9]*
+str                \"[^\"\r\n]*\"|\'[^\'\r\n]*\'
 
 %%
-"//".*          /* Ignore Comment */
-\s+             /* Ignore Whitespace */
-"template"      return 'RESERVED';
-"import"        return 'RESERVED';
-"extends"       return 'RESERVED';
-"node"          return 'RESERVED';
-"input"         return 'RESERVED';
-"output"        return 'RESERVED';
-"attribute"     return 'RESERVED';
-"style"         return 'RESERVED';
-"graph"         return 'RESERVED';
-"connection"    return 'CONNECTION';
-{identifier}    return 'IDENTIFIER';
-{str_literal}   return 'STR_LITERAL';
-"=>"            return 'ARROW';
-"->"            return 'REF_ARROW';
-"+"             return 'PLUS';
-"-"             return 'MINUS';
-":"             return 'COLON';
-"."             return 'DOT';
-"{"             return 'LBRACE';
-"}"             return 'RBRACE';
-<<EOF>>         return 'ENDOFFILE';
-
-
+"//".*             /* Ignore */
+"import"           return 'IMPORT';
+"vertex"           return 'VERTEX_DECL';
+"edge"             return 'EDGE_DECL';
+"template"         return 'TEMPLATE_DECL';
+"input"            return 'INPUT_DECL';
+"output"           return 'OUTPUT_DECL';
+"class"            return 'CLASS_DECL';
+"attribute"        return 'ATTR_DECL';
+"is"               return 'IS_OP';
+"self"             return 'SELF_REF';
+"->"               return 'CONN_ARROW_OP';
+":"                return 'ATTR_OP';
+"."                return 'DOT_OP';
+"{"                return 'LBRACE';
+"}"                return 'RBRACE';
+{id}               return 'ID';
+{str}              return 'STR_LITERAL';
+\s+                /* Ignore Whitespace */
+<<EOF>>            return 'EOF';

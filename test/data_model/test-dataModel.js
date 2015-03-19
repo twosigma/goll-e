@@ -3,11 +3,15 @@
  */
 
 var CardinalDirection = require('../../lib/enum/cardinalDirection');
+var PortType = require('../../lib/enum/portType');
+var Graph = require('../../lib/model/graph');
+var VertexStyles = require('../../lib/styles/vertexStyles');
+
 
 var should = require('should'),
     Port = require('../../lib/model/port.js'),
-	Vertex = require('../../lib/model/vertex.js'),
-	Edge = require('../../lib/model/edge.js'),
+  Vertex = require('../../lib/model/vertex.js'),
+  Edge = require('../../lib/model/edge.js'),
     CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js');
 
     port1 = new Port({
@@ -53,6 +57,42 @@ describe('edge', function () {
         edge.get('to').get('type').should.equal("input");
         done();
     });
+
+  describe('#getPositionInGraph', function() {
+    it('should get position of itself relative to its container', function() {
+      var vId = 'test';
+      var port = new Port({
+        id: 'testPort',
+        type: PortType.INPUT,
+        ownerVertexId: vId,
+        position: new CardinalPortPosition({
+          percentage: 50,
+          direction: CardinalDirection.SOUTH
+        })
+      });
+
+      var vStyle = new VertexStyles({
+        height: 200,
+        width: 400
+      });
+
+      var vertex = new Vertex({
+        id: vId,
+        globalId: vId,
+        inputs: [port],
+        styles: vStyle
+      });
+
+      var graph = new Graph({
+        vertices: [vertex],
+        edges: []
+      });
+
+      var position = port.getPositionInGraph(graph);
+      position.x.should.be.approximately(200, 1);
+      position.y.should.be.approximately(200, 1);
+    });
+  });
 });
 
 describe('vertex', function () {

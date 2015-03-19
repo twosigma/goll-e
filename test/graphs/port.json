@@ -1,0 +1,38 @@
+{
+  "vertices": {
+    "california": {
+      "id": "california",
+      "inputs": {
+        "port_of_los_angeles": {
+          "id": "port_of_los_angeles",
+          "classes": [],
+          "metadata": {}
+        },
+        "lax": {
+          "id": "lax",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "outputs": {
+        "interstate_highway": {
+          "id": "interstate_highway",
+          "classes": [],
+          "metadata": {}
+        },
+        "spaceships": {
+          "id": "spaceships",
+          "classes": [],
+          "metadata": {}
+        }
+      },
+      "classes": [],
+      "metadata": {},
+      "subGraph": {
+        "vertices": {},
+        "edges": {}
+      }
+    }
+  },
+  "edges": {}
+}
