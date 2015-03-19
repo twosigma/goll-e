@@ -11,7 +11,7 @@ var BASE_MARGIN = 6;
 
 var pinX = 15;
 var pinY = -15;
-var pinScale = 0.75;
+var pinScale = 1;
 
 var yOffset = 8;
 
