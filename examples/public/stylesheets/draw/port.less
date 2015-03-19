@@ -1,14 +1,18 @@
 .port {
-  circle {
+  & > circle {
     stroke: @color-dark-grey;
   }
 
-  &.input circle {
+  &.input > circle {
     fill: white;
   }
 
-  &.output circle {
+  &.output > circle {
     fill: @color-dark-grey;
+  }
+  
+  &:not(:hover) > .unpin-button > .icon {
+    display: none;
   }
 
   &.dragging {
