@@ -6,53 +6,122 @@ var ObjectUtils = require('../../utilities/objects');
 var KEY_CODE = {
   TAB: 9,
   BACKSPACE: 8,
-  RETURN: 13
+  RETURN: 13,
+  LBRACKET: 219,
+  RBRACKET: 221
 };
 
-var handleKeydown = function(e) {
+var handleTab = function(e) {
   var el = e.target;
   var text = el.value;
   var start = el.selectionStart;
   var end = el.selectionEnd;
   var tabStr = this.tabStr;
 
+  // insert a tab instead of losing focus
+  e.preventDefault();
+  el.value = text.substring(0, start) + tabStr + text.substring(end);
+  el.selectionStart = el.selectionEnd = start + tabStr.length;
+};
+
+var handleBackspace = function(e) {
+  var el = e.target;
+  var text = el.value;
+  var start = el.selectionStart;
+  var end = el.selectionEnd;
+  var tabStr = this.tabStr;
+
+  // delete all tab characters together
+  if (start >= tabStr.length && start === end && text.substring(start - tabStr.length, start) === tabStr) {
+    e.preventDefault();
+    el.value = text.substring(0, start - tabStr.length) + text.substring(end);
+    el.selectionStart = el.selectionEnd = start - tabStr.length;
+  }
+};
+
+var getCurrentIndentString = function(e) {
+  var el = e.target;
+  var text = el.value;
+  var start = el.selectionStart;
+  var tabStr = this.tabStr;
+
+  //extract the current line of text
+  var thisLine = text.substring(0, start);
+  var lastNewline = thisLine.lastIndexOf('\n');
+  if (lastNewline !== -1) {
+    thisLine = thisLine.substring(1 + lastNewline);
+  }
+
+  var indentString = '';
+  // count tabs
+  while (thisLine.length >= tabStr && thisLine.substr(0, tabStr.length) === tabStr) {
+    indentString += tabStr;
+    thisLine = thisLine.substring(tabStr.length);
+  }
+
+  return indentString;
+};
+
+var handleReturn = function(e) {
+  var el = e.target;
+  var text = el.value;
+  var start = el.selectionStart;
+  var end = el.selectionEnd;
+  var tabStr = this.tabStr;
+
+  //auto tab to last indent level
+  e.preventDefault();
+
+  var currentIndentString = getCurrentIndentString.apply(this, arguments);
+
+  var insertString = '\n' + currentIndentString;
+  var caretAdvance = insertString.length;
+
+  // if last character was a block opener, open a new level
+  if (start > 0 && text.substring(start - 1, start).match(/[\{\()]/)) {
+    insertString += tabStr;
+    caretAdvance += tabStr.length;
+
+    //additionally, if the next character is a block closer, add an additional newline
+    if (start < text.length && text.substring(start, start + 1).match(/[\}\)]/)) {
+      insertString += '\n' + currentIndentString;
+    }
+  }
+
+  el.value = text.substring(0, start) + insertString + text.substring(end);
+  el.selectionStart = el.selectionEnd = start + caretAdvance;
+
+};
+
+var handleLBrace = function(e) {
+  var el = e.target;
+  var text = el.value;
+  var start = el.selectionStart;
+  var end = el.selectionEnd;
+
+  e.preventDefault();
+
+  el.value = text.substring(0, start) + '{}' + text.substring(end);
+  el.selectionStart = el.selectionEnd = start + 1;
+};
+
+
+var handleKeydown = function(e) {
   switch (e.keyCode) {
     case KEY_CODE.TAB:
-    // insert a tab instead of losing focus
-    e.preventDefault();
-    el.value = text.substring(0, start) + tabStr + text.substring(end);
-    el.selectionStart = el.selectionEnd = start + tabStr.length;
+    handleTab.apply(this, arguments);
     break;
 
     case KEY_CODE.BACKSPACE:
-    // delete all tab characters together
-    if (start >= tabStr.length && start === end && text.substring(start - tabStr.length, start) === tabStr) {
-      e.preventDefault();
-      el.value = text.substring(0, start - tabStr.length) + text.substring(end);
-      el.selectionStart = el.selectionEnd = start - tabStr.length;
-    }
+    handleBackspace.apply(this, arguments);
     break;
 
     case KEY_CODE.RETURN:
-    //auto tab to last indent level
-    e.preventDefault();
+    handleReturn.apply(this, arguments);
+    break;
 
-    //extract the current line of text
-    var thisLine = text.substring(0, start);
-    var lastNewline = thisLine.lastIndexOf('\n');
-    if (lastNewline !== -1) {
-      thisLine = thisLine.substring(1 + lastNewline);
-    }
-
-    var insertString = '\n';
-    // count tabs
-    while (thisLine.length >= tabStr && thisLine.substr(0, tabStr.length) === tabStr) {
-      insertString += tabStr;
-      thisLine = thisLine.substring(tabStr.length);
-    }
-
-    el.value = text.substring(0, start) + insertString + text.substring(end);
-    el.selectionStart = el.selectionEnd = start + insertString.length;
+    case KEY_CODE.LBRACKET:
+    handleLBrace.apply(this, arguments);
     break;
   }
 };
@@ -108,7 +177,7 @@ var CodeArea = React.createClass({
       this.tabStr = (new Array(this.props.tabSize + 1)).join(this.props.tabChar);
     }
 
-    textAreaProps.ref = "textarea";
+    textAreaProps.ref = 'textarea';
 
 
     return React.createElement('textarea', textAreaProps, this.props.children);
@@ -125,7 +194,7 @@ var CodeArea = React.createClass({
     // React can **** another ****
     // It appends 'px' to the tab size, which is wrong and not accepted by the browser.
     textareaNode.style['tab-size'] = this.props.tabSize;
-    
+
   }
 });
 
