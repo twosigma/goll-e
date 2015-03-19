@@ -7,7 +7,7 @@ var GCLPanel = React.createClass({
     return {
       code: code,
       restorePoint: code
-    }
+    };
   },
 
   render: function() {
