@@ -32,60 +32,49 @@ var Toolbar = React.createClass({
   },
 
   render: function() {
-    var createButtons = function() {
-      var buttons = [];
-      ObjectUtils.each(this.props.tools, function(toolConfig, name) {
+    var buttons = [];
+    ObjectUtils.each(this.props.tools, function(toolConfig, name) {
 
-        var clickHander = function() {
-          // make active panel clicked panel. If already active, close panel (make null).
-          this.setState({
-            activePanel: this.state.activePanel === name ? null : name
-          });
-        }.bind(this);
+      var clickHander = function() {
+        // make active panel clicked panel. If already active, close panel (make null).
+        this.setState({
+          activePanel: this.state.activePanel === name ? null : name
+        });
+      }.bind(this);
 
-        var classPredicates = {};
-        classPredicates.button = true;
-        classPredicates.active = this.state.activePanel === name;
-        classPredicates['button-' + name] = !!name;
-        var classes = classSet(classPredicates);
+      var classPredicates = {};
+      classPredicates.button = true;
+      classPredicates.active = this.state.activePanel === name;
+      classPredicates['button-' + name] = !!name;
+      var classes = classSet(classPredicates);
 
-        buttons.push(
-          <li key={name} onClick={clickHander} title={toolConfig.title} className={classes} >
-            <img src={toolConfig.icon}/>
-          </li>
-        );
-      }, this);
+      buttons.push(
+        <li key={name} onClick={clickHander} title={toolConfig.title} className={classes} >
+          <img src={toolConfig.icon}/>
+        </li>
+      );
+    }, this);
 
-      return (
-        <ul className="tools">
-          {buttons}
-        </ul>);
+    var panels = [];
 
-    }.bind(this);
+    ObjectUtils.each(this.props.tools, function(toolConfig, name) {
 
-    var createPanels = function() {
-      var panels = [];
+      panels.push(
+        <div key={name} className={'panel-container ' + (name === this.state.activePanel ? 'active': '')}>
+          <Panel title={toolConfig.title} icon={toolConfig.icon}>
+            {toolConfig.panelContent}
+          </Panel>
+        </div>
+      );
 
-      ObjectUtils.each(this.props.tools, function(toolConfig, name) {
-
-        panels.push(
-          <div key={name} className={'panel-container ' + (name === this.state.activePanel ? 'active': '')}>
-            <Panel title={toolConfig.title} icon={toolConfig.icon}>
-              {toolConfig.panelContent}
-            </Panel>
-          </div>
-        );
-
-      }, this);
-
-      return panels;
-
-    }.bind(this);
+    }, this);
 
     return (
       <div className="toolbar">
-        {createPanels()}
-        {createButtons()}
+        {panels}
+        <ul className="tools">
+          {buttons}
+        </ul>);
       </div>
     );
   }
