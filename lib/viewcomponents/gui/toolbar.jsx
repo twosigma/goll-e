@@ -6,7 +6,7 @@ var ObjectUtils = require('../../utilities/objects');
 var Panel = require('./panel.jsx');
 /*
 tools: an object of tool config objects keyed by name {
-  panelContent: ctor for the react component of contents of the panel,
+  panelContent: constructed component of contents of the panel,
   icon: path to icon image
   title: string title of panel
   props: any props to pass to the panel
@@ -67,7 +67,7 @@ var Toolbar = React.createClass({
 
       return (
         <Panel title={toolConfig.title} icon={toolConfig.icon}>
-          {React.createElement(toolConfig.panelContent, toolConfig.props)}
+          {toolConfig.panelContent}
         </Panel>
       );
     }.bind(this);
