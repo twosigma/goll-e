@@ -11,17 +11,24 @@ var KEY_CODE = {
   RBRACKET: 221
 };
 
+/**
+ * Simulate pasting a string where the focus is.
+ * Ensure focus and caret are positioned before calling!
+ *
+ * Unlike setting the value of a textarea, this supports undo/redo.
+ * @method typeString
+ * @param  {Sttring} insertString
+ */
+var typeString = function(insertString) {
+  document.execCommand('insertText', false, insertString);
+};
+
 var handleTab = function(e) {
-  var el = e.target;
-  var text = el.value;
-  var start = el.selectionStart;
-  var end = el.selectionEnd;
   var tabStr = this.tabStr;
 
   // insert a tab instead of losing focus
   e.preventDefault();
-  el.value = text.substring(0, start) + tabStr + text.substring(end);
-  el.selectionStart = el.selectionEnd = start + tabStr.length;
+  typeString(tabStr);
 };
 
 var handleBackspace = function(e) {
@@ -66,7 +73,6 @@ var handleReturn = function(e) {
   var el = e.target;
   var text = el.value;
   var start = el.selectionStart;
-  var end = el.selectionEnd;
   var tabStr = this.tabStr;
 
   //auto tab to last indent level
@@ -88,20 +94,17 @@ var handleReturn = function(e) {
     }
   }
 
-  el.value = text.substring(0, start) + insertString + text.substring(end);
+  typeString(insertString);
   el.selectionStart = el.selectionEnd = start + caretAdvance;
-
 };
 
 var handleLBrace = function(e) {
   var el = e.target;
-  var text = el.value;
   var start = el.selectionStart;
-  var end = el.selectionEnd;
 
   e.preventDefault();
 
-  el.value = text.substring(0, start) + '{}' + text.substring(end);
+  typeString('{}');
   el.selectionStart = el.selectionEnd = start + 1;
 };
 
