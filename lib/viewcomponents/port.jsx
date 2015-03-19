@@ -9,8 +9,8 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var portRadius = 4;
 var BASE_MARGIN = 6;
 
-var pinX = 15;
-var pinY = -15;
+var pinX = 10;
+var pinY = -22;
 var pinScale = 1;
 
 var yOffset = 8;
