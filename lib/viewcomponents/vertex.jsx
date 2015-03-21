@@ -155,8 +155,10 @@ var Vertex = React.createClass({
     var vPct = pos.y/styles.get('height');
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
-
-    portModel.set('position', cardinalPosition);
+    portModel.setAttrs({
+      isPinned: true,
+      position: cardinalPosition
+    });
   }
 
 });
