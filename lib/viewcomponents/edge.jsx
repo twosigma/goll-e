@@ -5,9 +5,10 @@ var CardinalDirection = require('../enum/cardinalDirection.js');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
 var Graph = require('../model/graph');
 var Edge = require('../model/edge');
+var smoothCurevedEdges = require('./smoothCurvedEdges.jsx');
+var ReroutePoint = require('../model/reroutePoint');
 
-
-
+var HANDLE_RADIUS = 7;
 
 var Edge = React.createClass({
 
@@ -19,85 +20,85 @@ var Edge = React.createClass({
   render: function() {
     var model = this.props.model;
     var container = this.props.container;
-   
+
     return (
-      <g 
+      <g
+      ref="edge"
       className="edge">
-        <path
-          className="edge-line" 
-          d={lineFunction(model, container)}
-          markerEnd="url(#defaultArrowhead)"
-          />
+        <g className="lines">{this._getLinePaths()}</g>
+        <g className="handles">{this._getDragHandles()}</g>
       </g>
     );
+  },
+
+  _getLinePaths: function() {
+    var edge = this.props.model;
+    var graph = this.props.container;
+
+    var sourcePos = edge.getStartPositionIn(graph);
+    var targetPos = edge.getEndPositionIn(graph);
+    var reroutePoints = edge.get('layout').get('reroutePoints');
+    return smoothCurevedEdges(sourcePos, reroutePoints, targetPos, this._addReroutePointHandler);
+  },
+
+  _addReroutePointHandler: function(index, e) {
+    var edge = this.props.model;
+    var graph = this.props.container;
+
+    var sourcePos = edge.getStartPositionIn(graph);
+    var targetPos = edge.getEndPositionIn(graph);
+
+    var localCoords = this._transformCoordinates(e);
+
+    var reroutePoints = edge.get('layout').get('reroutePoints');
+    var pct = {
+      x: localCoords.x - (targetPos.x + sourcePos.x)/2,
+      y: localCoords.y - (targetPos.y + sourcePos.y)/2
+    };
+
+    reroutePoints.add(new ReroutePoint(pct), index);
+  },
+
+  _getDragHandles: function() {
+    var edge = this.props.model;
+    var graph = this.props.container;
+    var reroutePoints = edge.get('layout').get('reroutePoints');
+
+    var sourcePos = edge.getStartPositionIn(graph);
+    var targetPos = edge.getEndPositionIn(graph);
+
+    return reroutePoints.toArray().map(function(reroutePoint, i) {
+      var plain = reroutePoint.getScaled(sourcePos, targetPos);
+      return (<circle
+        className="handle"
+        key={i}
+        onMouseDown={mouseDownDrag.bind(this, 'handle_'+i, null, null, this._handleRerouteDrag.bind(this, reroutePoint))}
+        r={HANDLE_RADIUS}
+        cx={plain.x} cy={plain.y} />);
+    }, this);
+  },
+
+  _handleRerouteDrag: function(reroutePoint, e) {
+    reroutePoint.setAttrs({
+      x: reroutePoint.get('x') + e.movementX,
+      y: reroutePoint.get('y') + e.movementY
+    });
+  },
+
+  _transformCoordinates: function(e) {
+    // thanks to http://stackoverflow.com/questions/4850821/svg-coordinates-with-transform-matrix
+    var localEl = this.refs.edge.getDOMNode();
+    var svg = localEl.ownerSVGElement;
+    var pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    var globalPoint = pt.matrixTransform(svg.getScreenCTM().inverse());
+    var globalToLocal = localEl.getTransformToElement(svg).inverse();
+    var inObjectSpace = globalPoint.matrixTransform(globalToLocal);
+    return inObjectSpace;
   }
 
 });
-
-/**
- * Get the d attribute for an svg path for an edge.
- * 
- * @method lineFunction
- * @param  {Edge} model
- * @param  {Graph} graph the container in which to locate nodes
- * @return {String} the d attribute for a path
- * @private
- */
-var lineFunction = function(edge, graph) {
-
-  var sourcePos = edge.getStartPositionIn(graph);
-  var targetPos = edge.getEndPositionIn(graph);
-
-  // The change between the start and end.
-  var delta = {
-    x: targetPos.x - sourcePos.x,
-    y: targetPos.y - sourcePos.y
-  };
-
-  //pythagorize it
-  delta.distance = Math.sqrt(Math.pow(delta.x, 2) + Math.pow(delta.y, 2));
-
-  /*
-  The distance from the source/target to the nearest curve control point.
-  It should be some nondecreasing function of the displacement, here's one such function.
-  There may be a better one.
-   */
-  var ctrlDistance = Math.min(0.3 * delta.distance, 100);
-
-  var ctrl1 = getPointDistanceFromPoint(ctrlDistance, sourcePos);
-  var ctrl2 = getPointDistanceFromPoint(ctrlDistance, targetPos);
-
-  var points = {
-    x1: sourcePos.x,
-    y1: sourcePos.y,
-
-    ctrl1x: ctrl1.x,
-    ctrl1y: ctrl1.y,
-
-    ctrl2x: ctrl2.x,
-    ctrl2y: ctrl2.y,
-
-    x2: targetPos.x,
-    y2: targetPos.y
-  };
-
-  return 'M{x1},{y1} C{ctrl1x},{ctrl1y},{ctrl2x},{ctrl2y},{x2},{y2}'
-    .replace(/\{([^\{]+)\}/g, function(_, name) {
-    return points[name];
-  });
-
-};
-
-/*
-The provided point is a point with a direction angle.
-Returns a new point `distance` away in the direction of `point.angle`
- */
-var getPointDistanceFromPoint = function(distance, point) {
-  return {
-    x: point.x + distance * Math.cos(point.angle),
-    y: point.y - distance * Math.sin(point.angle)
-  };
-};
 
 
 module.exports = Edge;
