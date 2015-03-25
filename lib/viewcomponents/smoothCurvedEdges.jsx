@@ -1,6 +1,12 @@
+/* eslint-disable */
 var React = require('react');
+/* eslint-enable */
 var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
 var ReroutePoint = require('../model/reroutePoint');
+var instruct2D = require('../utilities/instruct2d');
+
+var computeControlPoints1D;
+var getPointDistanceFromPoint;
 
 /*
 Enable drawing of control points
@@ -18,10 +24,11 @@ var DEBUG = true;
  * @param {Object} outputLoc the output port location.
  * @param {ReroutePointsList} reroutePoints list of reroute point models
  * @param {Object} inputLoc the input port location
+ * @return {ReactElement} React element to draw an edge
  * @function smoothCurvedEdges
  */
 var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
-  // Let's make Adobe Illustrator! Specifically, the smooth curve tool…
+  // Let's make Adobe Illustrator! Specifically, the Curvature Tool…
 
   // callback when clicking edges
   var addRerouteCb = function(index, e) {
@@ -66,7 +73,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
     secondControlPoints[i] = {
       x: controlPointsX.secondControlPoints[i],
       y: controlPointsY.secondControlPoints[i]
-    }
+    };
   }
 
   // Now we change the first and last control points so that lines
@@ -96,12 +103,12 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   if (DEBUG) {
     var debugMarkers = (<g className="debug-markers">
       <g className="ctrl-points">{
-        firstControlPoints.map(function(p, i) {
-          return (<circle className="first" key={i} r="5" cy={p.y} cx={p.x} />);
+        firstControlPoints.map(function(p, k) {
+          return (<circle className="first" key={k} r="5" cy={p.y} cx={p.x} />);
         })
       }{
-        secondControlPoints.map(function(p, i) {
-          return (<circle className="second" key={i} r="5" cy={p.y} cx={p.x} />);
+        secondControlPoints.map(function(p, k) {
+          return (<circle className="second" key={k} r="5" cy={p.y} cx={p.x} />);
         })
       }
       </g>
@@ -113,8 +120,6 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   var svgPaths = [];
 
   for (i = 0; i < nPoints - 1; i++) {
-    var currentPoint = points[i];
-
     var d = instruct2D('M', points[i]);
     d += instruct2D('C', firstControlPoints[i], secondControlPoints[i], points[i + 1]);
 
@@ -138,7 +143,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
  * @param  {Array} knots array of 1d coordinates (numbers)
  * @return {Object} containing two arrays keyed by firstControlPoints and secondControlPoints
  */
-var computeControlPoints1D = function(knots) {
+computeControlPoints1D = function(knots) {
   var i;
   // first control points
   var p1 = new Array(knots.length - 1);
@@ -176,7 +181,7 @@ var computeControlPoints1D = function(knots) {
   /* solves Ax=b with the Thomas algorithm (from Wikipedia)*/
   for (i = 1; i < n; i++) {
     var m = a[i] / b[i - 1];
-    b[i] = b[i] -m * c[i - 1];
+    b[i] = b[i] - m * c[i - 1];
     r[i] = r[i] - m * r[i - 1];
   }
 
@@ -202,33 +207,11 @@ var computeControlPoints1D = function(knots) {
 The provided point is a point with a direction angle.
 Returns a new point `distance` away in the direction of `point.angle`
  */
-var getPointDistanceFromPoint = function(distance, point) {
+getPointDistanceFromPoint = function(distance, point) {
   return {
     x: point.x + distance * Math.cos(point.angle),
     y: point.y - distance * Math.sin(point.angle)
   };
-};
-
-/**
- * Create an svg instruction like for a d.
- *
- * SVG's d attribute contains commands like "C x1, y1, x2, y2"
- *
- * This utility saves you from lots of string concatenation
- * @method instruct2D
- * @param  {String} command command name, typically one character
- * @param  {Object...} [points], any number of objects with x and y properties
- * @return {String}
- */
-var instruct2D = function(command /*points...*/) {
-  var points = Array.prototype.slice.call(arguments, 1);
-  var flattenedPoints = [];
-  points.forEach(function(point2d) {
-    flattenedPoints.push(point2d.x);
-    flattenedPoints.push(point2d.y);
-  });
-
-  return command + ' ' + flattenedPoints.join(', ') + ' ';
 };
 
 module.exports = smoothCurvedEdges;

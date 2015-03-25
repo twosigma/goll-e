@@ -1,26 +1,19 @@
 var React = require('react');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
-var PositionUtils = require('../utilities/positionUtils.js');
-var CardinalDirection = require('../enum/cardinalDirection.js');
-var CardinalPortPosition = require('../model/cardinalPortPosition');
 var Graph = require('../model/graph');
-var Edge = require('../model/edge');
+var EdgeModel = require('../model/edge');
 var smoothCurevedEdges = require('./smoothCurvedEdges.jsx');
-var ReroutePoint = require('../model/reroutePoint');
 
 var HANDLE_RADIUS = 7;
 
 var Edge = React.createClass({
 
   propTypes: {
-    model: React.PropTypes.instanceOf(Edge),
+    model: React.PropTypes.instanceOf(EdgeModel),
     container: React.PropTypes.instanceOf(Graph)
   },
 
   render: function() {
-    var model = this.props.model;
-    var container = this.props.container;
-
     return (
       <g
       ref="edge"
@@ -54,7 +47,7 @@ var Edge = React.createClass({
       return (<circle
         className="handle"
         key={i}
-        onMouseDown={mouseDownDrag.bind(this, 'handle_'+i, null, null, this._handleRerouteDrag.bind(this, reroutePoint))}
+        onMouseDown={mouseDownDrag.bind(this, 'handle_' + i, null, null, this._handleRerouteDrag.bind(this, reroutePoint))}
         r={HANDLE_RADIUS}
         cx={plain.x} cy={plain.y} />);
     }, this);
