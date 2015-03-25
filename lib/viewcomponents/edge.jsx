@@ -14,6 +14,36 @@ var Edge = React.createClass({
     container: React.PropTypes.instanceOf(Graph)
   },
 
+  /*
+  The following methods simulate a drag start when a reroute point is added so that it may be dragged immeditately
+  (even though the drawn point won't exist until it re-renders)
+   */
+
+  componentWillMount: function() {
+    this._bindAddRerouteEvent();
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    this._unbindAddRerouteEvent();
+    this._bindAddRerouteEvent(nextProps);
+  },
+
+  componentWillUnmount: function() {
+    this._unbindAddRerouteEvent();
+  },
+
+  _bindAddRerouteEvent: function(props) {
+    var props = props || this.props;
+    // hacka hacka hacka
+    this._rerouteAddEventHandle = props.model.get('layout').get('reroutePoints').after('add', function(e) {
+      mouseDownDrag.call(this, 'handle_' + e.index, null, null, this._handleRerouteDrag.bind(this, e.value, e.index), null);
+    }, this);
+  },
+
+  _unbindAddRerouteEvent: function() {
+    this._rerouteAddEventHandle.detach();
+  },
+
   render: function() {
     return (
       <g
@@ -49,10 +79,30 @@ var Edge = React.createClass({
         className="handle"
         ref={'handle_' + i}
         key={i}
-        onMouseDown={mouseDownDrag.bind(this, 'handle_' + i, null, null, this._handleRerouteDrag.bind(this, reroutePoint, i))}
+        onMouseDown={mouseDownDrag.bind(
+          this, 'handle_' + i,
+          this._handleRerouteDragStart,
+          this._handleRerouteDragEnd.bind(this, i),
+          this._handleRerouteDrag.bind(this, reroutePoint, i)
+          )}
         r={HANDLE_RADIUS}
         cx={plain.x} cy={plain.y} />);
     }, this);
+  },
+
+  _handleRerouteDragStart: function(e) {
+    // Keep a flag if it was actually dragged during the drag operation.
+    // If not, it looks like a click and we'll delete the point.
+
+    this.setState({
+      rerouteDragged: false
+    });
+  },
+
+  _handleRerouteDragEnd: function(i, e) {
+    if (!this.state.rerouteDragged) {
+      this.props.model.get('layout').get('reroutePoints').remove(i);
+    }
   },
 
   _handleRerouteDrag: function(reroutePoint, index, e) {
@@ -68,6 +118,10 @@ var Edge = React.createClass({
     var localCoordinates = globalToLocalCoordinates(e.clientX, e.clientY, element);
 
     reroutePoint.updateFromRelative(localCoordinates.x, localCoordinates.y, sourcePos, targetPos);
+
+    this.setState({
+      rerouteDragged: true
+    });
   }
 });
 
