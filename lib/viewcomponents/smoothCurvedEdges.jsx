@@ -11,7 +11,7 @@ var getPointDistanceFromPoint;
 /*
 Enable drawing of control points
  */
-var DEBUG = true;
+var DEBUG = false;
 
 /**
  * Edge drawing strategy to make bezier curved edges.
@@ -32,7 +32,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
 
   // callback when clicking edges
   var addRerouteCb = function(index, e) {
-    var localCoords = globalToLocalCoordinates(e);
+    var localCoords = globalToLocalCoordinates(e.clientX, e.clientY, e.currentTarget);
     var reroutePoint = ReroutePoint.createFromRelative(localCoords.x, localCoords.y, outputLoc, inputLoc);
 
     reroutePoints.add(reroutePoint, index);

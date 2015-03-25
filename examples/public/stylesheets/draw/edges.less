@@ -1,26 +1,48 @@
-.edge-line {
-  stroke: black;
-  fill: none;
-  stroke-width: 2px;
-}
+.edge {
+  .edge-line {
+    stroke: black;
+    fill: none;
+    stroke-width: 2px;
 
-#defaultArrowhead path {
-  stroke: black;
-  fill: black;
-}
+    cursor: move;
+  }
 
-.handle {
-  opacity: .5;
-}
+  #defaultArrowhead path {
+    stroke: black;
+    fill: black;
+  }
 
-.debug-markers .ctrl-points {
-  .first, .second {
-    fill: yellow;
+  .handle {
+    opacity: 0;
+    stroke: black;
+    stroke-width: 2px;
+    fill: white;
+    cursor: move;
+
+    // transition out
+    transition: opacity 200ms ease-out 500ms;
   }
-  .first {
-    stroke: red;
+
+  &:hover {
+    .handle {
+      opacity: 1;
+
+      // transition in
+      transition: opacity 10ms ease-in 0s;
+    }
   }
-  .second {
-    stroke: blue;
+
+
+  .debug-markers .ctrl-points {
+    .first, .second {
+      fill: yellow;
+    }
+    .first {
+      stroke: red;
+    }
+    .second {
+      stroke: blue;
+    }
   }
+
 }

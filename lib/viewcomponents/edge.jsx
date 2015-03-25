@@ -3,6 +3,7 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Graph = require('../model/graph');
 var EdgeModel = require('../model/edge');
 var smoothCurevedEdges = require('./smoothCurvedEdges.jsx');
+var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
 
 var HANDLE_RADIUS = 7;
 
@@ -46,18 +47,27 @@ var Edge = React.createClass({
       var plain = reroutePoint.getAbsolute(sourcePos, targetPos);
       return (<circle
         className="handle"
+        ref={'handle_' + i}
         key={i}
-        onMouseDown={mouseDownDrag.bind(this, 'handle_' + i, null, null, this._handleRerouteDrag.bind(this, reroutePoint))}
+        onMouseDown={mouseDownDrag.bind(this, 'handle_' + i, null, null, this._handleRerouteDrag.bind(this, reroutePoint, i))}
         r={HANDLE_RADIUS}
         cx={plain.x} cy={plain.y} />);
     }, this);
   },
 
-  _handleRerouteDrag: function(reroutePoint, e) {
-    reroutePoint.setAttrs({
-      x: reroutePoint.get('x') + e.movementX,
-      y: reroutePoint.get('y') + e.movementY
-    });
+  _handleRerouteDrag: function(reroutePoint, index, e) {
+    var edge = this.props.model;
+    var graph = this.props.container;
+    var reroutePoints = edge.get('layout').get('reroutePoints');
+
+    var sourcePos = edge.getStartPositionIn(graph);
+    var targetPos = edge.getEndPositionIn(graph);
+
+    var element = this.refs['handle_' + index].getDOMNode();
+    // transform coordinates into local space. Much more accurate than using event's movement[X|Y] which tends to stray.
+    var localCoordinates = globalToLocalCoordinates(e.clientX, e.clientY, element);
+
+    reroutePoint.updateFromRelative(localCoordinates.x, localCoordinates.y, sourcePos, targetPos);
   }
 });
 
