@@ -124,7 +124,9 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
     var d = instruct2D('M', points[i]);
     d += instruct2D('C', firstControlPoints[i], secondControlPoints[i], points[i + 1]);
 
-    svgPaths.push(<path key={i} className="edge-line" d={d} onMouseDown={addRerouteCb.bind(null, i)} />);
+    var markerEnd = i === nPoints - 2 ? 'url(#defaultArrowhead)' : undefined;
+
+    svgPaths.push(<path key={i} className="edge-line" d={d} onMouseDown={addRerouteCb.bind(null, i)} markerEnd={markerEnd} />);
   }
 
   return (<g>{svgPaths}{DEBUG ? debugMarkers : null}</g>);
