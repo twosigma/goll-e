@@ -100,8 +100,9 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   secondControlPoints[nPoints - 2] = getPointDistanceFromPoint(ctrlDistance, inputLoc);
 
   /* if debug mode is on, create objects to indicate the control points */
+  var debugMarkers;
   if (DEBUG) {
-    var debugMarkers = (<g className="debug-markers">
+    debugMarkers = (<g className="debug-markers">
       <g className="ctrl-points">{
         firstControlPoints.map(function(p, k) {
           return (<circle className="first" key={k} r="5" cy={p.y} cx={p.x} />);

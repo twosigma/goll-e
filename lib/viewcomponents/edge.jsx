@@ -33,7 +33,7 @@ var Edge = React.createClass({
   },
 
   _bindAddRerouteEvent: function(props) {
-    var props = props || this.props;
+    props = props || this.props;
     // hacka hacka hacka
     this._rerouteAddEventHandle = props.model.get('layout').get('reroutePoints').after('add', function(e) {
       mouseDownDrag.call(this, 'handle_' + e.index, null, null, this._handleRerouteDrag.bind(this, e.value, e.index), null);
@@ -90,7 +90,7 @@ var Edge = React.createClass({
     }, this);
   },
 
-  _handleRerouteDragStart: function(e) {
+  _handleRerouteDragStart: function() {
     // Keep a flag if it was actually dragged during the drag operation.
     // If not, it looks like a click and we'll delete the point.
 
@@ -99,7 +99,7 @@ var Edge = React.createClass({
     });
   },
 
-  _handleRerouteDragEnd: function(i, e) {
+  _handleRerouteDragEnd: function(i) {
     if (!this.state.rerouteDragged) {
       this.props.model.get('layout').get('reroutePoints').remove(i);
     }
