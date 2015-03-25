@@ -35,7 +35,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   // callback when clicking edges
   var addRerouteCb = function(index, e) {
     var localCoords = globalToLocalCoordinates(e.clientX, e.clientY, e.currentTarget);
-    var reroutePoint = ReroutePoint.createFromRelative(localCoords.x, localCoords.y, outputLoc, inputLoc);
+    var reroutePoint = ReroutePoint.createFromAbsolute(localCoords.x, localCoords.y, outputLoc, inputLoc);
 
     reroutePoints.add(reroutePoint, index);
   };

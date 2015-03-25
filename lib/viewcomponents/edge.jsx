@@ -117,7 +117,7 @@ var Edge = React.createClass({
     // transform coordinates into local space. Much more accurate than using event's movement[X|Y] which tends to stray.
     var localCoordinates = globalToLocalCoordinates(e.clientX, e.clientY, element);
 
-    reroutePoint.updateFromRelative(localCoordinates.x, localCoordinates.y, sourcePos, targetPos);
+    reroutePoint.updateFromAbsolute(localCoordinates.x, localCoordinates.y, sourcePos, targetPos);
 
     this.setState({
       rerouteDragged: true
