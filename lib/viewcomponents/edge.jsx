@@ -41,24 +41,6 @@ var Edge = React.createClass({
     return smoothCurevedEdges(sourcePos, reroutePoints, targetPos, this._addReroutePointHandler);
   },
 
-  _addReroutePointHandler: function(index, e) {
-    var edge = this.props.model;
-    var graph = this.props.container;
-
-    var sourcePos = edge.getStartPositionIn(graph);
-    var targetPos = edge.getEndPositionIn(graph);
-
-    var localCoords = this._transformCoordinates(e);
-
-    var reroutePoints = edge.get('layout').get('reroutePoints');
-    var pct = {
-      x: localCoords.x - (targetPos.x + sourcePos.x)/2,
-      y: localCoords.y - (targetPos.y + sourcePos.y)/2
-    };
-
-    reroutePoints.add(new ReroutePoint(pct), index);
-  },
-
   _getDragHandles: function() {
     var edge = this.props.model;
     var graph = this.props.container;
@@ -68,7 +50,7 @@ var Edge = React.createClass({
     var targetPos = edge.getEndPositionIn(graph);
 
     return reroutePoints.toArray().map(function(reroutePoint, i) {
-      var plain = reroutePoint.getScaled(sourcePos, targetPos);
+      var plain = reroutePoint.getAbsolute(sourcePos, targetPos);
       return (<circle
         className="handle"
         key={i}
@@ -83,21 +65,7 @@ var Edge = React.createClass({
       x: reroutePoint.get('x') + e.movementX,
       y: reroutePoint.get('y') + e.movementY
     });
-  },
-
-  _transformCoordinates: function(e) {
-    // thanks to http://stackoverflow.com/questions/4850821/svg-coordinates-with-transform-matrix
-    var localEl = this.refs.edge.getDOMNode();
-    var svg = localEl.ownerSVGElement;
-    var pt = svg.createSVGPoint();
-    pt.x = e.clientX;
-    pt.y = e.clientY;
-    var globalPoint = pt.matrixTransform(svg.getScreenCTM().inverse());
-    var globalToLocal = localEl.getTransformToElement(svg).inverse();
-    var inObjectSpace = globalPoint.matrixTransform(globalToLocal);
-    return inObjectSpace;
   }
-
 });
 
 

@@ -1,4 +1,6 @@
 var React = require('react');
+var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
+var ReroutePoint = require('../model/reroutePoint');
 
 /*
 Enable drawing of control points
@@ -7,29 +9,55 @@ var DEBUG = true;
 
 /**
  * Edge drawing strategy to make bezier curved edges.
- * @function
+ *
+ * A cubic bezier spline in calculated to pass smoothly through the output, input and reroute points.
+ * The first and last controls points are placed just away from and perpendicular to the vertex, based on the port's angle.
+ * (This makes it not quite smooth, ah well)
+ * The spline is rendered as several path segments, with separate click handler to insert new points at the correct index.
+ *
+ * @param {Object} outputLoc the output port location.
+ * @param {ReroutePointsList} reroutePoints list of reroute point models
+ * @param {Object} inputLoc the input port location
+ * @function smoothCurvedEdges
  */
-var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc, addRerouteCb) {
-  // turn outputLoc and inputLoc into plain objects just so things are consistent
+var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
+  // Let's make Adobe Illustrator! Specifically, the smooth curve tool…
+
+  // callback when clicking edges
+  var addRerouteCb = function(index, e) {
+    var localCoords = globalToLocalCoordinates(e);
+    var reroutePoint = ReroutePoint.createFromRelative(localCoords.x, localCoords.y, outputLoc, inputLoc);
+
+    reroutePoints.add(reroutePoint, index);
+  };
+
+  // turn reroute points into plain objects with absolute coordinates in local space
   var reroutePointsPlain = reroutePoints.toArray().map(function(reroutePoint) {
-    return reroutePoint.getScaled(outputLoc, inputLoc);
+    return reroutePoint.getAbsolute(outputLoc, inputLoc);
   });
 
+  // make an array of all the knots in the spline
   var points = [outputLoc].concat(reroutePointsPlain, inputLoc);
   var nPoints = points.length;
 
-  var firstControlPoints = new Array(nPoints - 1);
-  var secondControlPoints = new Array(nPoints - 1);
   var i;
+  // 0..n-1 the first point nearest to each knot. Note that [0] is the control point going out of the output, others in.
+  var firstControlPoints = new Array(nPoints - 1);
+  // 0..n-1 the second point nearest to each knot.
+  var secondControlPoints = new Array(nPoints - 1);
 
+  // separate into x and y and calculate each dimension separately.
+  var x = new Array(nPoints);
+  var y = new Array(nPoints);
+  for (i = 0; i < nPoints; i++) {
+    x[i] = points[i].x;
+    y[i] = points[i].y;
+  }
 
-  var controlPointsX = computeControlPoints1D(points.map(function(p) {
-    return p.x;
-  }));
-  var controlPointsY = computeControlPoints1D(points.map(function(p) {
-    return p.y;
-  }));
+  var controlPointsX = computeControlPoints1D(x);
+  var controlPointsY = computeControlPoints1D(y);
 
+  // put them back into x,y objects for convenience
   for (i = 0; i < nPoints - 1; i++) {
     firstControlPoints[i] = {
       x: controlPointsX.firstControlPoints[i],
@@ -41,9 +69,9 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc, addRerouteC
     }
   }
 
-
   // Now we change the first and last control points so that lines
-  // come out of verticies perpendicularly. It may ruin the smoothness.
+  // come out of verticies perpendicularly.
+  // It may ruin the smoothness and continuity of the second derivative, but looks right.
 
   // The change between the start and end.
   var delta = {
@@ -64,19 +92,16 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc, addRerouteC
   firstControlPoints[0] = getPointDistanceFromPoint(ctrlDistance, outputLoc);
   secondControlPoints[nPoints - 2] = getPointDistanceFromPoint(ctrlDistance, inputLoc);
 
-
-
+  /* if debug mode is on, create objects to indicate the control points */
   if (DEBUG) {
     var debugMarkers = (<g className="debug-markers">
       <g className="ctrl-points">{
-        firstControlPoints.map(function(p) {
-          if (!p) return null;
-          return (<circle className="first" r="5" cy={p.y} cx={p.x} />);
+        firstControlPoints.map(function(p, i) {
+          return (<circle className="first" key={i} r="5" cy={p.y} cx={p.x} />);
         })
       }{
-        secondControlPoints.map(function(p) {
-          if (!p) return null;
-          return (<circle className="second" r="5" cy={p.y} cx={p.x} />);
+        secondControlPoints.map(function(p, i) {
+          return (<circle className="second" key={i} r="5" cy={p.y} cx={p.x} />);
         })
       }
       </g>
@@ -100,14 +125,29 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc, addRerouteC
 };
 
 //https://www.particleincell.com/wp-content/uploads/2012/06/bezier-spline.js
-
+/**
+ * Compute the control points for a smooth bezier spline passing through the fixed "knot" points.
+ * Smooth is defined as continuous in all possible derivaties, which is first and second for this cubic curve.
+ *
+ * This is taken from https://www.particleincell.com/2012/bezier-splines/ which explains the math and variables here.
+ * Constants are coefficcients which were derived. Not arbitrary.
+ * Here's another useful reference on the topic: http://www.math.ucla.edu/~baker/149.1.02w/handouts/dd_splines.pdf
+ * The Thomas algorithm for solving tridiagonal systems of equations: http://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm
+ *
+ * @method computeControlPoints1D
+ * @param  {Array} knots array of 1d coordinates (numbers)
+ * @return {Object} containing two arrays keyed by firstControlPoints and secondControlPoints
+ */
 var computeControlPoints1D = function(knots) {
   var i;
+  // first control points
   var p1 = new Array(knots.length - 1);
+  // second control points
   var p2 = new Array(knots.length - 2);
+  // note that n is not the number of knots but the number of controls / 2
   var n = knots.length - 1;
 
-  /*rhs vector*/
+  /*right hand side vector*/
   var a = new Array(n);
   var b = new Array(n);
   var c = new Array(n);
@@ -133,7 +173,7 @@ var computeControlPoints1D = function(knots) {
   c[n - 1] = 0;
   r[n - 1] = 8 * knots[n - 1] + knots[n];
 
-  /*solves Ax=b with the Thomas algorithm (from Wikipedia)*/
+  /* solves Ax=b with the Thomas algorithm (from Wikipedia)*/
   for (i = 1; i < n; i++) {
     var m = a[i] / b[i - 1];
     b[i] = b[i] -m * c[i - 1];
@@ -152,10 +192,10 @@ var computeControlPoints1D = function(knots) {
 
   p2[n - 1] = 0.5 * (knots[n] + p1[n - 1]);
 
-   return {
-      firstControlPoints: p1,
-      secondControlPoints: p2
-   };
+  return {
+    firstControlPoints: p1,
+    secondControlPoints: p2
+  };
 };
 
 /*
@@ -169,6 +209,17 @@ var getPointDistanceFromPoint = function(distance, point) {
   };
 };
 
+/**
+ * Create an svg instruction like for a d.
+ *
+ * SVG's d attribute contains commands like "C x1, y1, x2, y2"
+ *
+ * This utility saves you from lots of string concatenation
+ * @method instruct2D
+ * @param  {String} command command name, typically one character
+ * @param  {Object...} [points], any number of objects with x and y properties
+ * @return {String}
+ */
 var instruct2D = function(command /*points...*/) {
   var points = Array.prototype.slice.call(arguments, 1);
   var flattenedPoints = [];
@@ -177,7 +228,7 @@ var instruct2D = function(command /*points...*/) {
     flattenedPoints.push(point2d.y);
   });
 
-  return command + ' ' + flattenedPoints.join(',') + ' ';
+  return command + ' ' + flattenedPoints.join(', ') + ' ';
 };
 
 module.exports = smoothCurvedEdges;
