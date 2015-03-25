@@ -5,8 +5,10 @@ var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
 var ReroutePoint = require('../model/reroutePoint');
 var instruct2D = require('../utilities/instruct2d');
 
+var computeControlPoints2D;
 var computeControlPoints1D;
 var getPointDistanceFromPoint;
+var getDebugMarkers;
 
 /*
 Enable drawing of control points
@@ -48,32 +50,23 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   var nPoints = points.length;
 
   var i;
+
   // 0..n-1 the first point nearest to each knot. Note that [0] is the control point going out of the output, others in.
-  var firstControlPoints = new Array(nPoints - 1);
-  // 0..n-1 the second point nearest to each knot.
-  var secondControlPoints = new Array(nPoints - 1);
+  var firstControlPoints;
+  // 0..n-1 the second poin
+  var secondControlPoints;
 
-  // separate into x and y and calculate each dimension separately.
-  var x = new Array(nPoints);
-  var y = new Array(nPoints);
-  for (i = 0; i < nPoints; i++) {
-    x[i] = points[i].x;
-    y[i] = points[i].y;
-  }
+  // as an optomization, don't compute the smooth curve if there are no rerouts.
+  if (nPoints > 2) {
+    var controlPoints = computeControlPoints2D(points);
 
-  var controlPointsX = computeControlPoints1D(x);
-  var controlPointsY = computeControlPoints1D(y);
-
-  // put them back into x,y objects for convenience
-  for (i = 0; i < nPoints - 1; i++) {
-    firstControlPoints[i] = {
-      x: controlPointsX.firstControlPoints[i],
-      y: controlPointsY.firstControlPoints[i]
-    };
-    secondControlPoints[i] = {
-      x: controlPointsX.secondControlPoints[i],
-      y: controlPointsY.secondControlPoints[i]
-    };
+    // 0..n-1 the first point nearest to each knot. Note that [0] is the control point going out of the output, others in.
+    firstControlPoints = controlPoints.firstControlPoints;
+    // 0..n-1 the second point nearest to each knot.
+    secondControlPoints = controlPoints.secondControlPoints;
+  } else {
+    firstControlPoints = new Array(1);
+    secondControlPoints = new Array(1);
   }
 
   // Now we change the first and last control points so that lines
@@ -99,23 +92,6 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   firstControlPoints[0] = getPointDistanceFromPoint(ctrlDistance, outputLoc);
   secondControlPoints[nPoints - 2] = getPointDistanceFromPoint(ctrlDistance, inputLoc);
 
-  /* if debug mode is on, create objects to indicate the control points */
-  var debugMarkers;
-  if (DEBUG) {
-    debugMarkers = (<g className="debug-markers">
-      <g className="ctrl-points">{
-        firstControlPoints.map(function(p, k) {
-          return (<circle className="first" key={k} r="5" cy={p.y} cx={p.x} />);
-        })
-      }{
-        secondControlPoints.map(function(p, k) {
-          return (<circle className="second" key={k} r="5" cy={p.y} cx={p.x} />);
-        })
-      }
-      </g>
-    </g>);
-  }
-
   // we create several separate paths so that they can have separate click handlers
   // Each click handler will insert the reroute point in the correct list position.
   var svgPaths = [];
@@ -129,7 +105,44 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
     svgPaths.push(<path key={i} className="edge-line" d={d} onMouseDown={addRerouteCb.bind(null, i)} markerEnd={markerEnd} />);
   }
 
-  return (<g>{svgPaths}{DEBUG ? debugMarkers : null}</g>);
+  return (<g>{svgPaths}{DEBUG ? getDebugMarkers(firstControlPoints, secondControlPoints) : null}</g>);
+};
+
+computeControlPoints2D = function(knots) {
+  var i;
+  var nPoints = knots.length;
+  // 0..n-1 the first point nearest to each knot. Note that [0] is the control point going out of the output, others in.
+  var firstControlPoints = new Array(nPoints - 1);
+  // 0..n-1 the second point nearest to each knot.
+  var secondControlPoints = new Array(nPoints - 1);
+
+  // separate into x and y and calculate each dimension separately.
+  var x = new Array(nPoints);
+  var y = new Array(nPoints);
+  for (i = 0; i < nPoints; i++) {
+    x[i] = knots[i].x;
+    y[i] = knots[i].y;
+  }
+
+  var controlPointsX = computeControlPoints1D(x);
+  var controlPointsY = computeControlPoints1D(y);
+
+  // put them back into x,y objects for convenience
+  for (i = 0; i < nPoints - 1; i++) {
+    firstControlPoints[i] = {
+      x: controlPointsX.firstControlPoints[i],
+      y: controlPointsY.firstControlPoints[i]
+    };
+    secondControlPoints[i] = {
+      x: controlPointsX.secondControlPoints[i],
+      y: controlPointsY.secondControlPoints[i]
+    };
+  }
+
+  return {
+    firstControlPoints: firstControlPoints,
+    secondControlPoints: secondControlPoints
+  };
 };
 
 //https://www.particleincell.com/wp-content/uploads/2012/06/bezier-spline.js
@@ -215,6 +228,21 @@ getPointDistanceFromPoint = function(distance, point) {
     x: point.x + distance * Math.cos(point.angle),
     y: point.y - distance * Math.sin(point.angle)
   };
+};
+
+getDebugMarkers = function(firstControlPoints, secondControlPoints) {
+  return (<g className="debug-markers">
+    <g className="ctrl-points">{
+      firstControlPoints.map(function(p, k) {
+        return (<circle className="first" key={k} r="5" cy={p.y} cx={p.x} />);
+      })
+    }{
+      secondControlPoints.map(function(p, k) {
+        return (<circle className="second" key={k} r="5" cy={p.y} cx={p.x} />);
+      })
+    }
+    </g>
+  </g>);
 };
 
 module.exports = smoothCurvedEdges;
