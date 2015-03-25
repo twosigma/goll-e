@@ -3,7 +3,7 @@ var React = require('react');
 /* eslint-enable */
 var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
 var ReroutePoint = require('../model/reroutePoint');
-var instruct2D = require('../utilities/instruct2d');
+var instruct2d = require('../utilities/instruct2d');
 
 var computeControlPoints2D;
 var computeControlPoints1D;
@@ -56,7 +56,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   // 0..n-1 the second poin
   var secondControlPoints;
 
-  // as an optomization, don't compute the smooth curve if there are no rerouts.
+  // as an optimization, don't compute the smooth curve if there are no rerouts.
   if (nPoints > 2) {
     var controlPoints = computeControlPoints2D(points);
 
@@ -97,8 +97,8 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   var svgPaths = [];
 
   for (i = 0; i < nPoints - 1; i++) {
-    var d = instruct2D('M', points[i]);
-    d += instruct2D('C', firstControlPoints[i], secondControlPoints[i], points[i + 1]);
+    var d = instruct2d('M', points[i]);
+    d += instruct2d('C', firstControlPoints[i], secondControlPoints[i], points[i + 1]);
 
     var markerEnd = i === nPoints - 2 ? 'url(#defaultArrowhead)' : undefined;
 
@@ -108,6 +108,13 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
   return (<g>{svgPaths}{DEBUG ? getDebugMarkers(firstControlPoints, secondControlPoints) : null}</g>);
 };
 
+/**
+ * See computeControlPoints1D.
+ *
+ * @method computeControlPoints2D
+ * @param  {Array} knots array of point objects with x, y properties
+ * @return {Object} with firstControlPoints and secondControlPoint keys
+ */
 computeControlPoints2D = function(knots) {
   var i;
   var nPoints = knots.length;

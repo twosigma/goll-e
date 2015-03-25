@@ -2,7 +2,7 @@ var React = require('react');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Graph = require('../model/graph');
 var EdgeModel = require('../model/edge');
-var smoothCurevedEdges = require('./smoothCurvedEdges.jsx');
+var smoothCurvedEdges = require('./smoothCurvedEdges.jsx');
 var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
 
 var HANDLE_RADIUS = 7;
@@ -62,7 +62,7 @@ var Edge = React.createClass({
     var sourcePos = edge.getStartPositionIn(graph);
     var targetPos = edge.getEndPositionIn(graph);
     var reroutePoints = edge.get('layout').get('reroutePoints');
-    return smoothCurevedEdges(sourcePos, reroutePoints, targetPos, this._addReroutePointHandler);
+    return smoothCurvedEdges(sourcePos, reroutePoints, targetPos, this._addReroutePointHandler);
   },
 
   _getDragHandles: function() {
