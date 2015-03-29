@@ -2,7 +2,7 @@
 .vertex {
   cursor: move;
 
-  &:not(:hover) > .unpin-button {
+  &:not(:hover) > .unpin-button > .icon {
     display: none;
   }
 }
@@ -20,7 +20,9 @@
 
   .label {
     color: @color-dark-grey;
-    alignment-baseline: central;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 }

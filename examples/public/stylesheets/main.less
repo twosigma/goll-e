@@ -8,6 +8,7 @@
 @import "draw/edges";
 @import "draw/unpinButton";
 
+@import "gui/gui.less";
 
 
 body {
@@ -40,4 +41,17 @@ body,
   width: 100%;
   height: 100%;
   font-family: @global-monospaced-font-face;
+}
+
+.toolbar {
+  position: absolute;
+  @top-offset: 160px;
+
+  top: @top-offset;
+  @media (max-height: (@top-offset / 0.22)) {
+    top: 22%;
+  }
+  right: 40px;
+
+  max-height: ~"calc(100% - "(@top-offset - 40px)~")";
 }
