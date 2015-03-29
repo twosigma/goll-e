@@ -2,13 +2,14 @@ var React = require('react');
 var Port = require('./port.jsx');
 var UnpinButton = require('./unpinButton.jsx');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
+var doubleClick = require('../utilities/pseudoDoubleClick');
 var roundedRectanglePath = require('../utilities/roundedRectangle');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
 var PortLabelPosition = require('../enum/portLabelPosition');
 var CardinalPortPosition = require('../model/cardinalPortPosition');
 
-var borderRadius = 5;
+var DEFAULT_BORDER_RADIUS = 5;
 var padding = 5;
 var titlePosition = padding + 10;
 
@@ -33,6 +34,12 @@ DIRECTION_TO_LABEL_POSITION[CardinalDirection.WEST] = PortLabelPosition.RIGHT;
 
 var Vertex = React.createClass({
 
+  getDefaultProps: function() {
+    return {
+      zoomScale: 1
+    };
+  },
+
   render: function() {
     var model = this.props.model;
     var position = model.get('position');
@@ -40,23 +47,38 @@ var Vertex = React.createClass({
     var styles = model.get('styles');
     var vertexWidth = styles.get('width');
     var vertexHeight = styles.get('height');
+    var hasSubGraph = !!model.get('subGraph');
+
+    var borderRadius = hasSubGraph ? 0 : DEFAULT_BORDER_RADIUS;
+
+    var titleWidth = vertexWidth - padding * 2;
 
     var classes = 'vertex shape-' + styles.get('shape');
 
     return (
       <g
-        className={'vertex shape-' + styles.get('shape')} 
+        className={'vertex shape-' + styles.get('shape')}
         transform={'translate(' + position.x + ', ' + position.y + ')'} >
-          <path
-            d={roundedRectanglePath(0, 0, vertexWidth, vertexHeight, borderRadius)}
+          <rect
+            width={vertexWidth}
+            height={vertexHeight}
+            ry={borderRadius} rx={borderRadius}
             className='vertex-box'
-            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag)} />
+            onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag, this.props.zoomScale)}
+            onClick={doubleClick.bind(this, 'vertex_body', this._openContainer)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
-          <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
-            {/*model.get('id')*/}
-          </text>
+          {
+            React.createElement('foreignObject', {
+              x: padding,
+              y: titlePosition,
+              width: titleWidth,
+              height: '20',
+              requiredExtensions: 'http://www.w3.org/1999/xhtml'
+            },
+            (<div className="label" style={{width: titleWidth}}>{model.get('id')}</div>))
+          }
           {// If the node is pinned, show an unpin button.
-            showPin?
+            showPin ?
               <UnpinButton
                 onClick={this._unpin}
                 transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
@@ -66,28 +88,6 @@ var Vertex = React.createClass({
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
-  },
-
-  componentDidMount: function() {
-    // keep adding characters until it just fits into the container
-    var textNode = this.refs.titleText.getDOMNode();
-    var title = this.props.model.get('id');
-    var maxWidth = this.props.model.get('styles').get('width') - padding * 2 - 5;
-
-    // as an optimization, try the whole string first
-    textNode.textContent = title;
-    if (textNode.getBBox().width < maxWidth) {
-      return;
-    } else {
-      textNode.textContent = '';
-    }
-
-    var n = 0;
-
-    while (textNode.getBBox().width < maxWidth && n < title.length) {
-      textNode.textContent = title.substring(n) + '…';
-      n++;
-    }
   },
 
   _getRenderedPorts: function(portModels) {
@@ -100,6 +100,7 @@ var Vertex = React.createClass({
           key={portModel.get('globalId')}
           x={position.x} y={position.y} label={portModel.label} labelPosition={position.labelPosition}
           onMoveRequested={this._onPortMoveRequested}
+          zoomScale={this.props.zoomScale}
         />
       );
 
@@ -107,15 +108,15 @@ var Vertex = React.createClass({
   },
 
   _onVertexBodyPseudoDrag: function(event) {
-      var oldPos = this.props.model.get('position');
+    var oldPos = this.props.model.get('position');
 
-      var newX = oldPos.x + event.movementX;
-      var newY = oldPos.y + event.movementY;
+    var newX = oldPos.x + event.scaledMovementX;
+    var newY = oldPos.y + event.scaledMovementY;
 
-      this.props.model.setAttrs({
-        isPinned: true,
-        position: {x: newX, y: newY}
-      });
+    this.props.model.setAttrs({
+      isPinned: true,
+      position: {x: newX, y: newY}
+    });
   },
 
   _unpin: function() {
@@ -156,7 +157,24 @@ var Vertex = React.createClass({
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
 
-    portModel.set('position', cardinalPosition);
+    portModel.setAttrs({
+      isPinned: true,
+      position: cardinalPosition
+    });
+
+   },
+
+  _openContainer: function(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    var subGraph = this.props.model.get('subGraph');
+    if (!subGraph) {
+      return;
+    }
+
+    this.props.openContainerCommand(this.props.model);
   }
 
 });

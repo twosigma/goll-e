@@ -11,7 +11,14 @@ var Edge = React.createClass({
 
   propTypes: {
     model: React.PropTypes.instanceOf(EdgeModel),
-    container: React.PropTypes.instanceOf(Graph)
+    container: React.PropTypes.instanceOf(Graph),
+    parentScale: React.PropTypes.number
+  },
+
+  getDefaultProps: function() {
+    return {
+      parentScale: 1
+    };
   },
 
   /*
