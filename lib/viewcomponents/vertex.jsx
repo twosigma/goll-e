@@ -47,6 +47,10 @@ var Vertex = React.createClass({
     var vertexWidth = styles.get('width');
     var vertexHeight = styles.get('height');
 
+    var titleWidth = vertexWidth - padding * 2;
+
+    var classes = 'vertex shape-' + styles.get('shape');
+
     return (
       <g
         className={'vertex shape-' + styles.get('shape')}
@@ -56,9 +60,16 @@ var Vertex = React.createClass({
             className='vertex-box'
             onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag, this.props.zoomScale)} />
           <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
-          <text ref="titleText" className='label' textAnchor='start' x={padding} y={titlePosition}>
-            {/*model.get('id')*/}
-          </text>
+          {
+            React.createElement('foreignObject', {
+              x: padding,
+              y: titlePosition,
+              width: titleWidth,
+              height: '20',
+              requiredExtensions: 'http://www.w3.org/1999/xhtml'
+            },
+            (<div className="label" style={{width: titleWidth}}>{model.get('id')}</div>))
+          }
           {// If the node is pinned, show an unpin button.
             showPin ?
               <UnpinButton
@@ -70,28 +81,6 @@ var Vertex = React.createClass({
           {this._getRenderedPorts(model.get('outputs'))}
       </g>
     );
-  },
-
-  componentDidMount: function() {
-    // keep adding characters until it just fits into the container
-    var textNode = this.refs.titleText.getDOMNode();
-    var title = this.props.model.get('id');
-    var maxWidth = this.props.model.get('styles').get('width') - padding * 2 - 5;
-
-    // as an optimization, try the whole string first
-    textNode.textContent = title;
-    if (textNode.getBBox().width < maxWidth) {
-      return;
-    } else {
-      textNode.textContent = '';
-    }
-
-    var n = 0;
-
-    while (textNode.getBBox().width < maxWidth && n < title.length) {
-      textNode.textContent = title.substring(n) + '…';
-      n++;
-    }
   },
 
   _getRenderedPorts: function(portModels) {
@@ -160,8 +149,10 @@ var Vertex = React.createClass({
     var vPct = pos.y/styles.get('height');
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
-
-    portModel.set('position', cardinalPosition);
+    portModel.setAttrs({
+      isPinned: true,
+      position: cardinalPosition
+    });
   }
 
 });

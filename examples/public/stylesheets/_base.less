@@ -5,13 +5,13 @@
 
 // BASE TYPE
 // Should not need to be set directly, as it in inherited.
-@global-font-face: Arial, sans-serif;
+@global-font-face: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 @global-monospaced-font-face: monospace;
 
 // BASE FONT SIZE
 // Should not need to be set directly, as it in inherited.
-@global-base-font-size: 12px;
+@global-base-font-size: 11.5px;
 
 // SMALL FONT SIZE
 // When you need small text, use this.
@@ -29,7 +29,13 @@
 // USE VERY RARELY!
 @global-extra-large-font-size: 24px;
 
-@color-dark-grey: #2b2b2b;
+@color-light-grey: #f2f2f2;
+@color-grey: #e2e2e2;
+@color-dark-grey: #575757;
+
+@color-background: @color-light-grey;
+@color-background-darker: @color-grey;
+@color-foreground: @color-dark-grey; // alternatively 65% opacity of black on background.
 
 
 #global {
@@ -37,14 +43,14 @@
     cursor: all-scroll;
     cursor: grab;
     cursor: -webkit-grab;
-    cursor: -moz-grab;     
+    cursor: -moz-grab;
   }
 
   .grabbing-cursor() {
     cursor: all-scroll;
     cursor: grabbing;
     cursor: -webkit-grabbing;
-    cursor: -moz-grabbing;     
+    cursor: -moz-grabbing;
   }
 
   .unselectable() {
@@ -52,5 +58,74 @@
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+  }
+
+  .standard-shadow() {
+    // calculate shadow from same parameters as photoshop
+    @distance: 4px;
+    @angle: 120deg;
+    @size: 9px;
+    @spread: .10;
+
+    box-shadow: -(@distance * cos(@angle)) (@distance * sin(@angle)) @size (@size * @spread) fade(black, 22%);
+  }
+
+  .button() {
+    color: @color-foreground;
+    font-weight: 400;
+
+    /* remove browser button styles */
+    outline: 0;
+    background-color: @color-background;
+    border: 0;
+
+    height: 40px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    .unselectable();
+
+    &:active {
+      background-color: @color-background-darker;
+    }
+
+    &[disabled], &.disabled {
+      color: grey;
+      cursor: default;
+
+      &:active {
+        background-color: @color-background;
+      }
+    }
+  }
+
+  .standard-scrollbars() {
+    @size: 6px;
+    @base-color: @color-background-darker;
+
+    ::-webkit-scrollbar {
+      width: @size;
+      height: @size;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: @base-color;
+    }
+
+    @thumb-color: darken(@base-color, 10%);
+
+    ::-webkit-scrollbar-thumb {
+      background: @thumb-color;
+    }
+
+    ::-webkit-scrollbar-thumb:window-inactive {
+      background: lighten(@thumb-color, 5%);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: darken(@thumb-color, 5%);
+    }
+
   }
 }
