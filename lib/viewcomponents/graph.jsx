@@ -3,6 +3,7 @@ var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Vertex = require('./vertex.jsx');
 var Edge = require('./edge.jsx');
 var edgeGlobals = require('./edgeGlobals');
+var filterGlobals = require('./filterGlobals.js');
 
 
 /**
@@ -57,6 +58,7 @@ var Graph = React.createClass({
     return (
       <svg className="graph" onWheel={this.props.onWheel} ref="svg">
         <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
+        <defs dangerouslySetInnerHTML={{__html: filterGlobals}} />
         {/* define the background image pattern */}
         <defs>
           <pattern id="background-pattern" width={bgPatternSize} height={bgPatternSize} patternUnits="userSpaceOnUse" dangerouslySetInnerHTML={{__html:
