@@ -1,5 +1,4 @@
 var React = require('react');
-var mouseDownDrag = require('../utilities/mouseDownDrag');
 var GraphModel = require('./../model/graph');
 var Graph = require('./graph.jsx');
 
@@ -78,12 +77,12 @@ var GraphCanvas = React.createClass({
     });
   },
 
-  _zoomOutHandler: function(direction) {
+  _zoomOutHandler: function() {
     var panAndZoom = this._getPanAndZoom(this._getActiveGraph());
     this.scaleAboutCenter(panAndZoom.scale + ZOOM_BUTTON_AMOUNT * -1);
   },
 
-  _zoomInHandler: function(direction) {
+  _zoomInHandler: function() {
     var panAndZoom = this._getPanAndZoom(this._getActiveGraph());
     this.scaleAboutCenter(panAndZoom.scale + ZOOM_BUTTON_AMOUNT);
   },
@@ -137,7 +136,7 @@ var GraphCanvas = React.createClass({
   /**
    * Increase scale about center
    * @method zoom
-   * @param  {Number} newScale. New scale factor.
+   * @param  {Number} newScale New scale factor.
    */
   scaleAboutCenter: function(newScale) {
     // Scale about center
