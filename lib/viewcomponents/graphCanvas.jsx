@@ -1,13 +1,14 @@
 var React = require('react');
 var GraphModel = require('./../model/graph');
 var Graph = require('./graph.jsx');
+var ObjectUtils = require('../utilities/objects');
 
 var ZOOM_BUTTON_AMOUNT = 0.25;
 var SCROLL_SPEED = 0.0005;
 var MIN_SCALE = 0.2;
 var MAX_SCALE = 2.5;
 
-
+// Singleton
 var GraphCanvas = React.createClass({
   propType: {
     rootGraph: React.PropTypes.instanceOf(GraphModel)
@@ -16,6 +17,7 @@ var GraphCanvas = React.createClass({
   getInitialState: function() {
     return {
       navigationStack: [this.props.rootGraph],
+      vertexStack: [null],
       savedPanAndZoom: {}
     };
   },
@@ -23,30 +25,81 @@ var GraphCanvas = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     if (this.state.navigationStack[0] !== nextProps.rootGraph) {
       this.setState({
-        navigationStack: [nextProps.rootGraph]
+        navigationStack: [nextProps.rootGraph],
+        vertexStack: [null] // a parrallel array of the containing vertex
       });
     }
   },
 
   render: function() {
+    var vertexStack = this.state.vertexStack;
+    var activeVertex = vertexStack[vertexStack.length - 1];
+    var activeGraph = this.state.navigationStack[this.state.navigationStack.length - 1];
+    var graphId = activeGraph.get('globalId');
+
+    var colorBarColorStyles = {};
+    if (activeVertex) {
+      colorBarColorStyles.backgroundColor = activeVertex.get('styles').get('color');
+    }
     var panAndZoom = this._getPanAndZoom(this._getActiveGraph());
 
     return (
       <div className="graph-canvas">
+
         <div className="navigation-controls">
           <button className="zoom-btn zoom-actual" onClick={this._actualSizeHandler}>1&times;</button>
           <button className="zoom-btn zoom-out" onClick={this._zoomOutHandler}>&ndash;</button>
           <button className="zoom-btn zoom-in" onClick={this._zoomInHandler}>+</button>
         </div>
+        <div className="nav-bar">
+
+          <ol className="breadcrumbs"> {
+            this.state.navigationStack.map(function(curGraph, i) {
+              var isRoot = i === 0;
+              var name = isRoot ? 'Root' : vertexStack[i].get('id');
+              return (<li key={String(curGraph.get('globalId'))}><a onClick={function() {
+                this.navigateTo(i);
+              }.bind(this)}>{name}</a></li>);
+            }, this)}
+          </ol>
+
+          <div className="color-bar" style={colorBarColorStyles} />
+        </div>
+
         <Graph ref="graph"
           model={this._getActiveGraph()}
           scale={panAndZoom.scale}
           panX={panAndZoom.panX}
           panY={panAndZoom.panY}
           onDrag={this._onPanPseudoDrag}
-          onWheel={this._handleWheel} />
+          onWheel={this._handleWheel}
+          openContainerCommand={this.pushGraph} />
       </div>
     );
+  },
+
+  pushGraph: function(vertex) {
+    var newNavigationStack = this.state.navigationStack.slice();
+    newNavigationStack.push(vertex.get('subGraph'));
+
+    var newVertexStack = this.state.vertexStack.slice();
+    newVertexStack.push(vertex);
+
+    this.setState({
+      navigationStack: newNavigationStack,
+      vertexStack: newVertexStack
+    });
+  },
+
+  navigateTo: function(stackPos) {
+    if (stackPos < 0 || stackPos >= this.state.navigationStack.length) {
+      throw new Error('Navigation stack index out of bounds.');
+    }
+
+    this.setState({
+      navigationStack: this.state.navigationStack.slice(0, stackPos + 1),
+      vertexStack: this.state.vertexStack.slice(0, stackPos + 1)
+    });
   },
 
   _getActiveGraph: function() {
@@ -143,6 +196,7 @@ var GraphCanvas = React.createClass({
     var svg = this.refs.graph.getDOMNode();
     this.scale(newScale, svg.offsetWidth / 2, svg.offsetHeight / 2);
   }
+
 });
 
 module.exports = GraphCanvas;

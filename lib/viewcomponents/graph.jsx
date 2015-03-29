@@ -10,6 +10,7 @@ var edgeGlobals = require('./edgeGlobals');
  */
 var Graph = React.createClass({
 
+
   getDefaultProps: function() {
     return {
       panX: 0,
@@ -30,7 +31,8 @@ var Graph = React.createClass({
         <Vertex
           model={vertex}
           key={vertex.get('globalId')}
-          zoomScale={this.props.scale} />
+          zoomScale={this.props.scale}
+          openContainerCommand={this.props.openContainerCommand} />
         );
     }.bind(this));
 
