@@ -9,7 +9,7 @@ var UnpinButton = React.createClass({
     return (
       <g className='unpin-button' {...this.props}>
         <circle className='background' cx='0' cy='0' r='8' />
-        <path d={pinImagePath} x={0} y={0} transform={pinImageTransform} />
+        <path className='icon' d={pinImagePath} x={0} y={0} transform={pinImageTransform} />
       </g>
     );
   }
