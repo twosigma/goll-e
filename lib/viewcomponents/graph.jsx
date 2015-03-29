@@ -1,5 +1,4 @@
 var React = require('react/addons');
-var Lang = require('../utilities/lang');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 var Vertex = require('./vertex.jsx');
 var Edge = require('./edge.jsx');
