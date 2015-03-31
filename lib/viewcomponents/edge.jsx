@@ -1,51 +1,22 @@
 var React = require('react');
-var mouseDownDrag = require('../utilities/mouseDownDrag');
-var PositionUtils = require('../utilities/positionUtils.js');
-var CardinalDirection = require('../enum/cardinalDirection.js');
-var CardinalPortPosition = require('../model/cardinalPortPosition');
 var Graph = require('../model/graph');
-var Edge = require('../model/edge');
 
-
-
-
-var Edge = React.createClass({
-
-  propTypes: {
-    model: React.PropTypes.instanceOf(Edge),
-    container: React.PropTypes.instanceOf(Graph),
-    parentScale: React.PropTypes.number
-  },
-
-  getDefaultProps: function() {
-    return {
-      parentScale: 1
-    };
-  },
-
-  render: function() {
-    var model = this.props.model;
-    var container = this.props.container;
-
-    return (
-      <g
-      className="edge">
-        <path
-          className="edge-line"
-          d={lineFunction(model, container)}
-          markerEnd="url(#defaultArrowhead)"
-          />
-      </g>
-    );
-  }
-
-});
+/*
+The provided point is a point with a direction angle.
+Returns a new point `distance` away in the direction of `point.angle`
+ */
+var getPointDistanceFromPoint = function(distance, point) {
+  return {
+    x: point.x + distance * Math.cos(point.angle),
+    y: point.y - distance * Math.sin(point.angle)
+  };
+};
 
 /**
  * Get the d attribute for an svg path for an edge.
  *
  * @method lineFunction
- * @param  {Edge} model
+ * @param  {Edge} edge - the edge model
  * @param  {Graph} graph the container in which to locate nodes
  * @return {String} the d attribute for a path
  * @private
@@ -95,16 +66,38 @@ var lineFunction = function(edge, graph) {
 
 };
 
-/*
-The provided point is a point with a direction angle.
-Returns a new point `distance` away in the direction of `point.angle`
- */
-var getPointDistanceFromPoint = function(distance, point) {
-  return {
-    x: point.x + distance * Math.cos(point.angle),
-    y: point.y - distance * Math.sin(point.angle)
-  };
-};
+
+var Edge = React.createClass({
+
+  propTypes: {
+    model: React.PropTypes.instanceOf(Edge),
+    container: React.PropTypes.instanceOf(Graph),
+    parentScale: React.PropTypes.number
+  },
+
+  getDefaultProps: function() {
+    return {
+      parentScale: 1
+    };
+  },
+
+  render: function() {
+    var model = this.props.model;
+    var container = this.props.container;
+
+    return (
+      <g
+      className="edge">
+        <path
+          className="edge-line"
+          d={lineFunction(model, container)}
+          markerEnd="url(#defaultArrowhead)"
+          />
+      </g>
+    );
+  }
+
+});
 
 
 module.exports = Edge;
