@@ -99,7 +99,8 @@ gulp.task('lint', ['build'], function() {
   return gulp.src(paths.sourceFiles)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failOnError());
+    .pipe(eslint.failAfterError())
+    .pipe(gulp.dest('../output'));
 });
 
 
