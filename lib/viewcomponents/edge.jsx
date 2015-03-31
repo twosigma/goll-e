@@ -13,18 +13,25 @@ var Edge = React.createClass({
 
   propTypes: {
     model: React.PropTypes.instanceOf(Edge),
-    container: React.PropTypes.instanceOf(Graph)
+    container: React.PropTypes.instanceOf(Graph),
+    parentScale: React.PropTypes.number
+  },
+
+  getDefaultProps: function() {
+    return {
+      parentScale: 1
+    };
   },
 
   render: function() {
     var model = this.props.model;
     var container = this.props.container;
-   
+
     return (
-      <g 
+      <g
       className="edge">
         <path
-          className="edge-line" 
+          className="edge-line"
           d={lineFunction(model, container)}
           markerEnd="url(#defaultArrowhead)"
           />
@@ -36,7 +43,7 @@ var Edge = React.createClass({
 
 /**
  * Get the d attribute for an svg path for an edge.
- * 
+ *
  * @method lineFunction
  * @param  {Edge} model
  * @param  {Graph} graph the container in which to locate nodes

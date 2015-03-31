@@ -1,22 +1,14 @@
 @import "_base";
 @import "colors.less";
 @import "typography.less";
+@import "graphCanvas";
 @import "draw/graph";
 @import "draw/vertex";
 @import "draw/port";
 @import "draw/edges";
 @import "draw/unpinButton";
 
-
-// TEMP STUFF:
-#pan_drag_handle {
-  // fill: lightgrey;
-  #global.grab-cursor();
-
-  &:active {
-    #global.grabbing-cursor();
-  }
-}
+@import "gui/gui.less";
 
 
 body {
@@ -24,6 +16,7 @@ body {
   font-size: @global-base-font-size;
 }
 
+// TEMP STUFF:
 html,
 body,
 #app-container,
@@ -37,7 +30,7 @@ body,
 
 #model_editor {
   position: absolute;
-  top: 5px;
+  top: 20px;
   left: 5px;
   height: 75%;
   width: 300px;
@@ -48,4 +41,17 @@ body,
   width: 100%;
   height: 100%;
   font-family: @global-monospaced-font-face;
+}
+
+.toolbar {
+  position: absolute;
+  @top-offset: 160px;
+
+  top: @top-offset;
+  @media (max-height: (@top-offset / 0.22)) {
+    top: 22%;
+  }
+  right: 40px;
+
+  max-height: ~"calc(100% - "(@top-offset - 40px)~")";
 }
