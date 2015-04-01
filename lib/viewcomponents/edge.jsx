@@ -87,11 +87,11 @@ var Edge = React.createClass({
 
     return (
       <g
-      className="edge">
+      className='edge'>
         <path
-          className="edge-line"
+          className='edge-line'
           d={lineFunction(model, container)}
-          markerEnd="url(#defaultArrowhead)"
+          markerEnd='url(#defaultArrowhead)'
           />
       </g>
     );

@@ -3,7 +3,7 @@ var React = require('react');
 var CreditsPanel = React.createClass({
   render: function() {
     return (
-      <div className="credits-panel">
+      <div className='credits-panel'>
         <p>Created for <br/><b>Two Sigma Investments</b> by</p>
         <ul>
           <li>Salvador Abate</li>

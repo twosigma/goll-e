@@ -60,7 +60,7 @@ var Toolbar = React.createClass({
     ObjectUtils.each(this.props.tools, function(toolConfig, name) {
 
       panels.push(
-        <div key={name} className={'panel-container ' + (name === this.state.activePanel ? 'active': '')}>
+        <div key={name} className={'panel-container ' + (name === this.state.activePanel ? 'active' : '')}>
           <Panel title={toolConfig.title} icon={toolConfig.icon}>
             {toolConfig.panelContent}
           </Panel>
@@ -70,9 +70,9 @@ var Toolbar = React.createClass({
     }, this);
 
     return (
-      <div className="toolbar">
+      <div className='toolbar'>
         {panels}
-        <ul className="tools">
+        <ul className='tools'>
           {buttons}
         </ul>);
       </div>

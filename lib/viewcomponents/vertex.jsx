@@ -7,14 +7,10 @@ var roundedRectanglePath = require('../utilities/roundedRectangle');
 var PositionUtils = require('../utilities/positionUtils.js');
 var CardinalDirection = require('../enum/cardinalDirection.js');
 var PortLabelPosition = require('../enum/portLabelPosition');
-var CardinalPortPosition = require('../model/cardinalPortPosition');
 
 var DEFAULT_BORDER_RADIUS = 5;
 var padding = 5;
 var titlePosition = padding + 10;
-
-var portRadius = 4;
-var portSpacing = 15;
 
 var pinX = 130;
 var pinY = 0;
@@ -66,7 +62,7 @@ var Vertex = React.createClass({
             className='vertex-box'
             onMouseDown={mouseDownDrag.bind(this, 'vertex_body', null, null, this._onVertexBodyPseudoDrag, this.props.zoomScale)}
             onClick={doubleClick.bind(this, 'vertex_body', this._openContainer)} />
-          <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className="color-bar" fill={styles.get('color')}/>
+          <path d={roundedRectanglePath(0, 0, vertexWidth, 5, borderRadius, borderRadius, 0, 0)} className='color-bar' fill={styles.get('color')}/>
           {
             React.createElement('foreignObject', {
               x: padding,
@@ -75,13 +71,13 @@ var Vertex = React.createClass({
               height: '20',
               requiredExtensions: 'http://www.w3.org/1999/xhtml'
             },
-            (<div className="label" style={{width: titleWidth}}>{model.get('id')}</div>))
+            (<div className='label' style={{width: titleWidth}}>{model.get('id')}</div>))
           }
           {// If the node is pinned, show an unpin button.
             showPin ?
               <UnpinButton
                 onClick={this._unpin}
-                transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
+                transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} /> :
               null
           }
           {this._getRenderedPorts(model.get('inputs'))}
@@ -132,7 +128,7 @@ var Vertex = React.createClass({
 
     var labelPosition = DIRECTION_TO_LABEL_POSITION[portPositionModel.get('direction')];
 
-    if (portPercentage/DATA_MODEL_MULTIPLIER * styles.get('height') < titlePosition) {
+    if (portPercentage / DATA_MODEL_MULTIPLIER * styles.get('height') < titlePosition) {
       if (portDirection === CardinalDirection.WEST) {
         labelPosition = PortLabelPosition.LEFT_OFFSET;
       } else if (portDirection === CardinalDirection.EAST) {
@@ -152,8 +148,8 @@ var Vertex = React.createClass({
   _onPortMoveRequested: function(pos, portModel) {
     var styles = this.props.model.get('styles');
 
-    var hPct = pos.x/styles.get('width');
-    var vPct = pos.y/styles.get('height');
+    var hPct = pos.x / styles.get('width');
+    var vPct = pos.y / styles.get('height');
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
 
@@ -162,7 +158,7 @@ var Vertex = React.createClass({
       position: cardinalPosition
     });
 
-   },
+  },
 
   _openContainer: function(e) {
     if (e) {

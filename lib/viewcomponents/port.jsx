@@ -73,17 +73,17 @@ var Port = React.createClass({
          r={this.props.size || portRadius}
          cx={0} cy={0}
          onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging, this.props.zoomScale)}/>
-       <text className="label"
+       <text className='label'
          x={labelPosition.x}
          y={labelPosition.y}
          textAnchor={labelPosition.textAnchor} >
          {label}
        </text>
-	   {// If the node is pinned, show an unpin button.
-          showPin?
+       {// If the node is pinned, show an unpin button.
+         showPin ?
             <UnpinButton
               onClick={this._unpin}
-              transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} />:
+              transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} /> :
             null
           }
      </g>
@@ -93,7 +93,7 @@ var Port = React.createClass({
   _unpin: function() {
     this.props.model.set('isPinned', false);
   },
-  
+
   _handleDragStart: function(event) {
     this.setState({
       dragging: true,
