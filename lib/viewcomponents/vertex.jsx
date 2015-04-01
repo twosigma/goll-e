@@ -49,8 +49,6 @@ var Vertex = React.createClass({
 
     var titleWidth = vertexWidth - padding * 2;
 
-    var classes = 'vertex shape-' + styles.get('shape');
-
     return (
       <g
         className={'vertex shape-' + styles.get('shape')}
@@ -87,7 +85,7 @@ var Vertex = React.createClass({
   },
 
   _getRenderedPorts: function(portModels) {
-    return portModels.map(function(portModel, id) {
+    return portModels.map(function(portModel) {
       var position = this._getPortPosition(portModel);
 
       return (

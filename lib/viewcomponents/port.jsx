@@ -94,7 +94,7 @@ var Port = React.createClass({
     this.props.model.set('isPinned', false);
   },
 
-  _handleDragStart: function(event) {
+  _handleDragStart: function() {
     this.setState({
       dragging: true,
       draggingPosition: {
@@ -104,7 +104,7 @@ var Port = React.createClass({
     });
   },
 
-  _handleDragEnd: function(event) {
+  _handleDragEnd: function() {
     var newPos = this.state.draggingPosition;
 
     this.setState({

@@ -1,7 +1,6 @@
 var React = require('react');
 var GraphModel = require('./../model/graph');
 var Graph = require('./graph.jsx');
-var ObjectUtils = require('../utilities/objects');
 
 var ZOOM_BUTTON_AMOUNT = 0.25;
 var SCROLL_SPEED = 0.0005;
@@ -34,8 +33,6 @@ var GraphCanvas = React.createClass({
   render: function() {
     var vertexStack = this.state.vertexStack;
     var activeVertex = vertexStack[vertexStack.length - 1];
-    var activeGraph = this.state.navigationStack[this.state.navigationStack.length - 1];
-    var graphId = activeGraph.get('globalId');
 
     var colorBarColorStyles = {};
     if (activeVertex) {
