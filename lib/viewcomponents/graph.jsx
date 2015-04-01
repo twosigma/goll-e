@@ -11,7 +11,6 @@ var filterGlobals = require('./filterGlobals.js');
  */
 var Graph = React.createClass({
 
-
   getDefaultProps: function() {
     return {
       panX: 0,
