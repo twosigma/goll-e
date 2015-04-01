@@ -7,7 +7,7 @@
   },
   "env": {
     "browser": true,
-    "mocha": true, //ADDED
+    "mocha": true,
     "node": true
   },
   "rules": {
@@ -54,7 +54,7 @@
     // Warn if the cyclomatic complexity goes above six for any given function.
     "complexity": [1, 6],
 
-    "space-in-parens": 1, //ADDED
+    "space-in-parens": 1,
 
     // Warn if there are any instance of missing or incorrect declarations
     // in a jsdoc header.
@@ -63,7 +63,7 @@
       // Having to write "@returns {void}" for every void method seems kind of
       // silly, so lets not require this.
       "requireReturn": false,
-	  "requireParamDescription": false // ADDED
+	  "requireParamDescription": false
     }],
 
     // The following rules are explained here: https://github.com/yannickcr/eslint-plugin-react
