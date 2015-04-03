@@ -1,4 +1,5 @@
 var React = require('react');
+var EdgeModel = require('../model/edge');
 var Graph = require('../model/graph');
 
 /*
@@ -70,7 +71,7 @@ var lineFunction = function(edge, graph) {
 var Edge = React.createClass({
 
   propTypes: {
-    model: React.PropTypes.instanceOf(Edge),
+    model: React.PropTypes.instanceOf(EdgeModel),
     container: React.PropTypes.instanceOf(Graph),
     parentScale: React.PropTypes.number
   },
