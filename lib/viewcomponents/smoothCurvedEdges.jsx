@@ -102,7 +102,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
 
     var markerEnd = i === nPoints - 2 ? 'url(#defaultArrowhead)' : undefined;
 
-    svgPaths.push(<path key={i} className="edge-line" d={d} onMouseDown={addRerouteCb.bind(null, i)} markerEnd={markerEnd} />);
+    svgPaths.push(<path key={i} className='edge-line' d={d} onMouseDown={addRerouteCb.bind(null, i)} markerEnd={markerEnd} />);
   }
 
   return (<g>{svgPaths}{DEBUG ? getDebugMarkers(firstControlPoints, secondControlPoints) : null}</g>);
@@ -154,7 +154,7 @@ computeControlPoints2D = function(knots) {
 
 //https://www.particleincell.com/wp-content/uploads/2012/06/bezier-spline.js
 /**
- * Compute the control points for a smooth bezier spline passing through the fixed "knot" points.
+ * Compute the control points for a smooth bezier spline passing through the fixed 'knot' points.
  * Smooth is defined as continuous in all possible derivaties, which is first and second for this cubic curve.
  *
  * This is taken from https://www.particleincell.com/2012/bezier-splines/ which explains the math and variables here.
@@ -238,14 +238,14 @@ getPointDistanceFromPoint = function(distance, point) {
 };
 
 getDebugMarkers = function(firstControlPoints, secondControlPoints) {
-  return (<g className="debug-markers">
-    <g className="ctrl-points">{
+  return (<g className='debug-markers'>
+    <g className='ctrl-points'>{
       firstControlPoints.map(function(p, k) {
-        return (<circle className="first" key={k} r="5" cy={p.y} cx={p.x} />);
+        return (<circle className='first' key={k} r='5' cy={p.y} cx={p.x} />);
       })
     }{
       secondControlPoints.map(function(p, k) {
-        return (<circle className="second" key={k} r="5" cy={p.y} cx={p.x} />);
+        return (<circle className='second' key={k} r='5' cy={p.y} cx={p.x} />);
       })
     }
     </g>

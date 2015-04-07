@@ -54,10 +54,10 @@ var Edge = React.createClass({
   render: function() {
     return (
       <g
-      ref="edge"
-      className="edge">
-        <g className="lines">{this._getLinePaths()}</g>
-        <g className="handles">{this._getDragHandles()}</g>
+      ref='edge'
+      className='edge'>
+        <g className='lines'>{this._getLinePaths()}</g>
+        <g className='handles'>{this._getDragHandles()}</g>
       </g>
     );
   },
@@ -83,7 +83,7 @@ var Edge = React.createClass({
     return reroutePoints.toArray().map(function(reroutePoint, i) {
       var plain = reroutePoint.getAbsolute(sourcePos, targetPos);
       return (<circle
-        className="handle"
+        className='handle'
         ref={'handle_' + i}
         key={i}
         onMouseDown={mouseDownDrag.bind(
@@ -115,7 +115,6 @@ var Edge = React.createClass({
   _handleRerouteDrag: function(reroutePoint, index, e) {
     var edge = this.props.model;
     var graph = this.props.container;
-    var reroutePoints = edge.get('layout').get('reroutePoints');
 
     var sourcePos = edge.getStartPositionIn(graph);
     var targetPos = edge.getEndPositionIn(graph);
