@@ -40,7 +40,7 @@ var smoothCurvedEdges = function(outputLoc, reroutePoints, inputLoc) {
     reroutePoints.add(reroutePoint, index);
   };
 
-  // turn reroute points into plain objects with absolute coordinates in local space
+  // turn reroute points into plain objects with real, absolute coordinates
   var reroutePointsPlain = reroutePoints.toArray().map(function(reroutePoint) {
     return reroutePoint.getAbsolute(outputLoc, inputLoc);
   });
