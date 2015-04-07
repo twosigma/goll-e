@@ -4,15 +4,15 @@ var GCLEditorModel = require('./model/gclEditorModel');
 
 var gclEditorModel = new GCLEditorModel();
 
-gclEditorModel.after('change', function(){
-  renderGraph();
-});
-
 var renderGraph = function() {
   React.render(
     <AppView gclEditorModel={gclEditorModel} />,
     document.getElementById('app-container')
   );
 };
+
+gclEditorModel.after('change', function(){
+  renderGraph();
+});
 
 window.onload = renderGraph;

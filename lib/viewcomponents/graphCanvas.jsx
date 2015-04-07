@@ -1,7 +1,6 @@
 var React = require('react');
 var GraphModel = require('./../model/graph');
 var Graph = require('./graph.jsx');
-var ObjectUtils = require('../utilities/objects');
 
 var ZOOM_BUTTON_AMOUNT = 0.25;
 var SCROLL_SPEED = 0.0005;
@@ -34,8 +33,6 @@ var GraphCanvas = React.createClass({
   render: function() {
     var vertexStack = this.state.vertexStack;
     var activeVertex = vertexStack[vertexStack.length - 1];
-    var activeGraph = this.state.navigationStack[this.state.navigationStack.length - 1];
-    var graphId = activeGraph.get('globalId');
 
     var colorBarColorStyles = {};
     if (activeVertex) {
@@ -44,16 +41,16 @@ var GraphCanvas = React.createClass({
     var panAndZoom = this._getPanAndZoom(this._getActiveGraph());
 
     return (
-      <div className="graph-canvas">
+      <div className='graph-canvas'>
 
-        <div className="navigation-controls">
-          <button className="zoom-btn zoom-actual" onClick={this._actualSizeHandler}>1&times;</button>
-          <button className="zoom-btn zoom-out" onClick={this._zoomOutHandler}>&ndash;</button>
-          <button className="zoom-btn zoom-in" onClick={this._zoomInHandler}>+</button>
+        <div className='navigation-controls'>
+          <button className='zoom-btn zoom-actual' onClick={this._actualSizeHandler}>1&times;</button>
+          <button className='zoom-btn zoom-out' onClick={this._zoomOutHandler}>&ndash;</button>
+          <button className='zoom-btn zoom-in' onClick={this._zoomInHandler}>+</button>
         </div>
-        <div className="nav-bar">
+        <div className='nav-bar'>
 
-          <ol className="breadcrumbs"> {
+          <ol className='breadcrumbs'> {
             this.state.navigationStack.map(function(curGraph, i) {
               var isRoot = i === 0;
               var name = isRoot ? 'Root' : vertexStack[i].get('id');
@@ -63,10 +60,10 @@ var GraphCanvas = React.createClass({
             }, this)}
           </ol>
 
-          <div className="color-bar" style={colorBarColorStyles} />
+          <div className='color-bar' style={colorBarColorStyles} />
         </div>
 
-        <Graph ref="graph"
+        <Graph ref='graph'
           model={this._getActiveGraph()}
           scale={panAndZoom.scale}
           panX={panAndZoom.panX}

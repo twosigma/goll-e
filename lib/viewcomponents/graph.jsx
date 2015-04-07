@@ -11,7 +11,6 @@ var filterGlobals = require('./filterGlobals.js');
  */
 var Graph = React.createClass({
 
-
   getDefaultProps: function() {
     return {
       panX: 0,
@@ -56,12 +55,12 @@ var Graph = React.createClass({
 
     // Put all of the vertex components in an SVG and a container for zooming and panning.
     return (
-      <svg className="graph" onWheel={this.props.onWheel} ref="svg">
+      <svg className='graph' onWheel={this.props.onWheel} ref='svg'>
         <defs dangerouslySetInnerHTML={{__html: edgeGlobals}} />
         <defs dangerouslySetInnerHTML={{__html: filterGlobals}} />
         {/* define the background image pattern */}
         <defs>
-          <pattern id="background-pattern" width={bgPatternSize} height={bgPatternSize} patternUnits="userSpaceOnUse" dangerouslySetInnerHTML={{__html:
+          <pattern id='background-pattern' width={bgPatternSize} height={bgPatternSize} patternUnits='userSpaceOnUse' dangerouslySetInnerHTML={{__html:
             '<image x="0" y="0" width="' + bgPatternSize + '" height="' + bgPatternSize + '" xlink:href="/images/tiny_grid.png"></image>'
           }}>
           </pattern>
@@ -71,7 +70,7 @@ var Graph = React.createClass({
         {/* It moves graphPan % patternSize to give the illusion of dragging the background */}
         <rect
           className='drag-handle background'
-          fill="url(#background-pattern)"
+          fill='url(#background-pattern)'
           transform={bgTransform}
           width={bgSize} height={bgSize}
           onMouseDown={mouseDownDrag.bind(this, 'pan', null, null, this.props.onDrag, 1)} />

@@ -8,7 +8,7 @@ var Toolbar = require('./gui/toolbar.jsx');
  * App is the top-level component. It fills the whole body of the page.
  * Singleton
  */
- var App = React.createClass({
+var App = React.createClass({
 
   render: function() {
     return (
@@ -31,4 +31,4 @@ var Toolbar = require('./gui/toolbar.jsx');
   }
 });
 
- module.exports = App;
+module.exports = App;
