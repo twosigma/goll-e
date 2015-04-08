@@ -17,11 +17,11 @@ gclEditorModel.after('change', function(){
   renderGraph();
 });
 
-loadedLayout.after(['change', 'remove', 'update'], function(){
+loadedLayout.after(['change', 'update'], function(){
   renderGraph();
 });
 
-loadedStyles.after(['change', 'remove', 'update'], function(){
+loadedStyles.after(['change', 'update'], function(){
   renderGraph();
 });
 
