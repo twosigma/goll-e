@@ -4,15 +4,15 @@
 
 var CardinalDirection = require('../../lib/enum/cardinalDirection');
 var PortType = require('../../lib/enum/portType');
-var Graph = require('../../lib/model/graph');
-var VertexStyles = require('../../lib/styles/vertexStyles');
+var Graph = require('../../lib/model/content/graph');
+var VertexStyles = require('../../lib/model/style/vertexStyles');
 
 
 var should = require('should'),
-    Port = require('../../lib/model/port.js'),
-  Vertex = require('../../lib/model/vertex.js'),
-  Edge = require('../../lib/model/edge.js'),
-    CardinalPortPosition = require('../../lib/model/cardinalPortPosition.js');
+    Port = require('../../lib/model/content/port.js'),
+  Vertex = require('../../lib/model/content/vertex.js'),
+  Edge = require('../../lib/model/content/edge.js'),
+    CardinalPortPosition = require('../../lib/model/layout/cardinalPortPosition.js');
 
     port1 = new Port({
         id: 2,

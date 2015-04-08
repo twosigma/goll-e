@@ -3,7 +3,7 @@
  */
 var ASTExample = require('./graphs/complex.json');
 var ModelFactory = require('./../lib/parse/modelFactory');
-var Graph = require('./../lib/model/graph');
+var Graph = require('./../lib/model/content/graph');
 
 var should = require('should');
 

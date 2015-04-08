@@ -1,5 +1,5 @@
 var React = require('react');
-var GraphModel = require('./../model/graph');
+var GraphModel = require('./../model/content/graph');
 var Graph = require('./graph.jsx');
 
 var ZOOM_BUTTON_AMOUNT = 0.25;

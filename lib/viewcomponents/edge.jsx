@@ -1,7 +1,7 @@
 var React = require('react');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
-var Graph = require('../model/graph');
-var EdgeModel = require('../model/edge');
+var Graph = require('../model/content/graph');
+var EdgeModel = require('../model/content/edge');
 var smoothCurvedEdges = require('./smoothCurvedEdges.jsx');
 var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
 

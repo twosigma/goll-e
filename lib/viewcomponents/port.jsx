@@ -3,7 +3,7 @@ var LabelPosition = require('../enum/portLabelPosition');
 var ObjectUtils = require('../utilities/objects');
 var UnpinButton = require('./unpinButton.jsx');
 var PortType = require('../enum/portType');
-var PortModel = require('../model/port');
+var PortModel = require('../model/content/port');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 
 var portRadius = 4;

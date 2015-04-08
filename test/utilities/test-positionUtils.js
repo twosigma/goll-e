@@ -1,7 +1,7 @@
 var should = require('should');
 
 var PositionUtils = require('../../lib/utilities/positionUtils');
-var CardinalPortPosition = require('../../lib/model/cardinalPortPosition');
+var CardinalPortPosition = require('../../lib/model/layout/cardinalPortPosition');
 var CardinalDirection = require('../../lib/enum/cardinalDirection');
 
 describe('PositionUtils', function() {
@@ -84,7 +84,7 @@ describe('PositionUtils', function() {
 
       cardinal.get('direction').should.equal(CardinalDirection.SOUTH);
       cardinal.get('percentage').should.equal(80);
-      
+
 
     });
   });

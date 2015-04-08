@@ -1,6 +1,6 @@
 var React = require('react');
 var AppView = require('./viewcomponents/app.jsx');
-var GCLEditorModel = require('./model/gclEditorModel');
+var GCLEditorModel = require('./model/content/gclEditorModel');
 
 var gclEditorModel = new GCLEditorModel();
 
