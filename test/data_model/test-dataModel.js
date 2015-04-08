@@ -6,6 +6,7 @@ var CardinalDirection = require('../../lib/enum/cardinalDirection');
 var PortType = require('../../lib/enum/portType');
 var Graph = require('../../lib/model/content/graph');
 var VertexStyles = require('../../lib/model/style/vertexStyles');
+var loadedStyles = require('../../lib/model/style/loadedStyles');
 
 
 var should = require('should'),
@@ -15,38 +16,43 @@ var should = require('should'),
     CardinalPortPosition = require('../../lib/model/layout/cardinalPortPosition.js');
 
     port1 = new Port({
-        id: 2,
-        type: "output",
-        position: new CardinalPortPosition({
-            direction: CardinalDirection.WEST,
-            percentage: 60
-        })
+        globalId: '2',
+        type: "output"
     }),
 
 	port2 = new Port({
-        id: 2,
-        type: "input",
-        position: new CardinalPortPosition({
-            direction: CardinalDirection.SOUTH,
-            percentage: 60
-        })
+        globalId: '2',
+        type: "input"
     }),
 
 	vertex1 = new Vertex({
-        id: 1,
+        globalId: '1',
         outputs: [port1]
     }),
 
 	vertex2 = new Vertex({
-        id: 2,
+        globalId: '2',
         inputs: [port2]
     }),
 
 	edge = new Edge({
-        id: 1,
+        globalId: 1,
         from: port1,
         to: port2
     });
+
+  port1.getLayout().set('position',
+    new CardinalPortPosition({
+      direction: CardinalDirection.WEST,
+      percentage: 60
+  }));
+
+  port2.getLayout().set('position',
+    new CardinalPortPosition({
+      direction: CardinalDirection.SOUTH,
+      percentage: 60
+  }));
+
 
 describe('edge', function () {
     it('should have from port which is an "out" type', function (done) {
@@ -62,14 +68,15 @@ describe('edge', function () {
     it('should get position of itself relative to its container', function() {
       var vId = 'test';
       var port = new Port({
-        id: 'testPort',
+        globalId: 'testPort',
         type: PortType.INPUT,
-        ownerVertexId: vId,
-        position: new CardinalPortPosition({
-          percentage: 50,
-          direction: CardinalDirection.SOUTH
-        })
+        ownerVertexId: vId
       });
+
+      port.getLayout().set('position', new CardinalPortPosition({
+        percentage: 50,
+        direction: CardinalDirection.SOUTH
+      }));
 
       var vStyle = new VertexStyles({
         height: 200,
@@ -77,11 +84,12 @@ describe('edge', function () {
       });
 
       var vertex = new Vertex({
-        id: vId,
         globalId: vId,
+        id: vId,
         inputs: [port],
-        styles: vStyle
       });
+
+      loadedStyles.put(vId, vStyle);
 
       var graph = new Graph({
         vertices: [vertex],
