@@ -36,7 +36,7 @@ var GraphCanvas = React.createClass({
 
     var colorBarColorStyles = {};
     if (activeVertex) {
-      colorBarColorStyles.backgroundColor = activeVertex.get('styles').get('color');
+      colorBarColorStyles.backgroundColor = activeVertex.getStyles().get('color');
     }
     var panAndZoom = this._getPanAndZoom(this._getActiveGraph());
 

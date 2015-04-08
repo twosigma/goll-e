@@ -42,7 +42,7 @@ var Edge = React.createClass({
   _bindAddRerouteEvent: function(props) {
     props = props || this.props;
     // hacka hacka hacka
-    this._rerouteAddEventHandle = props.model.get('layout').get('reroutePoints').after('add', function(e) {
+    this._rerouteAddEventHandle = props.model.getLayout().get('reroutePoints').after('add', function(e) {
       mouseDownDrag.call(this, 'handle_' + e.index, null, null, this._handleRerouteDrag.bind(this, e.value, e.index), null);
     }, this);
   },
@@ -68,14 +68,14 @@ var Edge = React.createClass({
 
     var sourcePos = edge.getStartPositionIn(graph);
     var targetPos = edge.getEndPositionIn(graph);
-    var reroutePoints = edge.get('layout').get('reroutePoints');
+    var reroutePoints = edge.getLayout().get('reroutePoints');
     return smoothCurvedEdges(sourcePos, reroutePoints, targetPos, this._addReroutePointHandler);
   },
 
   _getDragHandles: function() {
     var edge = this.props.model;
     var graph = this.props.container;
-    var reroutePoints = edge.get('layout').get('reroutePoints');
+    var reroutePoints = edge.getLayout().get('reroutePoints');
 
     var sourcePos = edge.getStartPositionIn(graph);
     var targetPos = edge.getEndPositionIn(graph);
@@ -108,7 +108,7 @@ var Edge = React.createClass({
 
   _handleRerouteDragEnd: function(i) {
     if (!this.state.rerouteDragged) {
-      this.props.model.get('layout').get('reroutePoints').remove(i);
+      this.props.model.getLayout().get('reroutePoints').remove(i);
     }
   },
 
