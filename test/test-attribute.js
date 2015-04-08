@@ -1,7 +1,7 @@
 var should = require('should');
-var Attribute = require('./../lib/utilities/attribute');
-var ObjectUtils = require('./../lib/utilities/objects');
-var createClass = require('./../lib/utilities/createClass');
+var Attribute = require('../lib/utilities/attribute');
+var ObjectUtils = require('../lib/utilities/objects');
+var createClass = require('../lib/utilities/createClass');
 
 
 describe('attribute', function() {
@@ -78,7 +78,7 @@ describe('attribute', function() {
 
             myModel.set('myAttr', 'c');
             myModel.get('myAttr').should.equal('c');
-          
+
         });
 
         it('should work with an instance method', function() {
@@ -94,7 +94,7 @@ describe('attribute', function() {
             );
 
             myModel.get('myAttr2').should.equal('d');
-          
+
         });
     });
 

@@ -2,10 +2,10 @@ var fs = require('fs');
 var path = require('path');
 var should = require('should');
 
-var dummyLayoutEngine = require('./../lib/layout/dummyLayout');
-var springLayoutEngine = require('./../lib/layout/forceDirectedLayout');
+var dummyLayoutEngine = require('../lib/layout/dummyLayout');
+var springLayoutEngine = require('../lib/layout/forceDirectedLayout');
 
-var parse = require('./../lib/parse/parse.js');
+var parse = require('../lib/parse/parse.js');
 var graphsDir = path.join(__dirname , 'graphs');
 
 
