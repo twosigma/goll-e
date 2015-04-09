@@ -1,28 +1,34 @@
+var CreditsPanel = require('./gui/panels/credits.jsx');
+var GCLPanel = require('./gui/panels/gcl.jsx');
+var GraphCanvas = require('./graphCanvas.jsx');
 var React = require('react');
-var Graph = require('./graph.jsx');
+var Toolbar = require('./gui/toolbar.jsx');
 
 /**
  * App is the top-level component. It fills the whole body of the page.
+ * Singleton
  */
 var App = React.createClass({
 
   render: function() {
-    var gclEditorModel = this.props.gclEditorModel;
     return (
       <div id='app'>
-        <div id='model_editor'>
-          <textarea onChange={this._onGCLChange} defaultValue={gclEditorModel.get('text')}>
-          </textarea>
-        </div>
-        <Graph model={gclEditorModel.get('graph')} />
+        <Toolbar tools={{
+          gcl: {
+            icon: '/images/icons/gcl.svg',
+            title: 'Content Code Editor',
+            panelContent: <GCLPanel model={this.props.gclEditorModel} />
+          },
+
+          credits: {
+            icon: '/images/icons/about.svg',
+            title: 'Credits',
+            panelContent: <CreditsPanel />
+          }}} />
+        <GraphCanvas rootGraph={this.props.gclEditorModel.get('graph')} />
       </div>
     );
-  },
-
-  _onGCLChange: function(event) {
-    this.props.gclEditorModel.set('text', event.target.value);
   }
-
 });
 
 module.exports = App;
