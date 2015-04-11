@@ -24,6 +24,7 @@ var createVertex = function(x, y) {
   });
 };
 
+// Compare two Map<Any, Set>s
 var compareAnswers = function(actual, expected) {
   actual.size.should.equal(expected.size);
   expected.forEach(function(expectedSet, key) {
@@ -36,6 +37,13 @@ var compareAnswers = function(actual, expected) {
   });
 };
 
+/**
+ * Generate a lot of vertices
+ * @method generateVertices
+ * @param  {Number} canvasSize width and height of square canvas
+ * @param  {Number} n how many vertices
+ * @return {Array} your vertices
+ */
 var generateVertices = function(canvasSize, n) {
   var vertices = new Array(n);
   for (var i = 0; i < n; i++) {
@@ -45,6 +53,7 @@ var generateVertices = function(canvasSize, n) {
 };
 
 describe('getCollidingVerticesSlowly', function() {
+  // Testing the function to test against.
   it('should work with a simple manual test case', function() {
     var vertices = [
       createVertex(-200, 0), // overlaps with 2
@@ -87,19 +96,18 @@ describe('getCollidingVertices', function() {
     var funcResult = getCollidingVertices(vertices);
 
     compareAnswers(funcResult, answerKey);
-
   });
 
   it('should be idential to the simple algorithm with a large number of random vertices', function(done) {
     this.timeout(5000);
-    var vertices = generateVertices(5000, 600);
-    var t = Date.now();
+    var vertices = generateVertices(5000, 300);
+    // var t = Date.now();
     var fastResult = getCollidingVertices(vertices);
-    tFast = Date.now() - t;
-    t = Date.now();
+    // tFast = Date.now() - t;
+    // t = Date.now();
     var slowResult = getCollidingVerticesSlowly(vertices);
-    var tSlow = Date.now() - t;
-    console.log('' + Math.round((tFast / tSlow) * 100) + '% time of slow algorithm');
+    // var tSlow = Date.now() - t;
+    // console.log('' + Math.round((tFast / tSlow) * 100) + '% time of slow algorithm');
     compareAnswers(fastResult, slowResult);
     done();
   });

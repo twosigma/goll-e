@@ -1,4 +1,4 @@
-// A simple, (hopefully) correct, and slow way to get colliding vertices.
+// A simple, correct, and slow way to get colliding vertices.
 // Used to test against the complex fast way
 
 var getBoundingBoxForVertex = function(vertex) {
