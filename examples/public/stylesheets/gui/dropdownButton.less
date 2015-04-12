@@ -1,0 +1,47 @@
+.dropdown-button {
+  position: relative;
+
+  .label:after {
+    content: " \25BC";
+  }
+
+  &.open:active {
+    background-color: inherit;
+  }
+  ul.menu {
+    position: absolute;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid darken(@color-background, 20%);
+
+    display: none;
+    top: 100%;
+
+    #global.standard-shadow();
+
+    li {
+      // height: 25px;
+      padding: 1em;
+      margin: 0;
+      background-color: @color-background;
+      border-bottom: 1px solid darken(@color-background, 10%);
+
+      cursor: pointer;
+      &:hover {
+
+      }
+
+      &:active {
+        background-color: @color-background-darker;
+      }
+
+      &:last-child {
+        border-bottom: 1px solid darken(@color-background, 20%);
+      }
+    }
+  }
+  &.open ul.menu {
+    display: block;
+  }
+}
