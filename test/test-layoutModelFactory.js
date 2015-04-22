@@ -2,7 +2,7 @@
  * Unit tests for the Layout Model Factory component of the gll parser.
  */
 var ASTExample = require('./gllAST.json');
-var LayoutModelFactory = require('../lib/parse/layoutModelFactory');
+var LayoutModelFactory = require('../lib/model/layout/layoutModelFactory');
 var loadedLayout = require('../lib/model/layout/loadedLayout');
 var CardinalDirection = require('../lib/enum/cardinalDirection');
 
