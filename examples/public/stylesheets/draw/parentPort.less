@@ -1,0 +1,20 @@
+.parent-port {
+  & > circle {
+    stroke: @color-dark-grey;
+  }
+
+  &.input > circle {
+    fill: white;
+  }
+
+  &.output > circle {
+    fill: @color-dark-grey;
+    stroke: @color-light-grey;
+  }
+
+  text {
+    fill: @color-light-grey;
+    font-size: @global-small-font-size;
+    alignment-baseline: central;
+  }
+}
