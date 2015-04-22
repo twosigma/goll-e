@@ -149,6 +149,7 @@ var Edge = React.createClass({
       return React.createElement(ParentPort, props);
     }
 
+    return null;
   },
 
   _getSourcePos: function() {
