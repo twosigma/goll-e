@@ -140,14 +140,16 @@ var Edge = React.createClass({
       props.model = this.props.model.get('from');
       props.x = sourcePos.x;
       props.y = sourcePos.y;
+      return React.createElement(ParentPort, props);
     }
     if (targetPos.pseudoPort) {
       props.model = this.props.model.get('to');
       props.x = targetPos.x;
       props.y = targetPos.y;
+      return React.createElement(ParentPort, props);
     }
 
-    return React.createElement(ParentPort, props);
+    return null;
   },
 
   _getSourcePos: function() {
