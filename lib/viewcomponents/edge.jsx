@@ -69,7 +69,6 @@ var Edge = React.createClass({
 
   _getLinePaths: function() {
     var edge = this.props.model;
-    var graph = this.props.container;
 
     var sourcePos = this._getSourcePos();
     var targetPos = this._getTargetPos();
@@ -79,7 +78,6 @@ var Edge = React.createClass({
 
   _getDragHandles: function() {
     var edge = this.props.model;
-    var graph = this.props.container;
     var reroutePoints = edge.get('layout').get('reroutePoints');
 
     var sourcePos = this._getSourcePos();
@@ -118,9 +116,6 @@ var Edge = React.createClass({
   },
 
   _handleRerouteDrag: function(reroutePoint, index, e) {
-    var edge = this.props.model;
-    var graph = this.props.container;
-
     var sourcePos = this._getSourcePos();
     var targetPos = this._getTargetPos();
 
@@ -147,7 +142,7 @@ var Edge = React.createClass({
       props.y = sourcePos.y;
     }
     if (targetPos.pseudoPort) {
-      model = this.props.model.get('to');
+      props.model = this.props.model.get('to');
       props.x = targetPos.x;
       props.y = targetPos.y;
     }
