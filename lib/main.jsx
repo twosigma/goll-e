@@ -1,19 +1,19 @@
 var React = require('react');
 var AppView = require('./viewcomponents/app.jsx');
-var GCLEditorModel = require('./model/content/gclEditorModel');
+var EditorModel = require('./model/editorModel');
 var loadedStyles = require('./model/style/loadedStyles');
 var loadedLayout = require('./model/layout/loadedLayout');
 
-var gclEditorModel = new GCLEditorModel();
+var editorModel = new EditorModel();
 
 var renderGraph = function() {
   React.render(
-    <AppView gclEditorModel={gclEditorModel} />,
+    <AppView editorModel={editorModel} />,
     document.getElementById('app-container')
   );
 };
 
-gclEditorModel.after('change', function(){
+editorModel.after('change', function(){
   renderGraph();
 });
 

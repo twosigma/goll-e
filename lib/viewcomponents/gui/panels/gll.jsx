@@ -1,7 +1,7 @@
 var React = require('react');
 var CodeArea = require('../codeArea.jsx');
 
-var GCLPanel = React.createClass({
+var GLLPanel = React.createClass({
   getInitialState: function() {
     var code = this.props.model.get('text');
     return {
@@ -13,8 +13,8 @@ var GCLPanel = React.createClass({
   render: function() {
     var dirty = this.state.code !== this.state.restorePoint;
     return (
-      <div className='gcl-panel'>
-        <CodeArea value={this.state.code} className='code-editor' onChange={this._onGCLChange}/>
+      <div className='gll-panel'>
+        <CodeArea value={this.state.code} className='code-editor' onChange={this._onGLLChange}/>
         {/* good example of panel's button-bar styles. Must done in this way. div.button-bar:last-child > div.wrapper > div.button
         <input> and <button> cannot be styled for a button bar :-( */}
         <div className='button-bar'>
@@ -27,14 +27,14 @@ var GCLPanel = React.createClass({
     );
   },
 
-  _onGCLChange: function(event) {
+  _onGLLChange: function(event) {
     this.setState({
       code: event.target.value
     });
   },
 
   _apply: function() {
-    this.props.model.set('contentText', this.state.code);
+    this.props.model.set('layoutText', this.state.code);
     this.setState({
       restorePoint: this.state.code
     });
@@ -47,4 +47,4 @@ var GCLPanel = React.createClass({
   }
 });
 
-module.exports = GCLPanel;
+module.exports = GLLPanel;

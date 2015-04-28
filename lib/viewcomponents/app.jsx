@@ -1,5 +1,6 @@
 var CreditsPanel = require('./gui/panels/credits.jsx');
 var GCLPanel = require('./gui/panels/gcl.jsx');
+var GLLPanel = require('./gui/panels/gll.jsx');
 var GraphCanvas = require('./graphCanvas.jsx');
 var React = require('react');
 var Toolbar = require('./gui/toolbar.jsx');
@@ -17,7 +18,13 @@ var App = React.createClass({
           gcl: {
             icon: '/images/icons/gcl.svg',
             title: 'Content Code Editor',
-            panelContent: <GCLPanel model={this.props.gclEditorModel} />
+            panelContent: <GCLPanel model={this.props.editorModel} />
+          },
+
+          gll: {
+            icon: '/images/icons/gll.svg',
+            title: 'Layout Code Editor',
+            panelContent: <GLLPanel model={this.props.editorModel} />
           },
 
           credits: {
@@ -25,7 +32,7 @@ var App = React.createClass({
             title: 'Credits',
             panelContent: <CreditsPanel />
           }}} />
-        <GraphCanvas rootGraph={this.props.gclEditorModel.get('graph')} />
+        <GraphCanvas rootGraph={this.props.editorModel.get('graph')} />
       </div>
     );
   }
