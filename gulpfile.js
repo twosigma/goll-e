@@ -71,7 +71,7 @@ gulp.task('jison', [], function() {
 
   // There are three parsers to generate.
   // For now, we only care about the content language parser.
-  var parserNames = ['gcl'];
+  var parserNames = ['gcl', 'gll'];
 
   // Start generating parsers.
   parserNames.forEach(function(value, index, array) {

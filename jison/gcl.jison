@@ -23,7 +23,7 @@
       }
     });
     return topLevel;
-  }
+  };
 
   var createVertex = function(id, expressionList) {
     var vertex = {
