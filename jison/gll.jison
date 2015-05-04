@@ -35,10 +35,15 @@
 
     // Integrate groups into vertex layouts.
     for (var groupId in groups) {
-      groups[groupId].forEach(function(vertexId) {
+      groups[groupId].vertices.forEach(function(vertexId) {
         var layouts = topLevel.vertexLayouts;
-        if (layouts[vertexId]) {
-          layouts[vertexId] = {};
+        if (!layouts[vertexId]) {
+          layouts[vertexId] = {
+            'type': VERTEX_TYPE,
+            'id': vertexId,
+            'position': {x:0, y:0},
+            'group': null
+          };
         }
         if (layouts[vertexId].group) {
           // TODO semantic error, as a vertex can belong to at most one group
@@ -58,8 +63,8 @@
     obj[id] = element;
   };
 
-  var prependListValue = function(list, value) {
-    list.unshift(value);
+  var appendListValue = function(list, value) {
+    list.push(value);
     return list;
   };
 %}
@@ -82,8 +87,8 @@ markup
     ;
 
 layout_expressions
-    : layout_expression layout_expressions
-        {{ $$ = prependListValue( $2, $1 ); }}
+    : layout_expressions layout_expression
+        {{ $$ = appendListValue( $1, $2 ); }}
     | layout_expression
         {{ $$ = [$1]; }}
     ;
@@ -100,7 +105,7 @@ layout_expression
     ;
 
 vertex_layout
-    : vertex_declaration cartesian_position
+    : vertex_or_edge_id cartesian_position
         {{ $$ = {
           'type': VERTEX_TYPE,
           'id': $1,
@@ -109,7 +114,7 @@ vertex_layout
     ;
 
 port_layout
-    : port_declaration cardinal_position
+    : port_id cardinal_position
         {{ $$ = {
           'type': PORT_TYPE,
           'id': $1,
@@ -118,7 +123,7 @@ port_layout
     ;
 
 edge_layout
-    : edge_declaration BLOCK_START cartesian_position_list BLOCK_END
+    : vertex_or_edge_id BLOCK_START cartesian_position_list BLOCK_END
         {{ $$ = {
           'type': EDGE_TYPE,
           'id': $1,
@@ -127,7 +132,7 @@ edge_layout
     ;
 
 group
-    : GROUP_DECLARATION ID BLOCK_START vertex_list BLOCK_END
+    : GROUP_DECLARATION_KEYWORD ID BLOCK_START vertex_list BLOCK_END
         {{ $$ = {
           'type': GROUP_TYPE,
           'id': $2,
@@ -137,9 +142,9 @@ group
 
 vertex_list
     : vertex_or_edge_id
-        {{ $$ = $1; }}
-    | vertex_or_edge_id vertex_list
-        {{ $$ = prependListValue( $2, $1 ); }}
+        {{ $$ = [$1]; }}
+    | vertex_list vertex_or_edge_id
+        {{ $$ = appendListValue( $1, $2 ); }}
     ;
 
 vertex_or_edge_id
@@ -149,35 +154,20 @@ vertex_or_edge_id
         {{ $$ = $1 + $2 + $3; }}
     ;
 
-vertex_declaration
-    : VERTEX_DECLARATION_KEYWORD vertex_or_edge_id
-        {{ $$ = $2; }}
-    ;
-
-edge_declaration
-    : EDGE_DECLARATION_KEYWORD vertex_or_edge_id
-        {{ $$ = $2; }}
-    ;
-
 port_id
-    : vertex_or_edge_id PORT_SCOPE_OPERATOR ID
+    : vertex_or_edge_id PORT_OPERATOR ID
         {{ $$ = $1 + $2 + $3; }}
-    ;
-
-port_declaration
-    : PORT_DECLARATION_KEYWORD port_id
-        {{ $$ = $2; }}
     ;
 
 cartesian_position_list
     : cartesian_position
-        {{ $$ = $1; }}
-    | cartesian_position cartesian_position_list
-        {{ $$ = prependListValue( $2, $1 ); }}
+        {{ $$ = [$1]; }}
+    | cartesian_position_list cartesian_position
+        {{ $$ = appendListValue( $1, $2 ); }}
     ;
 
 cartesian_position
-    : NUMBER NUMBER
+    : number number
         {{ $$ = {
           'x': $1,
           'y': $2
@@ -193,8 +183,13 @@ cardinal_position
     ;
 
 percentage
-    : NUMBER PERCENT_SIGN
+    : number PERCENT_SIGN
         {{ $$ = $1; }}
+    ;
+
+number
+    : NUMBER
+        {{ $$ = parseFloat($1); }}
     ;
 
 direction

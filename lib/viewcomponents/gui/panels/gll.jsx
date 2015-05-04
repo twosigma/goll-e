@@ -3,15 +3,21 @@ var CodeArea = require('../codeArea.jsx');
 
 var GLLPanel = React.createClass({
   getInitialState: function() {
-    var code = this.props.model.get('layoutText');
     return {
-      code: code,
-      restorePoint: code
+      code: this.props.model.get('layoutText')
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.model.get('layoutText') !== this.props.model.get('layoutText')) {
+      this.setState({
+        code: nextProps.model.get('layoutText')
+      });
+    }
+  },
+
   render: function() {
-    var dirty = this.state.code !== this.state.restorePoint;
+    var dirty = this.state.code !== this.props.model.get('layoutText');
     return (
       <div className='gll-panel'>
         <CodeArea value={this.state.code} className='code-editor' onChange={this._onGLLChange}/>
@@ -35,14 +41,11 @@ var GLLPanel = React.createClass({
 
   _apply: function() {
     this.props.model.set('layoutText', this.state.code);
-    this.setState({
-      restorePoint: this.state.code
-    });
   },
 
   _revert: function() {
     this.setState({
-      code: this.state.restorePoint
+      code: this.props.model.get('layoutText')
     });
   }
 });

@@ -3,7 +3,7 @@ Charlie 0 10
 Alpha.myIn E 25%
 Alpha > Delta.myOut S 90%
 
-edge myEdge {
+myEdge {
   -0.25 0.3
   0.1 0.9
 }

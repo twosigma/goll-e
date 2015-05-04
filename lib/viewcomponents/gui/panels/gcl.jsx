@@ -3,15 +3,21 @@ var CodeArea = require('../codeArea.jsx');
 
 var GCLPanel = React.createClass({
   getInitialState: function() {
-    var code = this.props.model.get('contentText');
     return {
-      code: code,
-      restorePoint: code
+      code: this.props.model.get('contentText')
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.model.get('contentText') !== this.props.model.get('contentText')) {
+      this.setState({
+        code: nextProps.model.get('contentText')
+      });
+    }
+  },
+
   render: function() {
-    var dirty = this.state.code !== this.state.restorePoint;
+    var dirty = this.state.code !== this.props.model.get('contentText');
     return (
       <div className='gcl-panel'>
         <CodeArea value={this.state.code} className='code-editor' onChange={this._onGCLChange}/>
@@ -35,14 +41,11 @@ var GCLPanel = React.createClass({
 
   _apply: function() {
     this.props.model.set('contentText', this.state.code);
-    this.setState({
-      restorePoint: this.state.code
-    });
   },
 
   _revert: function() {
     this.setState({
-      code: this.state.restorePoint
+      code: this.props.model.get('contentText')
     });
   }
 });
