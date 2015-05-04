@@ -3,7 +3,7 @@ var CodeArea = require('../codeArea.jsx');
 
 var GLLPanel = React.createClass({
   getInitialState: function() {
-    var code = this.props.model.get('text');
+    var code = this.props.model.get('layoutText');
     return {
       code: code,
       restorePoint: code

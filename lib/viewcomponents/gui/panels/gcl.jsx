@@ -3,7 +3,7 @@ var CodeArea = require('../codeArea.jsx');
 
 var GCLPanel = React.createClass({
   getInitialState: function() {
-    var code = this.props.model.get('text');
+    var code = this.props.model.get('contentText');
     return {
       code: code,
       restorePoint: code

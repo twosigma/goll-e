@@ -6,7 +6,7 @@ var CardinalDirection = require('../../lib/enum/cardinalDirection');
 var CardinalPortPosition = require('../../lib/model/layout/cardinalPortPosition.js');
 var Edge = require('../../lib/model/content/edge.js');
 var Graph = require('../../lib/model/content/graph');
-var loadedStyles = require('../../lib/model/style/loadedStyles');
+var LoadedStyles = require('../../lib/model/style/loadedStyles');
 var Port = require('../../lib/model/content/port.js');
 var PortType = require('../../lib/enum/portType');
 var should = require('should');
@@ -89,11 +89,14 @@ describe('edge', function () {
         inputs: [port]
       });
 
+      var loadedStyles = new LoadedStyles();
+
       loadedStyles.put(vId, vStyle);
 
       var graph = new Graph({
         vertices: [vertex],
-        edges: []
+        edges: [],
+        loadedStyles: loadedStyles
       });
 
       var position = port.getPositionInGraph(graph);
