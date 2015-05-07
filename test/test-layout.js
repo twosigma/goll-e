@@ -17,6 +17,7 @@ var getGraph = function(name) {
 
 describe('dummy layout engine', function() {
   it('should not throw when laying out a simple graph', function(done) {
+    this.timeout(999999999);
     var testGraph = getGraph('edge');
     (function () {
       dummyLayoutEngine(testGraph);
@@ -28,6 +29,7 @@ describe('dummy layout engine', function() {
 
 describe('spring layout engine', function() {
   it('should not throw when laying out a simple graph', function(done) {
+    this.timeout(999999999);
     var testGraph = getGraph('edge');
     (function () {
       springLayoutEngine(testGraph);
