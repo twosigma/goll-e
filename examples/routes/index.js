@@ -6,4 +6,9 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'GOLL-E demo server' });
 });
 
+router.get('/layoutTesting', function(req, res) {
+  res.render('layoutTesting.html');
+});
+
+
 module.exports = router;

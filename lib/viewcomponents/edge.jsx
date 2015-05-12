@@ -4,8 +4,12 @@ var Graph = require('../model/graph');
 var EdgeModel = require('../model/edge');
 var smoothCurvedEdges = require('./smoothCurvedEdges.jsx');
 var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
+var ParentPort = require('./parentPort.jsx');
+
+var getPointDistanceFromPoint;
 
 var HANDLE_RADIUS = 7;
+var PSEUDO_PORT_DISTANCE = 50;
 
 var Edge = React.createClass({
 
@@ -56,6 +60,7 @@ var Edge = React.createClass({
       <g
       ref='edge'
       className='edge'>
+        <g className='pseudo-ports'>{this._getPseudoPorts()}</g>
         <g className='lines'>{this._getLinePaths()}</g>
         <g className='handles'>{this._getDragHandles()}</g>
       </g>
@@ -64,21 +69,19 @@ var Edge = React.createClass({
 
   _getLinePaths: function() {
     var edge = this.props.model;
-    var graph = this.props.container;
 
-    var sourcePos = edge.getStartPositionIn(graph);
-    var targetPos = edge.getEndPositionIn(graph);
+    var sourcePos = this._getSourcePos();
+    var targetPos = this._getTargetPos();
     var reroutePoints = edge.get('layout').get('reroutePoints');
     return smoothCurvedEdges(sourcePos, reroutePoints, targetPos, this._addReroutePointHandler);
   },
 
   _getDragHandles: function() {
     var edge = this.props.model;
-    var graph = this.props.container;
     var reroutePoints = edge.get('layout').get('reroutePoints');
 
-    var sourcePos = edge.getStartPositionIn(graph);
-    var targetPos = edge.getEndPositionIn(graph);
+    var sourcePos = this._getSourcePos();
+    var targetPos = this._getTargetPos();
 
     return reroutePoints.toArray().map(function(reroutePoint, i) {
       var plain = reroutePoint.getAbsolute(sourcePos, targetPos);
@@ -113,11 +116,8 @@ var Edge = React.createClass({
   },
 
   _handleRerouteDrag: function(reroutePoint, index, e) {
-    var edge = this.props.model;
-    var graph = this.props.container;
-
-    var sourcePos = edge.getStartPositionIn(graph);
-    var targetPos = edge.getEndPositionIn(graph);
+    var sourcePos = this._getSourcePos();
+    var targetPos = this._getTargetPos();
 
     var element = this.refs['handle_' + index].getDOMNode();
     // transform coordinates into local space. Much more accurate than using event's movement[X|Y] which tends to stray.
@@ -128,8 +128,58 @@ var Edge = React.createClass({
     this.setState({
       rerouteDragged: true
     });
+  },
+
+  _getPseudoPorts: function() {
+    // ParentPorts that are actually not in the current graph
+    var sourcePos = this._getSourcePos();
+    var targetPos = this._getTargetPos();
+    var props = {};
+
+    if (sourcePos.pseudoPort) {
+      props.model = this.props.model.get('from');
+      props.x = sourcePos.x;
+      props.y = sourcePos.y;
+      return React.createElement(ParentPort, props);
+    }
+    if (targetPos.pseudoPort) {
+      props.model = this.props.model.get('to');
+      props.x = targetPos.x;
+      props.y = targetPos.y;
+      return React.createElement(ParentPort, props);
+    }
+
+    return null;
+  },
+
+  _getSourcePos: function() {
+    var position = this.props.model.getStartPositionIn(this.props.container);
+    if (position === null) {
+      var otherPort = this.props.model.getEndPositionIn(this.props.container);
+      position = getPointDistanceFromPoint(PSEUDO_PORT_DISTANCE, otherPort);
+      position.angle = Math.PI;
+      position.pseudoPort = true;
+    }
+    return position;
+  },
+
+  _getTargetPos: function() {
+    var position = this.props.model.getEndPositionIn(this.props.container);
+    if (position === null) {
+      var otherPort = this.props.model.getStartPositionIn(this.props.container);
+      position = getPointDistanceFromPoint(PSEUDO_PORT_DISTANCE, otherPort);
+      position.angle = Math.PI;
+      position.pseudoPort = true;
+    }
+    return position;
   }
 });
 
+getPointDistanceFromPoint = function(distance, point) {
+  return {
+    x: point.x + distance * Math.cos(point.angle),
+    y: point.y - distance * Math.sin(point.angle)
+  };
+};
 
 module.exports = Edge;
