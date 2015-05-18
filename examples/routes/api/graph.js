@@ -32,12 +32,13 @@ router.get("/graphs/", function(req, res, next) {
     });
 
     // Send off the object structure we just built up.
+    res.setHeader('Content-Type', 'application/json');
     res.json(fileData);
   });
 });
 
 /* GET Retrieve a single graph instance. */
-router.get("/graphs/" + endpoint, function(req, res, next) {
+router.get("/graphs/:gcl", function(req, res, next) {
   // Figure out the path to the file.
   var file = path.join(config.active_dir, req.params.gcl);
 
@@ -68,7 +69,6 @@ router.get("/graphs/" + endpoint, function(req, res, next) {
 
 /* POST A new graph to the collection. */
 router.post("/graphs/", function(req, res, next) {
- console.log(req.body);
  fs.writeFile(path.join(config.active_dir, req.body.filename), req.body.contents, function(err) {
      if(err) {
       res.status(500).send({error: err});
@@ -80,7 +80,7 @@ router.post("/graphs/", function(req, res, next) {
 /* PUT Update an existing graph. */
 /* TODO: Implement this. For now, POST'ing to an existing graph will
  * overwrite it. */
-router.put("/graphs/" + endpoint, function(req, res, next) {
+router.put("/graphs/:gcl", function(req, res, next) {
   res.status(501).end();
 });
 
