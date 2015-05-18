@@ -3,11 +3,13 @@ var CodePanel = require('./codePanel.jsx');
 
 var GCLPanel = React.createClass({
   componentDidMount: function() {
-    this.props.model.after('textChange', function(e) {
-      this.setState({
-        code: e.newVal
-      });
-    }, this);
+    this.props.model.after('textChange', this._onTextChange, this);
+  },
+
+  _onTextChange: function(e) {
+    this.setState({
+      code: e.newVal
+    });
   },
 
   getInitialState: function() {
