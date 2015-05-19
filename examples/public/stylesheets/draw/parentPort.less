@@ -1,7 +1,6 @@
-.port {
+.parent-port {
   & > circle {
     stroke: @color-dark-grey;
-    stroke-width: 2;
   }
 
   &.input > circle {
@@ -10,19 +9,12 @@
 
   &.output > circle {
     fill: @color-dark-grey;
-  }
-
-  &:not(:hover) > .unpin-button > .icon {
-    display: none;
-  }
-
-  &.dragging {
-    opacity: 0.5;
+    stroke: @color-light-grey;
   }
 
   text {
-    alignment-baseline: central;
+    fill: @color-light-grey;
     font-size: @global-small-font-size;
-    fill: @color-dark-grey;
+    alignment-baseline: central;
   }
 }
