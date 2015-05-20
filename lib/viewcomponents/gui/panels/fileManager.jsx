@@ -56,26 +56,37 @@ var FileManagerPanel = React.createClass({
     .then(function() {
       if (type === FileTypes.CONTENT) {
         openFileManager.loadGCL(filename);
+      } else if (type === FileTypes.LAYOUT) {
+        openFileManager.loadGLL(filename);
       }
-      // TODO: support other types
     });
   },
 
   _promptSaveAs: function(type) {
+    var defaultName;
     if (type === FileTypes.CONTENT) {
-      var defaultName = openFileManager.get('loadedGCLFilename');
-      if (defaultName === null) {
-        defaultName = 'My Great Graph.' + FileTypes.CONTENT.extension;
-      } else {
-        defaultName = 'Copy of ' + defaultName;
-      }
-      var filename = prompt('Save file as…', defaultName);
-      if (filename === null) {
-        return;
-      }
-      openFileManager.saveGCLAs(filename);
+      defaultName = openFileManager.get('loadedGCLFilename');
+    } else if (type === FileTypes.LAYOUT) {
+      defaultName = openFileManager.get('loadedGLLFilename');
+    }
+
+    if (defaultName === null) {
+      defaultName = 'My Great Graph.' + type.extension;
     } else {
-      console.error('Not implemented');
+      defaultName = 'Copy of ' + defaultName;
+    }
+
+    var filename = prompt('Save file as…', defaultName);
+    if (filename === null) {
+      return;
+    }
+
+    if (type === FileTypes.CONTENT) {
+      openFileManager.saveGCLAs(filename);
+    } else if (type === FileTypes.LAYOUT) {
+      openFileManager.saveGLLAs(filename);
+    } else {
+      alert('Not implemented.');
     }
   },
 
