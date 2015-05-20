@@ -1,6 +1,7 @@
 var CreditsPanel = require('./gui/panels/credits.jsx');
 var GCLPanel = require('./gui/panels/gcl.jsx');
 var GLLPanel = require('./gui/panels/gll.jsx');
+var FileManagerPanel = require('./gui/panels/fileManager.jsx');
 var GraphCanvas = require('./graphCanvas.jsx');
 var React = require('react');
 var Toolbar = require('./gui/toolbar.jsx');
@@ -15,6 +16,12 @@ var App = React.createClass({
     return (
       <div id='app'>
         <Toolbar tools={{
+          fileManager: {
+            icon: '/images/icons/fileManager.svg',
+            title: 'File Browser',
+            panelContent: <FileManagerPanel />
+          },
+
           gcl: {
             icon: '/images/icons/gcl.svg',
             title: 'Content Code Editor',

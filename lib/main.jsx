@@ -3,6 +3,9 @@ var AppView = require('./viewcomponents/app.jsx');
 var EditorModel = require('./model/editorModel');
 
 var editorModel = new EditorModel();
+var openFileManager = require('./files/openFileManager');
+
+openFileManager.set('editorModel', editorModel);
 
 var renderGraph = function() {
   React.render(
