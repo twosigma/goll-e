@@ -7,6 +7,7 @@ var CardinalPortPosition = require('../../lib/model/layout/cardinalPortPosition.
 var Edge = require('../../lib/model/content/edge.js');
 var Graph = require('../../lib/model/content/graph');
 var LoadedStyles = require('../../lib/model/style/loadedStyles');
+var LoadedLayout = require('../../lib/model/layout/loadedLayout');
 var Port = require('../../lib/model/content/port.js');
 var PortType = require('../../lib/enum/portType');
 var should = require('should');
@@ -38,6 +39,13 @@ var edge = new Edge({
   from: port1,
   to: port2
 });
+
+var graph = new Graph({
+  vertices: [vertex1, vertex2],
+  edges: [edge]
+});
+
+graph.set('loadedLayout', new LoadedLayout());
 
 port1.getLayout().set('position',
   new CardinalPortPosition({
@@ -73,11 +81,6 @@ describe('edge', function () {
         ownerVertexId: vId
       });
 
-      port.getLayout().set('position', new CardinalPortPosition({
-        percentage: 50,
-        direction: CardinalDirection.SOUTH
-      }));
-
       var vStyle = new VertexStyles({
         height: 200,
         width: 400
@@ -89,15 +92,21 @@ describe('edge', function () {
         inputs: [port]
       });
 
-      var loadedStyles = new LoadedStyles();
-
-      loadedStyles.put(vId, vStyle);
-
       var graph = new Graph({
         vertices: [vertex],
-        edges: [],
-        loadedStyles: loadedStyles
+        edges: []
       });
+
+      var loadedStyles = new LoadedStyles();
+      loadedStyles.put(vId, vStyle)
+
+      graph.set('loadedLayout', new LoadedLayout());
+      graph.set('loadedStyles', loadedStyles);
+
+      port.getLayout().set('position', new CardinalPortPosition({
+        percentage: 50,
+        direction: CardinalDirection.SOUTH
+      }));
 
       var position = port.getPositionInGraph(graph);
       position.x.should.be.approximately(200, 1);

@@ -2,8 +2,8 @@
 // Used to test against the complex fast way
 
 var getBoundingBoxForVertex = function(vertex) {
-  var position = vertex.get('position');
-  var styles = vertex.get('styles');
+  var position = vertex.getLayout().get('position');
+  var styles = vertex.getStyles();
 
   return {
     x: position.x,

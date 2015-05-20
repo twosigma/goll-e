@@ -9,7 +9,7 @@ var should = require('should');
 
 describe('model factory (from AST to Model)', function() {
   it('should not derp', function() {
-    var graph = ModelFactory.buildGraph(ASTExample);
+    var graph = ModelFactory.build(ASTExample);
     graph.should.be.instanceOf(Graph);
     graph.get('vertices').length.should.be.greaterThan(0);
   });
