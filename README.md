@@ -12,36 +12,8 @@ The GOLL-E Content Language specifies the content of the graph, and any data per
 The visualizer plays a key role in this system because it has to support user modification (i.e. dragging vertices to modify the layout).
 
 ## The Editor
-The final key component of the GOLL-E system is the in-line editor. It allows the user to edit the graph content while looking at the visualized graph. 
+The final key component of the GOLL-E system is the in-line editor. It allows the user to edit the graph content while looking at the visualized graph.
 
 ## Installation
 
-Latest stable release:
-
-````
-bower install goll-e
-````
-
-Development Environment:
-
-````
-# Clone the repo.
-git clone https://github.com/twosigma/goll-e.git
-cd goll-e
-
-# Run the bootstrapper script.
-# This will globally install gulp, jison and bower.
-npm run bootstrap
-npm install
-
-# Run the test suite.
-gulp ci
-
-# Install dependencies for the example implementation.
-cd examples
-npm install && bower install
-npm start
-````
-
-Navigate to localhost:3000 in Chrome, and voila.
-
+For installation instructions, see the wiki.
