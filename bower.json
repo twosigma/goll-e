@@ -1,6 +1,5 @@
 {
   "name": "goll-e",
-  "version": "0.0.1",
   "homepage": "https://github.com/twosigma/goll-e",
   "repository": {
     "type": "git",
@@ -38,5 +37,8 @@
     "examples"
   ],
   "dependencies": {
+    "fluidable": "*",
+    "normalize.css": "~3.0.2",
+    "lodash": "~3.9.0"
   }
 }

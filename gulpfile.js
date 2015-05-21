@@ -206,7 +206,7 @@ gulp.task('uglify', ['browserify'], function() {
 gulp.task('symlink', ['uglify'], function() {
   'use strict';
 
-  var linkPath = path.join('examples', 'public', 'js', 'goll-e');
+  var linkPath = path.join('server', 'public', 'js', 'goll-e');
 
   fs.exists(linkPath, function(exists) {
     if (!exists) {
