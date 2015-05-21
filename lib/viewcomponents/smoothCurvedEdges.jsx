@@ -1,8 +1,6 @@
-/* eslint-disable */
 var React = require('react');
-/* eslint-enable */
 var globalToLocalCoordinates = require('../utilities/globalToLocalCoordinates');
-var ReroutePoint = require('../model/reroutePoint');
+var ReroutePoint = require('../model/layout/reroutePoint');
 var instruct2d = require('../utilities/instruct2d');
 
 var computeControlPoints2D;

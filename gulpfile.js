@@ -71,7 +71,7 @@ gulp.task('jison', [], function() {
 
   // There are three parsers to generate.
   // For now, we only care about the content language parser.
-  var parserNames = ['gcl'];
+  var parserNames = ['gcl', 'gll'];
 
   // Start generating parsers.
   parserNames.forEach(function(value, index, array) {
@@ -157,6 +157,29 @@ gulp.task('browserify', ['jison'], function() {
 });
 
 /**
+ * Task definition for bundling up the project files into a single JS file.
+ */
+gulp.task('browserify-layout-testing', ['jison'], function () {
+    'use strict';
+
+    var mainFile = 'layoutTestingMain.js';
+    var sourceFile = path.join('lib', mainFile);
+    var outputFile = 'layout-testing.js';
+
+    
+    var bundler = browserify({
+        entries: ['.' + path.sep + sourceFile],
+        debug: true
+    });
+    bundler.transform(reactify);
+    
+    return bundler
+        .bundle()
+        .pipe(source(outputFile))
+        .pipe(gulp.dest(paths.distDir));
+});
+
+/**
  * Task definition for minifying distributables.
  */
 gulp.task('uglify', ['browserify'], function() {
@@ -175,6 +198,7 @@ gulp.task('uglify', ['browserify'], function() {
     .pipe(gulp.dest(paths.distDir));
 });
 
+
 /**
  * Task definition for symlinking the final build product into public/js.
  * This is done so that the express backend can use the final library.
@@ -182,7 +206,7 @@ gulp.task('uglify', ['browserify'], function() {
 gulp.task('symlink', ['uglify'], function() {
   'use strict';
 
-  var linkPath = path.join('examples', 'public', 'js', 'goll-e');
+  var linkPath = path.join('server', 'public', 'js', 'goll-e');
 
   fs.exists(linkPath, function(exists) {
     if (!exists) {
@@ -205,4 +229,5 @@ gulp.task('clean', function() {
 
 gulp.task('test', ['build', 'lint', 'coverage']);
 gulp.task('build', ['jison', 'browserify', 'uglify', 'symlink']);
+gulp.task('build-layout-testing', ['jison', 'browserify-layout-testing']);
 gulp.task('ci', ['build', 'test']);

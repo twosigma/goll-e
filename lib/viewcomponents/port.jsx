@@ -3,7 +3,7 @@ var LabelPosition = require('../enum/portLabelPosition');
 var ObjectUtils = require('../utilities/objects');
 var UnpinButton = require('./unpinButton.jsx');
 var PortType = require('../enum/portType');
-var PortModel = require('../model/port');
+var PortModel = require('../model/content/port');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 
 var portRadius = 4;
@@ -46,7 +46,8 @@ var Port = React.createClass({
   /* it's the responsibility of the Node to position the port since it's in its coordinate space */
   render: function() {
     var model = this.props.model;
-    var showPin = model.get('isPinned');
+    var layout = model.getLayout();
+    var showPin = layout.get('isPinned');
     var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || portRadius);
 
     var classes = React.addons.classSet({
@@ -91,7 +92,7 @@ var Port = React.createClass({
   },
 
   _unpin: function() {
-    this.props.model.set('isPinned', false);
+    this.props.model.getLayout().set('isPinned', false);
   },
 
   _handleDragStart: function() {

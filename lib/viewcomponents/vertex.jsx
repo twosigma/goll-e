@@ -38,9 +38,10 @@ var Vertex = React.createClass({
 
   render: function() {
     var model = this.props.model;
-    var position = model.get('position');
-    var showPin = model.get('isPinned');
-    var styles = model.get('styles');
+    var layout = model.getLayout();
+    var position = layout.get('position');
+    var showPin = layout.get('isPinned');
+    var styles = model.getStyles();
     var vertexWidth = styles.get('width');
     var vertexHeight = styles.get('height');
     var hasSubGraph = !!model.get('subGraph');
@@ -102,25 +103,25 @@ var Vertex = React.createClass({
   },
 
   _onVertexBodyPseudoDrag: function(event) {
-    var oldPos = this.props.model.get('position');
+    var oldPos = this.props.model.getLayout().get('position');
 
     var newX = oldPos.x + event.scaledMovementX;
     var newY = oldPos.y + event.scaledMovementY;
 
-    this.props.model.setAttrs({
+    this.props.model.getLayout().setAttrs({
       isPinned: true,
       position: {x: newX, y: newY}
     });
   },
 
   _unpin: function() {
-    this.props.model.set('isPinned', false);
+    this.props.model.getLayout().set('isPinned', false);
   },
 
   //TODO: assumes rectangular vertices
   _getPortPosition: function(portModel) {
-    var styles = this.props.model.get('styles');
-    var portPositionModel = portModel.get('position');
+    var styles = this.props.model.getStyles();
+    var portPositionModel = portModel.getLayout().get('position');
     var portDirection = portPositionModel.get('direction');
     var portPercentage = portPositionModel.get('percentage');
 
@@ -144,14 +145,14 @@ var Vertex = React.createClass({
   },
 
   _onPortMoveRequested: function(pos, portModel) {
-    var styles = this.props.model.get('styles');
+    var styles = this.props.model.getStyles();
 
     var hPct = pos.x / styles.get('width');
     var vPct = pos.y / styles.get('height');
 
     var cardinalPosition = PositionUtils.Conversion.cartesianToCardinal({x: hPct, y: vPct});
 
-    portModel.setAttrs({
+    portModel.getLayout().setAttrs({
       isPinned: true,
       position: cardinalPosition
     });

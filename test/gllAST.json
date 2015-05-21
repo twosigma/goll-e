@@ -1,0 +1,20 @@
+
+{
+  "vertexLayouts": {
+    "Alpha": {
+      "position": {
+        "x": 30,
+        "y": 100
+      },
+      "group": "myGroup"
+    }
+  },
+  "portLayouts": {
+    "Alpha.Bill": {
+      "position": {
+        "direction": "N",
+        "percentage": "30"
+      }
+    }
+  }
+}

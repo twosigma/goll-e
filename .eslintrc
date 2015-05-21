@@ -66,6 +66,8 @@
 	  "requireParamDescription": false
     }],
 
+    "no-alert": 0,
+
     // The following rules are explained here: https://github.com/yannickcr/eslint-plugin-react
     "react/display-name": 0,
     "react/jsx-quotes": [1, "single"],

@@ -23,7 +23,7 @@
       }
     });
     return topLevel;
-  }
+  };
 
   var createVertex = function(id, expressionList) {
     var vertex = {
@@ -121,7 +121,7 @@
 
   var addToObject = function(obj, element) {
     obj[element.id] = element;
-  }
+  };
 
   var prependListValue = function(list, value) {
     list.unshift(value);

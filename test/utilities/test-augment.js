@@ -1,6 +1,6 @@
 var should = require('should');
-var augment = require('./../../lib/utilities/augment');
-var ObjectUtils = require('./../../lib/utilities/objects');
+var augment = require('../../lib/utilities/augment');
+var ObjectUtils = require('../../lib/utilities/objects');
 
 describe('oop utils', function() {
   describe('#augment', function() {
@@ -61,7 +61,7 @@ describe('oop utils', function() {
       };
 
       var ProviderClass = function() {};
-      
+
       ProviderClass.prototype.myMethod = function(){
         this.should.be.exactly(myObject);
         done();

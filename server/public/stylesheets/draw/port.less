@@ -1,0 +1,28 @@
+.port {
+  & > circle {
+    stroke: @color-dark-grey;
+    stroke-width: 2;
+  }
+
+  &.input > circle {
+    fill: white;
+  }
+
+  &.output > circle {
+    fill: @color-dark-grey;
+  }
+
+  &:not(:hover) > .unpin-button > .icon {
+    display: none;
+  }
+
+  &.dragging {
+    opacity: 0.5;
+  }
+
+  text {
+    alignment-baseline: central;
+    font-size: @global-small-font-size;
+    fill: @color-dark-grey;
+  }
+}

@@ -1,5 +1,5 @@
 var React = require('react');
-var GraphModel = require('./../model/graph');
+var GraphModel = require('../model/content/graph');
 var Graph = require('./graph.jsx');
 
 var ZOOM_BUTTON_AMOUNT = 0.25;
@@ -36,7 +36,7 @@ var GraphCanvas = React.createClass({
 
     var colorBarColorStyles = {};
     if (activeVertex) {
-      colorBarColorStyles.backgroundColor = activeVertex.get('styles').get('color');
+      colorBarColorStyles.backgroundColor = activeVertex.getStyles().get('color');
     }
     var panAndZoom = this._getPanAndZoom(this._getActiveGraph());
 
