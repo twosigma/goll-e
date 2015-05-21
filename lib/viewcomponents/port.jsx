@@ -1,12 +1,17 @@
 var React = require('react');
 var LabelPosition = require('../enum/portLabelPosition');
 var ObjectUtils = require('../utilities/objects');
+var UnpinButton = require('./unpinButton.jsx');
 var PortType = require('../enum/portType');
 var PortModel = require('../model/port');
 var mouseDownDrag = require('../utilities/mouseDownDrag');
 
 var portRadius = 4;
 var BASE_MARGIN = 6;
+
+var pinX = 10;
+var pinY = -22;
+var pinScale = 1;
 
 var yOffset = 8;
 
@@ -24,10 +29,12 @@ var Port = React.createClass({
 
     /** callback called when this port, due to user action, would like to move to a new position.
     Passed a new position object.
-    It's up to the receiver to actually update the backing model as appropriate. 
+    It's up to the receiver to actually update the backing model as appropriate.
     If this is not done, the change will revert.
     */
-    onMoveRequested: React.PropTypes.func
+    onMoveRequested: React.PropTypes.func,
+
+    zoomScale: React.PropTypes.number
   },
 
   getInitialState: function() {
@@ -39,7 +46,7 @@ var Port = React.createClass({
   /* it's the responsibility of the Node to position the port since it's in its coordinate space */
   render: function() {
     var model = this.props.model;
-
+    var showPin = model.get('isPinned');
     var labelPosition = this._getLabelPositioningData(this.props.labelPosition, this.props.size || portRadius);
 
     var classes = React.addons.classSet({
@@ -64,19 +71,30 @@ var Port = React.createClass({
        transform={'translate(' + pos.x + ', ' + pos.y + ')'} >
        <circle
          r={this.props.size || portRadius}
-         cx={0} cy={0} 
-         onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging)}/>
-       <text className="label"
+         cx={0} cy={0}
+         onMouseDown={mouseDownDrag.bind(this, 'portmove', this._handleDragStart, this._handleDragEnd, this._handleDragging, this.props.zoomScale)}/>
+       <text className='label'
          x={labelPosition.x}
          y={labelPosition.y}
          textAnchor={labelPosition.textAnchor} >
          {label}
        </text>
+       {// If the node is pinned, show an unpin button.
+         showPin ?
+            <UnpinButton
+              onClick={this._unpin}
+              transform={'translate(' + pinX + ', ' + pinY + ') scale(' + pinScale + ')'} /> :
+            null
+          }
      </g>
      );
   },
 
-  _handleDragStart: function(event) {
+  _unpin: function() {
+    this.props.model.set('isPinned', false);
+  },
+
+  _handleDragStart: function() {
     this.setState({
       dragging: true,
       draggingPosition: {
@@ -86,7 +104,7 @@ var Port = React.createClass({
     });
   },
 
-  _handleDragEnd: function(event) {
+  _handleDragEnd: function() {
     var newPos = this.state.draggingPosition;
 
     this.setState({
@@ -103,8 +121,8 @@ var Port = React.createClass({
 
     this.setState({
       draggingPosition: {
-        x: lastPos.x + event.movementX,
-        y: lastPos.y + event.movementY
+        x: lastPos.x + event.scaledMovementX,
+        y: lastPos.y + event.scaledMovementY
       }
     });
   },
