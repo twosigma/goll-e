@@ -1,6 +1,5 @@
 {
   "name": "goll-e",
-  "version": "0.0.1",
   "authors": [
     "MorganCabral <morgan.cabral@gmail.com>",
     "jboolean",
@@ -18,7 +17,8 @@
   "private": true,
   "scripts": {
     "test": "gulp ci",
-    "bootstrap": "npm install -g bower gulp jison"
+    "bootstrap": "npm install -g bower gulp jison",
+    "start": "node ./server/bin/www"
   },
   "devDependencies": {
     "browserify": "^6.1.0",
@@ -45,9 +45,21 @@
     "shelljs": "^0.3.0",
     "should": "^4.0.4",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
+    "debug": "^2.0.0"
   },
   "dependencies": {
+    "body-parser": "^1.8.4",
+    "browserify": "^6.1.0",
+    "cookie-parser": "~1.3.3",
+    "express": "^4.9.8",
+    "jade": "^1.6.0",
+    "less": "^1.7.5",
+    "less-middleware": "1.0.x",
+    "morgan": "^1.3.2",
+    "multiparty": "^4.1.1",
+    "react": "^0.12.1",
+    "serve-favicon": "~2.1.3",
     "lodash": "^3.5.0"
   }
 }
