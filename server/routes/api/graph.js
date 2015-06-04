@@ -62,7 +62,7 @@ router.get("/graphs/:gcl", function(req, res, next) {
       }
 
       // If we did find the content though, send it to the user.
-      res.append('content-type', 'text/plain');
+      res.setHeader('content-type', 'text/plain');
       res.send(data);
     });
   });
